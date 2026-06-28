@@ -118,6 +118,13 @@ export const ENV_ASSETS: AssetEntry[] = [
   { key: 'dirt_tile',   type: 'placeholder' },
   { key: 'sand_tile',   type: 'placeholder' },
   { key: 'stone_tile',  type: 'placeholder' },
+  {
+    key: 'tiny_town_tiles',
+    type: 'spritesheet',
+    path: '/assets/kenney/tiny-town/Tilemap/tilemap_packed.png',
+    frameWidth: 16,
+    frameHeight: 16,
+  },
 ];
 
 // ── Aggregate all assets ────────────────────────────────────

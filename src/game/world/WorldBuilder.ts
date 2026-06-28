@@ -28,6 +28,7 @@ export class WorldBuilder {
   build(): void {
     this.paintGround();
     this.addDenseRpgDecoration();
+    this.buildDenseTown();
     this.placeAreaObjects();
   }
 
@@ -204,6 +205,195 @@ export class WorldBuilder {
         }
       }
     }
+  }
+
+  private buildDenseTown(): void {
+    const entrance = this.areaConfigs.get('entranceGarden');
+    const meadow = this.areaConfigs.get('flowerMeadow');
+    if (!entrance || !meadow) return;
+
+    this.buildBoundaryWalls(entrance.bounds, [
+      { side: 'top', from: 2320, to: 2480 },
+      { side: 'bottom', from: 2320, to: 2480 },
+    ]);
+    this.buildBoundaryWalls(meadow.bounds, [
+      { side: 'top', from: 2320, to: 2480 },
+      { side: 'bottom', from: 2320, to: 2480 },
+    ]);
+
+    this.buildRoad(2400, 120, 2400, 1660);
+    this.buildRoad(1810, 420, 2990, 420);
+    this.buildRoad(1560, 1130, 3260, 1130);
+    this.buildRoad(1940, 830, 1940, 1520);
+    this.buildRoad(2860, 850, 2860, 1580);
+
+    const houses = [
+      { x: 1840, y: 190, roof: 2 },
+      { x: 2050, y: 225, roof: 0 },
+      { x: 2740, y: 200, roof: 1 },
+      { x: 2970, y: 245, roof: 2 },
+      { x: 1740, y: 565, roof: 1 },
+      { x: 3060, y: 590, roof: 0 },
+      { x: 1600, y: 990, roof: 0 },
+      { x: 1830, y: 1320, roof: 2 },
+      { x: 3120, y: 980, roof: 1 },
+      { x: 2880, y: 1390, roof: 0 },
+      { x: 2280, y: 1475, roof: 2 },
+    ];
+
+    for (const house of houses) {
+      this.stampHouse(house.x, house.y, house.roof);
+    }
+
+    this.stampMarket(2110, 540);
+    this.stampMarket(2675, 540);
+    this.stampFarmPlot(1390, 1410, 5, 3);
+    this.stampFarmPlot(3230, 1410, 5, 3);
+    this.stampTownProps();
+    this.spawnTownNpcs();
+  }
+
+  private buildBoundaryWalls(
+    bounds: { x: number; y: number; w: number; h: number },
+    gates: { side: 'top' | 'bottom' | 'left' | 'right'; from: number; to: number }[],
+  ): void {
+    const step = 32;
+    for (let x = bounds.x; x <= bounds.x + bounds.w; x += step) {
+      if (!this.isGate('top', x, gates)) this.addTownTile(x, bounds.y + 18, 19, 2, bounds.y + 40, true);
+      if (!this.isGate('bottom', x, gates)) this.addTownTile(x, bounds.y + bounds.h - 18, 19, 2, bounds.y + bounds.h, true);
+    }
+
+    for (let y = bounds.y + step; y <= bounds.y + bounds.h - step; y += step) {
+      if (!this.isGate('left', y, gates)) this.addTownTile(bounds.x + 18, y, 18, 2, y, true);
+      if (!this.isGate('right', y, gates)) this.addTownTile(bounds.x + bounds.w - 18, y, 18, 2, y, true);
+    }
+  }
+
+  private isGate(side: 'top' | 'bottom' | 'left' | 'right', position: number, gates: { side: 'top' | 'bottom' | 'left' | 'right'; from: number; to: number }[]): boolean {
+    return gates.some(gate => gate.side === side && position >= gate.from && position <= gate.to);
+  }
+
+  private buildRoad(x1: number, y1: number, x2: number, y2: number): void {
+    const vertical = Math.abs(y2 - y1) >= Math.abs(x2 - x1);
+    const step = 32;
+    if (vertical) {
+      const from = Math.min(y1, y2);
+      const to = Math.max(y1, y2);
+      for (let y = from; y <= to; y += step) {
+        this.addTownTile(x1 - 16, y, 24, 2, y - 18, false, 0.92);
+        this.addTownTile(x1 + 16, y, 24, 2, y - 18, false, 0.92);
+      }
+      return;
+    }
+
+    const from = Math.min(x1, x2);
+    const to = Math.max(x1, x2);
+    for (let x = from; x <= to; x += step) {
+      this.addTownTile(x, y1 - 16, 24, 2, y1 - 18, false, 0.92);
+      this.addTownTile(x, y1 + 16, 24, 2, y1 - 18, false, 0.92);
+    }
+  }
+
+  private stampHouse(x: number, y: number, roofVariant: number): void {
+    const roofRows = roofVariant === 0 ? [73, 74, 75] : roofVariant === 1 ? [60, 61, 62] : [84, 85, 86];
+    const wallRows = roofVariant === 2 ? [96, 97, 98] : [72, 73, 74];
+    const lowerRows = [108, 109, 110];
+
+    for (let col = 0; col < 3; col++) {
+      this.addTownTile(x + col * 32, y, roofRows[col], 2, y + 2, true);
+      this.addTownTile(x + col * 32, y + 32, wallRows[col], 2, y + 34, true);
+      this.addTownTile(x + col * 32, y + 64, lowerRows[col], 2, y + 72, true);
+    }
+
+    this.addTownTile(x + 32, y + 64, 57, 2, y + 76, true);
+    this.addTownTile(x - 36, y + 70, 118, 1.6, y + 70, false);
+    this.addTownTile(x + 132, y + 62, 125, 1.6, y + 62, false);
+  }
+
+  private stampMarket(x: number, y: number): void {
+    const frames = [111, 112, 113, 114, 115, 116, 117, 118];
+    for (let i = 0; i < frames.length; i++) {
+      this.addTownTile(x + (i % 4) * 38, y + Math.floor(i / 4) * 36, frames[i], 1.7, y + 20 + i, false);
+    }
+  }
+
+  private stampFarmPlot(x: number, y: number, cols: number, rows: number): void {
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        this.addTownTile(x + col * 32, y + row * 30, 102 + ((row + col) % 4), 1.8, y + row * 30, false, 0.95);
+      }
+    }
+  }
+
+  private stampTownProps(): void {
+    const props = [
+      { x: 2240, y: 385, frame: 94 }, { x: 2560, y: 388, frame: 95 },
+      { x: 2330, y: 505, frame: 118 }, { x: 2475, y: 505, frame: 119 },
+      { x: 1960, y: 1080, frame: 125 }, { x: 2845, y: 1085, frame: 126 },
+      { x: 2140, y: 1220, frame: 120 }, { x: 2620, y: 1225, frame: 121 },
+      { x: 1525, y: 1280, frame: 127 }, { x: 3300, y: 1280, frame: 128 },
+    ];
+
+    for (const prop of props) {
+      this.addTownTile(prop.x, prop.y, prop.frame, 1.8, prop.y, false);
+    }
+  }
+
+  private spawnTownNpcs(): void {
+    const npcs = [
+      { x: 2200, y: 430, tint: 0x88c0ff },
+      { x: 2605, y: 430, tint: 0xffc070 },
+      { x: 1860, y: 1115, tint: 0xa8e090 },
+      { x: 2790, y: 1130, tint: 0xe0a0ff },
+      { x: 2350, y: 1350, tint: 0xffffff },
+      { x: 3110, y: 1240, tint: 0xffa0a0 },
+      { x: 1650, y: 1240, tint: 0xa0f0f0 },
+    ];
+
+    npcs.forEach((npc, index) => {
+      const sprite = this.scene.add.sprite(npc.x, npc.y, 'npc_idle');
+      sprite.setScale(1.75);
+      sprite.setOrigin(0.5, 0.8);
+      sprite.setDepth(npc.y);
+      sprite.setTint(npc.tint);
+      this.scene.tweens.add({
+        targets: sprite,
+        x: npc.x + (index % 2 === 0 ? 26 : -26),
+        yoyo: true,
+        repeat: -1,
+        duration: 2200 + index * 180,
+        ease: 'Sine.easeInOut',
+        onUpdate: () => sprite.setDepth(sprite.y),
+      });
+      this.worldObjects.push(sprite);
+    });
+  }
+
+  private addTownTile(
+    x: number,
+    y: number,
+    frame: number,
+    scale: number,
+    depth: number,
+    collides: boolean,
+    alpha = 1,
+  ): Phaser.GameObjects.Sprite {
+    const sprite = this.scene.add.sprite(x, y, 'tiny_town_tiles', frame);
+    sprite.setScale(scale);
+    sprite.setDepth(depth);
+    sprite.setAlpha(alpha);
+    sprite.setOrigin(0.5, 0.5);
+    this.worldObjects.push(sprite);
+
+    if (collides) {
+      this.scene.physics.add.existing(sprite, true);
+      const body = sprite.body as Phaser.Physics.Arcade.StaticBody;
+      body.setSize(14 * scale, 12 * scale);
+      body.setOffset((16 * scale - 14 * scale) / 2, (16 * scale - 12 * scale) / 2);
+      this.scene.physics.add.collider(this.scene.playerSystem.gameObject, sprite);
+    }
+
+    return sprite;
   }
 
   private isInWater(px: number, py: number, config: AreaConfig): boolean {
