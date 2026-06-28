@@ -73,126 +73,102 @@ export class PlaceholderGenerator {
   // CHARACTERS — HD-2D chibi JRPG style (32×48)
   // ────────────────────────────────────────────────────────────
   private drawCharacter(key: string): void {
-    const W = 32, H = 48;
+    const W = 16, H = 24;
     this.gfx.clear();
 
-    const isNpc = key === 'npc_idle';
     const isSide = key === 'player_left' || key === 'player_right';
     const isUp   = key === 'player_up';
-    const facingLeft = key === 'player_left';
+    const facL   = key === 'player_left';
+    const isNpc  = key === 'npc_idle';
 
-    // Color scheme — girl: pink dress / boy: dark jacket
-    const skin   = 0xf5d0a8;
-    const skinSh = 0xe0b080;
-    const hair   = isNpc ? 0x1a1008 : 0x301808;
-    const hairHi = isNpc ? 0x2a2018 : 0x503828;
-    const body   = isNpc ? 0x2a3d50 : 0xd8507a;
-    const bodyHi = isNpc ? 0x3a5570 : 0xf090b8;
-    const bodySh = isNpc ? 0x1a2838 : 0xa83860;
-    const pants  = isNpc ? 0x1a2838 : 0xb84070;
-    const shoe   = 0x180e08;
-    const outline= 0x0a0808;
+    const skin = 0xfbd4a8, skinHi = 0xffe8c8, skinSh = 0xe0a870;
+    const hair = isNpc ? 0x1a1008 : 0x5a2a0a;
+    const hairHi = isNpc ? 0x282018 : 0x8a4c18;
+    const hairSh = isNpc ? 0x080804 : 0x381508;
+    const dress = isNpc ? 0x283848 : 0xe84898;
+    const dressSh = isNpc ? 0x182430 : 0xa82870;
+    const dressHi = isNpc ? 0x3a5068 : 0xff80c0;
+    const collar = isNpc ? 0x506880 : 0xfff0f8;
+    const bow = isNpc ? 0xff4488 : 0xff4488;
+    const stocking = isNpc ? 0x182430 : 0xfff0f8;
+    const shoe = isNpc ? 0x0e1014 : 0x381828;
+    const O = 0x080406; // outline
 
-    // Ground shadow
-    px(this.gfx, 0x000000, 9, 44, 14, 3, 0.2);
+    // Shadow
+    px(this.gfx, 0, 4, 22, 8, 2, 0.16);
 
-    // ── Shoes ──
-    px(this.gfx, outline, 9,  41, 6, 5);
-    px(this.gfx, outline, 17, 41, 6, 5);
-    px(this.gfx, shoe,    10, 42, 4, 3);
-    px(this.gfx, shoe,    18, 42, 4, 3);
-    // Toe highlight
-    px(this.gfx, 0x302010, 10, 42, 2, 1);
-    px(this.gfx, 0x302010, 18, 42, 2, 1);
+    // Shoes
+    px(this.gfx, O, 3, 20, 4, 3); px(this.gfx, O, 8, 20, 3, 3);
+    px(this.gfx, shoe, 4, 21, 2, 2); px(this.gfx, shoe, 9, 21, 2, 2);
+    px(this.gfx, 0xffffff, 4, 21, 1, 1, 0.25); px(this.gfx, 0xffffff, 9, 21, 1, 1, 0.25);
+    if (!isNpc) { px(this.gfx, bow, 4, 20, 2, 1); px(this.gfx, bow, 9, 20, 2, 1); }
 
-    // ── Legs ──
-    px(this.gfx, outline, 10, 34, 4, 8);
-    px(this.gfx, outline, 18, 34, 4, 8);
-    px(this.gfx, pants,   11, 35, 2, 6);
-    px(this.gfx, pants,   19, 35, 2, 6);
+    // Stockings/legs
+    px(this.gfx, O, 3, 16, 3, 5); px(this.gfx, O, 8, 16, 3, 5);
+    px(this.gfx, stocking, 4, 17, 1, 4); px(this.gfx, stocking, 9, 17, 1, 4);
+    if (!isNpc) { px(this.gfx, 0xffffff, 4, 17, 1, 1, 0.35); px(this.gfx, 0xffffff, 9, 17, 1, 1, 0.35); }
 
-    // ── Body (dress/jacket) ──
-    px(this.gfx, outline, 8, 18, 16, 17);
-    px(this.gfx, bodyHi,  9, 19, 14, 2);
-    px(this.gfx, body,    9, 21, 14, 10);
-    px(this.gfx, bodySh,  9, 31, 14, 3);
-    // Collar / trim
-    px(this.gfx, bodyHi, 13, 18, 6, 2);
-    // Belt line
-    px(this.gfx, bodySh, 9, 29, 14, 1);
+    // Dress
+    px(this.gfx, O, 2, 8, 11, 9);
+    px(this.gfx, collar, 3, 9, 9, 2);
+    px(this.gfx, dressHi, 3, 11, 9, 2);
+    px(this.gfx, dress, 3, 13, 9, 3);
+    px(this.gfx, dressSh, 3, 16, 9, 1);
+    px(this.gfx, dressSh, 3, 11, 1, 5);
+    px(this.gfx, dressHi, 10, 11, 1, 4);
+    if (!isNpc) {
+      for (let rx = 3; rx < 12; rx += 2) px(this.gfx, dressHi, rx, 16, 1, 1);
+      px(this.gfx, bow, 6, 9, 3, 2); px(this.gfx, 0xff88bb, 7, 9, 1, 1);
+    }
 
-    // ── Arms ──
+    // Arms
     if (isSide) {
-      const ax = facingLeft ? 6 : 22;
-      px(this.gfx, outline, ax,   20, 6, 14);
-      px(this.gfx, body,    ax+1, 21, 4, 8);
-      px(this.gfx, skin,    ax+1, 29, 4, 4);
-      px(this.gfx, skinSh,  ax+1, 32, 4, 1);
+      const ax = facL ? 1 : 11;
+      px(this.gfx, O, ax, 9, 3, 8); px(this.gfx, dress, ax+1, 10, 1, 5); px(this.gfx, skin, ax+1, 15, 1, 2);
     } else {
-      px(this.gfx, outline, 4,  20, 6, 14);
-      px(this.gfx, outline, 22, 20, 6, 14);
-      px(this.gfx, body,    5,  21, 4, 8);
-      px(this.gfx, body,    23, 21, 4, 8);
-      px(this.gfx, skin,    5,  29, 4, 4);
-      px(this.gfx, skin,    23, 29, 4, 4);
-      px(this.gfx, skinSh,  5,  32, 4, 1);
-      px(this.gfx, skinSh,  23, 32, 4, 1);
+      px(this.gfx, O, 0, 9, 3, 8); px(this.gfx, O, 12, 9, 3, 8);
+      px(this.gfx, dress, 1, 10, 1, 5); px(this.gfx, dress, 13, 10, 1, 5);
+      px(this.gfx, skin, 1, 15, 1, 2); px(this.gfx, skin, 13, 15, 1, 2);
     }
 
-    // ── Head ──
-    px(this.gfx, outline, 8, 6, 16, 14);
-    px(this.gfx, skinSh,  9, 7, 14, 1);
-    px(this.gfx, skin,    9, 8, 14, 10);
-    px(this.gfx, skinSh,  9, 16, 14, 2);
+    // Head
+    px(this.gfx, O, 2, 1, 11, 8);
+    px(this.gfx, skinHi, 3, 2, 9, 2); px(this.gfx, skin, 3, 4, 9, 4); px(this.gfx, skinSh, 3, 7, 9, 1);
 
-    // ── Hair ──
-    px(this.gfx, outline, 7, 4, 18, 8);
-    px(this.gfx, hair,    8, 5, 16, 6);
-    px(this.gfx, hairHi,  10, 5, 4, 2);  // Hair shine
+    // Hair
+    px(this.gfx, O, 1, 0, 13, 5);
+    px(this.gfx, hair, 2, 1, 11, 4); px(this.gfx, hairHi, 3, 1, 5, 2);
     if (!isUp) {
-      // Side tufts
-      px(this.gfx, hair, 7,  8, 3, 6);
-      px(this.gfx, hair, 22, 8, 3, 6);
+      px(this.gfx, hair, 1, 3, 2, 7); px(this.gfx, hair, 12, 3, 2, 7);
+      px(this.gfx, hairSh, 1, 7, 1, 3); px(this.gfx, hairSh, 13, 7, 1, 3);
     }
-    // Back hair
-    px(this.gfx, hair, 8, 10, 3, 8);
-    px(this.gfx, hair, 21, 10, 3, 8);
+    if (!isNpc && !isUp) {
+      px(this.gfx, bow, 10, 1, 4, 3); px(this.gfx, bow, 7, 2, 3, 2);
+      px(this.gfx, 0xff88bb, 9, 2, 2, 2); px(this.gfx, 0xffffff, 10, 2, 1, 1, 0.5);
+    }
 
+    // Face
     if (!isUp && !isSide) {
-      // ── Face ──
-      // Eyes — large anime style
-      px(this.gfx, outline, 10, 12, 4, 4);
-      px(this.gfx, outline, 18, 12, 4, 4);
-      px(this.gfx, 0x2040b0, 11, 13, 2, 2);
-      px(this.gfx, 0x2040b0, 19, 13, 2, 2);
-      px(this.gfx, 0xffffff, 11, 13, 1, 1); // Eye shine
-      px(this.gfx, 0xffffff, 19, 13, 1, 1);
-
-      // Nose
-      px(this.gfx, skinSh, 15, 16, 2, 1);
-
-      // Mouth
+      px(this.gfx, O, 3, 4, 5, 3); px(this.gfx, O, 8, 4, 4, 3);
+      px(this.gfx, 0x2850c0, 4, 5, 3, 2); px(this.gfx, 0x2850c0, 9, 5, 2, 2);
+      px(this.gfx, 0x0a1a60, 4, 6, 3, 1); px(this.gfx, 0x0a1a60, 9, 6, 2, 1);
+      px(this.gfx, 0xffffff, 4, 5, 1, 1); px(this.gfx, 0xffffff, 9, 5, 1, 1);
+      px(this.gfx, 0xddeeff, 5, 5, 1, 1, 0.6); px(this.gfx, 0xddeeff, 10, 5, 1, 1, 0.6);
       if (!isNpc) {
-        px(this.gfx, 0xd0708a, 14, 18, 4, 1);
-        px(this.gfx, 0xff99b0, 14, 17, 2, 1);
-      } else {
-        px(this.gfx, 0xb08060, 14, 18, 4, 1);
+        px(this.gfx, 0xff9999, 3, 6, 2, 1, 0.45); px(this.gfx, 0xff9999, 9, 6, 2, 1, 0.45);
+        px(this.gfx, 0xd84888, 5, 7, 5, 1); px(this.gfx, 0xff90c0, 5, 7, 2, 1, 0.4);
       }
-
-      // Blush
-      px(this.gfx, 0xff8899, 10, 16, 2, 1, 0.5);
-      px(this.gfx, 0xff8899, 20, 16, 2, 1, 0.5);
+      px(this.gfx, skinSh, 6, 6, 2, 1, 0.45);
     } else if (isSide) {
-      // Side eye
-      const ex = facingLeft ? 10 : 18;
-      px(this.gfx, outline, ex, 12, 4, 3);
-      px(this.gfx, 0x2040b0, ex+1, 13, 2, 2);
-      px(this.gfx, 0xffffff, ex+1, 13, 1, 1);
-      px(this.gfx, skinSh, facingLeft ? 12 : 19, 16, 2, 1);
+      const ex = facL ? 4 : 7;
+      px(this.gfx, O, ex, 4, 4, 3); px(this.gfx, 0x2850c0, ex+1, 5, 2, 2);
+      px(this.gfx, 0xffffff, ex+1, 5, 1, 1);
+      if (!isNpc) px(this.gfx, 0xff9999, ex, 6, 2, 1, 0.4);
     }
 
     this.gfx.generateTexture(key, W, H);
   }
+
 
   // ── Cats ─────────────────────────────────────────────────────────────────
   private drawCat(key: string): void {
@@ -436,92 +412,79 @@ export class PlaceholderGenerator {
 
   // ── Ragdoll cat / companion character ───────────────────────────────────
   private drawRagdoll(key: string): void {
-    const W = 32, H = 48;
+    const W = 16, H = 24;
     this.gfx.clear();
 
-    const skin   = 0xf5d0a8;
-    const skinSh = 0xe0b080;
-    const body   = 0x2a6048;
-    const bodyHi = 0x3a8060;
-    const bodySh = 0x1a4030;
-    const pants  = 0x1e2e40;
-    const hair   = 0x181010;
-    const hairHi = 0x282020;
-    const shoe   = 0x100808;
-    const outline= 0x080808;
+    const isSide = key.startsWith('ragdoll_left') || key.startsWith('ragdoll_right');
+    const isUp   = key.startsWith('ragdoll_up');
+    const facL   = key.startsWith('ragdoll_left');
 
-    px(this.gfx, 0x000000, 9, 44, 14, 3, 0.2);
+    const skin = 0xfbd4a8, skinHi = 0xffe8c8, skinSh = 0xe0a870;
+    const hair = 0x221814;
+    const hairHi = 0x3d2d25;
+    const body = 0x22553b;
+    const bodyHi = 0x3aa060;
+    const pants = 0x1d2935;
+    const shoe = 0x18100e;
+    const O = 0x080406;
+
+    // Shadow
+    px(this.gfx, 0, 4, 22, 8, 2, 0.16);
 
     // Shoes
-    px(this.gfx, outline, 9,  41, 6, 5);
-    px(this.gfx, outline, 17, 41, 6, 5);
-    px(this.gfx, shoe,    10, 42, 4, 3);
-    px(this.gfx, shoe,    18, 42, 4, 3);
+    px(this.gfx, O, 3, 20, 4, 3); px(this.gfx, O, 8, 20, 3, 3);
+    px(this.gfx, shoe, 4, 21, 2, 2); px(this.gfx, shoe, 9, 21, 2, 2);
 
-    // Pants / legs
-    px(this.gfx, outline, 10, 34, 4, 8);
-    px(this.gfx, outline, 18, 34, 4, 8);
-    px(this.gfx, pants,   11, 35, 2, 6);
-    px(this.gfx, pants,   19, 35, 2, 6);
+    // Pants/legs
+    px(this.gfx, O, 3, 16, 3, 5); px(this.gfx, O, 8, 16, 3, 5);
+    px(this.gfx, pants, 4, 17, 1, 4); px(this.gfx, pants, 9, 17, 1, 4);
 
     // Body
-    px(this.gfx, outline, 8, 18, 16, 17);
-    px(this.gfx, bodyHi,  9, 19, 14, 2);
-    px(this.gfx, body,    9, 21, 14, 10);
-    px(this.gfx, bodySh,  9, 31, 14, 3);
-    px(this.gfx, bodyHi, 13, 18, 6, 2);
-    px(this.gfx, bodySh,  9, 29, 14, 1);
+    px(this.gfx, O, 2, 8, 11, 9);
+    px(this.gfx, body, 3, 9, 9, 7);
+    px(this.gfx, bodyHi, 3, 9, 9, 2);
 
     // Arms
-    px(this.gfx, outline, 4,  20, 6, 14);
-    px(this.gfx, outline, 22, 20, 6, 14);
-    px(this.gfx, body,    5,  21, 4, 8);
-    px(this.gfx, body,    23, 21, 4, 8);
-    px(this.gfx, skin,    5,  29, 4, 4);
-    px(this.gfx, skin,    23, 29, 4, 4);
+    if (isSide) {
+      const ax = facL ? 1 : 11;
+      px(this.gfx, O, ax, 9, 3, 8); px(this.gfx, body, ax+1, 10, 1, 5); px(this.gfx, skin, ax+1, 15, 1, 2);
+    } else {
+      px(this.gfx, O, 0, 9, 3, 8); px(this.gfx, O, 12, 9, 3, 8);
+      px(this.gfx, body, 1, 10, 1, 5); px(this.gfx, body, 13, 10, 1, 5);
+      px(this.gfx, skin, 1, 15, 1, 2); px(this.gfx, skin, 13, 15, 1, 2);
+    }
 
     // Head
-    px(this.gfx, outline, 8, 6, 16, 14);
-    px(this.gfx, skin,    9, 7, 14, 10);
-    px(this.gfx, skinSh,  9, 15, 14, 2);
+    px(this.gfx, O, 2, 1, 11, 8);
+    px(this.gfx, skinHi, 3, 2, 9, 2); px(this.gfx, skin, 3, 4, 9, 4); px(this.gfx, skinSh, 3, 7, 9, 1);
 
-    // Hair — spiky JRPG style
-    px(this.gfx, outline, 7, 4, 18, 6);
-    px(this.gfx, hair,    8, 5, 16, 5);
-    px(this.gfx, hairHi,  9, 5, 3, 2);
-    px(this.gfx, hair,    6, 8, 3, 8);
-    px(this.gfx, hair,    23,8, 3, 8);
-    // spikes
-    px(this.gfx, hair,  10, 3, 3, 3);
-    px(this.gfx, hair,  16, 3, 3, 3);
-    px(this.gfx, hair,  13, 2, 4, 2);
+    // Hair
+    px(this.gfx, O, 1, 0, 13, 5);
+    px(this.gfx, hair, 2, 1, 11, 4); px(this.gfx, hairHi, 3, 1, 5, 2);
+    if (!isUp) {
+      px(this.gfx, hair, 1, 3, 2, 5); px(this.gfx, hair, 12, 3, 2, 5);
+    }
 
     const isOpen    = key === 'ragdoll_open_eyes' || key === 'ragdoll_standing';
     const isSmiling = key === 'ragdoll_standing';
 
-    // Eyes
-    px(this.gfx, outline, 10, 12, 4, 3);
-    px(this.gfx, outline, 18, 12, 4, 3);
-    if (isOpen) {
-      px(this.gfx, 0x183860, 11, 13, 2, 2);
-      px(this.gfx, 0x183860, 19, 13, 2, 2);
-      px(this.gfx, 0xffffff, 11, 13, 1, 1);
-      px(this.gfx, 0xffffff, 19, 13, 1, 1);
-    } else {
-      px(this.gfx, outline, 11, 13, 2, 1);
-      px(this.gfx, outline, 19, 13, 2, 1);
-    }
-
-    // Mouth
-    if (isSmiling) {
-      px(this.gfx, 0xd08060, 13, 17, 6, 1);
-      px(this.gfx, 0xffffff, 14, 17, 4, 1, 0.5);
-    } else {
-      px(this.gfx, skinSh, 14, 17, 4, 1);
+    // Face / Eyes
+    if (!isUp && !isSide) {
+      px(this.gfx, O, 3, 4, 5, 3); px(this.gfx, O, 8, 4, 4, 3);
+      if (isOpen) {
+        px(this.gfx, 0x3060a0, 4, 5, 2, 2); px(this.gfx, 0x3060a0, 9, 5, 2, 2);
+        px(this.gfx, 0xffffff, 4, 5, 1, 1); px(this.gfx, 0xffffff, 9, 5, 1, 1);
+      } else {
+        px(this.gfx, O, 4, 5, 2, 1); px(this.gfx, O, 9, 5, 2, 1);
+      }
+      if (isSmiling) {
+        px(this.gfx, 0xd08060, 6, 8, 4, 1);
+      }
     }
 
     this.gfx.generateTexture(key, W, H);
   }
+
 
   // ────────────────────────────────────────────────────────────
   // FLOWERS — 16-bit pixel art with stem, leaf, petals (20×24)
@@ -905,6 +868,47 @@ export class PlaceholderGenerator {
       }
       this.gfx.generateTexture(key, 16, 16);
 
+    } else if (key === 'ui_minimap_player') {
+      const W = 16, H = 16;
+      // Draw a classic JRPG navigation triangle/arrow pointing UP
+      this.gfx.fillStyle(0xffffff, 1);
+      this.gfx.fillTriangle(8, 2, 2, 13, 14, 13);
+      this.gfx.fillStyle(0xff2266, 1);
+      this.gfx.fillTriangle(8, 4, 4, 12, 12, 12);
+      this.gfx.generateTexture(key, W, H);
+
+    } else if (key === 'ui_minimap_memory') {
+      const W = 12, H = 12;
+      this.gfx.fillStyle(0xffffff, 0.4);
+      this.gfx.fillCircle(6, 6, 6);
+      this.gfx.fillStyle(0xff44aa, 0.95);
+      this.gfx.fillCircle(6, 6, 4);
+      this.gfx.fillStyle(0xffffff, 1);
+      this.gfx.fillCircle(5, 5, 1.5);
+      this.gfx.generateTexture(key, W, H);
+
+    } else if (key === 'ui_minimap_npc') {
+      const W = 12, H = 12;
+      this.gfx.fillStyle(0xffffff, 0.45);
+      this.gfx.fillCircle(6, 6, 6);
+      this.gfx.fillStyle(0x3bd9ff, 0.95); // NPC blue indicator
+      this.gfx.fillCircle(6, 6, 4);
+      this.gfx.fillStyle(0xffffff, 1);
+      this.gfx.fillCircle(5, 5, 1.5);
+      this.gfx.generateTexture(key, W, H);
+
+    } else if (key === 'ui_minimap_landmark') {
+      const W = 16, H = 16;
+      // Small diamond star
+      this.gfx.fillStyle(0xffffff, 0.35);
+      this.gfx.fillCircle(8, 8, 7);
+      this.gfx.fillStyle(0xffcc00, 1);
+      this.gfx.fillTriangle(8, 1, 4, 8, 12, 8);
+      this.gfx.fillTriangle(8, 15, 4, 8, 12, 8);
+      this.gfx.fillStyle(0xffffff, 1);
+      px(this.gfx, 0xffffff, 7, 7, 2, 2);
+      this.gfx.generateTexture(key, W, H);
+
     } else {
       px(this.gfx, 0xffffff, 0, 0, 32, 32, 0.4);
       this.gfx.generateTexture(key, 32, 32);
@@ -972,6 +976,60 @@ export class PlaceholderGenerator {
       // Shadows
       px(this.gfx, 0x908070, 1, 4, 6, 1, 0.5);
       px(this.gfx, 0x908070, 9, 4, 5, 1, 0.5);
+
+    } else if (key === 'cobble_tile') {
+      px(this.gfx, 0xb8a880, 0, 0, S, S);
+      px(this.gfx, 0x685848, 0, 0, S, 1);
+      px(this.gfx, 0x685848, 0, 8, S, 1);
+      px(this.gfx, 0x685848, 0, 0, 1, S);
+      px(this.gfx, 0x685848, 8, 0, 1, 8);
+      px(this.gfx, 0x685848, 4, 8, 1, S-8);
+      px(this.gfx, 0xc8b890, 1, 1, 6, 2);
+      px(this.gfx, 0xc8b890, 9, 1, 5, 2);
+      px(this.gfx, 0xc8b890, 1, 9, 2, 3);
+      px(this.gfx, 0xc8b890, 5, 9, 2, 3);
+      px(this.gfx, 0xc8b890, 10,9, 5, 3);
+      px(this.gfx, 0x908070, 1, 4, 6, 1, 0.4);
+      px(this.gfx, 0x908070, 9, 4, 5, 1, 0.4);
+
+    } else if (key === 'marble_tile') {
+      // Sleek off-white base color
+      px(this.gfx, 0xf0f2f5, 0, 0, S, S);
+      
+      // Ornate grey veins winding across the tile
+      px(this.gfx, 0xc0c8d0, 1, 3, 2, 1);
+      px(this.gfx, 0xa8b4c0, 3, 4, 1, 2);
+      px(this.gfx, 0x8fa0b0, 4, 6, 2, 1);
+      px(this.gfx, 0xc0c8d0, 6, 7, 3, 1);
+      px(this.gfx, 0xd0d5db, 9, 8, 1, 3);
+      px(this.gfx, 0xa8b4c0, 10, 11, 2, 1);
+      px(this.gfx, 0x8fa0b0, 12, 12, 2, 2);
+      
+      // Elegant gold/bronze vein accents
+      px(this.gfx, 0xdfb668, 2, 2, 1, 1);
+      px(this.gfx, 0xd8ad58, 8, 7, 1, 1);
+      px(this.gfx, 0xc59c49, 9, 6, 2, 1);
+      px(this.gfx, 0xdfb668, 11, 12, 1, 1);
+
+      // Polish gloss/highlights (reflective shine)
+      px(this.gfx, 0xffffff, 2, 1, 2, 1, 0.85);
+      px(this.gfx, 0xffffff, 11, 3, 3, 1, 0.7);
+      px(this.gfx, 0xffffff, 7, 13, 2, 1, 0.6);
+
+      // Soft borders to outline marble slabs
+      px(this.gfx, 0xd8dbe0, 0, 0, S, 1);
+      px(this.gfx, 0xd8dbe0, 0, 0, 1, S);
+      px(this.gfx, 0xa0a5ab, 0, S-1, S, 1, 0.45);
+      px(this.gfx, 0xa0a5ab, S-1, 0, 1, S, 0.45);
+
+    } else if (key === 'ocean_tile') {
+      px(this.gfx, 0x061828, 0, 0, S, S);
+      px(this.gfx, 0x0a3050, 0, 0, S, 1);
+      px(this.gfx, 0x1a6090, 4, 3, 2, 1, 0.45);
+      px(this.gfx, 0x1a6090, 10, 8, 3, 1, 0.35);
+      px(this.gfx, 0xffffff, 4, 3, 1, 1, 0.2);
+      px(this.gfx, 0x0c2840, 0, 10, S, 1);
+      px(this.gfx, 0x1a6090, 2, 12, 4, 1, 0.3);
 
     } else {
       px(this.gfx, 0x888888, 0, 0, S, S);

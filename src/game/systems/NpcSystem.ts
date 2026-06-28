@@ -26,11 +26,11 @@ export class NpcSystem {
 
   // Krish spawn positions (always ahead of player)
   private krishSpawns: KrishSpawnConfig[] = [
-    { area: 'roseGarden', x: 2000, y: 1420, spawned: false, talked: false },
-    { area: 'greenhouse', x: 700, y: 1420, spawned: false, talked: false },
-    { area: 'maze', x: 400, y: 2260, spawned: false, talked: false },
-    { area: 'forgottenChurch', x: 1400, y: 660, spawned: false, talked: false },
-    { area: 'observatory', x: 1400, y: 480, spawned: false, talked: false },
+    { area: 'roseGarden', x: 1977, y: 1420, spawned: false, talked: false },
+    { area: 'greenhouse', x: 1137, y: 1945, spawned: false, talked: false },
+    { area: 'maze', x: 560, y: 1840, spawned: false, talked: false },
+    { area: 'forgottenChurch', x: 1400, y: 527, spawned: false, talked: false },
+    { area: 'observatory', x: 1400, y: 527, spawned: false, talked: false },
   ];
 
   constructor(scene: GameScene) {
@@ -46,52 +46,52 @@ export class NpcSystem {
   }
 
   private spawnPermanentNpcs(): void {
-    // Siya — Secret Garden
-    this.siya = this.scene.add.sprite(560, 640, 'npc_idle');
+    // Siya — Secret Garden / Butterfly Meadow (52, 172)
+    this.siya = this.scene.add.sprite(686, 874, 'npc_idle');
     this.siya.setScale(2.0);
-    this.siya.setDepth(640);
+    this.siya.setDepth(874);
     this.siya.setOrigin(0.5, 0.8);
     this.siya.setTint(0xa8e090); // Gentle green tint
     this.scene.physics.add.existing(this.siya, true);
     this.scene.physics.add.collider(this.scene.playerSystem.gameObject, this.siya);
     this.scene.interactionSystem.registerInteractable({
       id: 'siya_npc',
-      x: 560,
-      y: 640,
+      x: 686,
+      y: 874,
       type: 'npc',
       sprite: this.siya,
       onInteract: () => this.talkToSiya(),
     });
  
-    // Eli — Rose Garden
-    this.eli = this.scene.add.sprite(2240, 1340, 'npc_idle');
+    // Eli — Greenhouse / Rose Garden area (88, 45)
+    this.eli = this.scene.add.sprite(1064, 2207, 'npc_idle');
     this.eli.setScale(2.0);
-    this.eli.setDepth(1340);
+    this.eli.setDepth(2207);
     this.eli.setOrigin(0.5, 0.8);
     this.eli.setTint(0xffc070); // Cheerful orange/peach tint
     this.scene.physics.add.existing(this.eli, true);
     this.scene.physics.add.collider(this.scene.playerSystem.gameObject, this.eli);
     this.scene.interactionSystem.registerInteractable({
       id: 'eli_npc',
-      x: 2240,
-      y: 1340,
+      x: 1064,
+      y: 2207,
       type: 'npc',
       sprite: this.eli,
       onInteract: () => this.talkToEli(),
     });
  
-    // Nikhil — Forgotten Church
-    this.nikhil = this.scene.add.sprite(1320, 760, 'npc_idle');
+    // Nikhil — Observatory (203, 202)
+    this.nikhil = this.scene.add.sprite(2271, 559, 'npc_idle');
     this.nikhil.setScale(2.0);
-    this.nikhil.setDepth(760);
+    this.nikhil.setDepth(559);
     this.nikhil.setOrigin(0.5, 0.8);
     this.nikhil.setTint(0xc0c0ff); // Analytical blue-grey tint
     this.scene.physics.add.existing(this.nikhil, true);
     this.scene.physics.add.collider(this.scene.playerSystem.gameObject, this.nikhil);
     this.scene.interactionSystem.registerInteractable({
       id: 'nikhil_npc',
-      x: 1320,
-      y: 760,
+      x: 2271,
+      y: 559,
       type: 'npc',
       sprite: this.nikhil,
       dialogueId: 'talk_nikhil',

@@ -50,7 +50,7 @@ export class CutsceneManager {
     await this.wait(1800);
 
     // Zoom out slightly to reveal surroundings
-    this.scene.cameraSystem.zoomTo(0.95, 2000);
+    this.scene.cameraSystem.zoomTo(1.35, 2000);
 
     await this.wait(1000);
 
@@ -84,7 +84,7 @@ export class CutsceneManager {
     });
 
     // Camera zooms in slightly
-    this.scene.cameraSystem.zoomTo(1.1, 1500);
+    this.scene.cameraSystem.zoomTo(1.6, 1500);
 
     await this.wait(1500);
 
@@ -134,7 +134,7 @@ export class CutsceneManager {
     const cy = 460;
 
     // Camera zooms out slightly for grand finale
-    this.scene.cameraSystem.zoomTo(1.15, 1000);
+    this.scene.cameraSystem.zoomTo(1.4, 1000);
 
     // Spawn Birthday Cake
     const cake = this.scene.add.sprite(cx, cy - 25, 'cake');

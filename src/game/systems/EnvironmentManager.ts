@@ -15,6 +15,12 @@ export class EnvironmentManager {
   private starsCreated = false;
   private fireflies: Phaser.GameObjects.Sprite[] = [];
 
+  // Weather States
+  private currentWeather: 'sunny' | 'rainy' | 'foggy' = 'sunny';
+  private weatherTimer = 0;
+  private rainGraphics: Phaser.GameObjects.Graphics | null = null;
+  private rainDrops: { x: number; y: number; vy: number; vx: number; len: number }[] = [];
+
   constructor(scene: GameScene) {
     this.scene = scene;
 
@@ -24,6 +30,18 @@ export class EnvironmentManager {
     this.overlay.setScrollFactor(0);
     this.overlay.setDepth(99000);
     this.overlay.setBlendMode(Phaser.BlendModes.MULTIPLY);
+
+    // Setup Rain/Mist Graphics
+    this.rainGraphics = scene.add.graphics().setDepth(97500).setScrollFactor(0);
+    for (let i = 0; i < 70; i++) {
+      this.rainDrops.push({
+        x: Math.random() * scene.cameras.main.width,
+        y: Math.random() * scene.cameras.main.height,
+        vy: 350 + Math.random() * 150,
+        vx: -60 - Math.random() * 40,
+        len: 12 + Math.random() * 10,
+      });
+    }
   }
 
   setTime(progress: number): void {
@@ -39,10 +57,20 @@ export class EnvironmentManager {
     this.timeProgress += delta / DAY_CYCLE_DURATION;
     this.timeProgress = Math.min(this.timeProgress, 1);
 
+    // Advance Weather Timer
+    this.weatherTimer += delta;
+    if (this.weatherTimer > 90000) { // transition weather every 90 seconds
+      this.weatherTimer = 0;
+      const states: ('sunny' | 'rainy' | 'foggy')[] = ['sunny', 'rainy', 'foggy'];
+      const currentIdx = states.indexOf(this.currentWeather);
+      this.currentWeather = states[(currentIdx + 1) % states.length];
+    }
+
     // Determine current phase and interpolate
     this.updateLighting();
     this.updateStars();
     this.updateFireflies(delta);
+    this.updateWeatherGraphics(delta);
   }
 
   private updateLighting(): void {
@@ -203,6 +231,48 @@ export class EnvironmentManager {
         repeat: -1,
         ease: 'Sine.easeInOut',
       });
+    }
+  }
+
+  private updateWeatherGraphics(delta: number): void {
+    if (!this.rainGraphics) return;
+    this.rainGraphics.clear();
+    
+    const cam = this.scene.cameras.main;
+    const w = cam.width;
+    const h = cam.height;
+    
+    if (this.currentWeather === 'rainy') {
+      this.rainGraphics.lineStyle(1.5, 0xa0c0e0, 0.42);
+      const dt = delta / 1000;
+      
+      for (const d of this.rainDrops) {
+        d.x += d.vx * dt;
+        d.y += d.vy * dt;
+        
+        // Wrap around screen
+        if (d.x < 0) d.x = w;
+        if (d.y > h) {
+          d.y = 0;
+          d.x = Math.random() * w;
+        }
+        
+        this.rainGraphics.lineBetween(d.x, d.y, d.x + d.vx * 0.05, d.y + d.vy * 0.05);
+      }
+    } else if (this.currentWeather === 'foggy') {
+      // Draw a slow moving mist overlay
+      const t = this.scene.time.now * 0.00015;
+      this.rainGraphics.fillStyle(0xeef5fc, 0.09 + Math.sin(t) * 0.02);
+      this.rainGraphics.fillRect(0, 0, w, h);
+      
+      // Draw 6 soft drift clouds
+      this.rainGraphics.fillStyle(0xffffff, 0.05);
+      for (let i = 0; i < 6; i++) {
+        const cx = ((t * 80 + i * 280) % (w + 400)) - 200;
+        const cy = 100 + i * 90 + Math.sin(t + i) * 30;
+        this.rainGraphics.fillCircle(cx, cy, 140);
+        this.rainGraphics.fillCircle(cx + 60, cy - 20, 110);
+      }
     }
   }
 }

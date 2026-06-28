@@ -11,13 +11,13 @@ export const TILE_SIZE = 16; // 16-bit native tile unit
 export const WORLD_WIDTH  = 2800;
 export const WORLD_HEIGHT = 2800;
 
-// Player — original 16-bit HD-2D settings
-export const PLAYER_SPEED  = 100;
-export const PLAYER_ACCEL  = 500;
-export const PLAYER_DECEL  = 350;
+// Player — crisp 8-bit settings
+export const PLAYER_SPEED  = 110;
+export const PLAYER_ACCEL  = 550;
+export const PLAYER_DECEL  = 400;
 export const PLAYER_SPRITE_W = 16;
 export const PLAYER_SPRITE_H = 24;
-export const PLAYER_SCALE  = 3;  // Scale up for crisp 16-bit look
+export const PLAYER_SCALE  = 2;  // Renders to crisp 8-bit scale
 
 // Flower system
 export const FLOWER_CELL_SIZE           = 22;
@@ -97,7 +97,7 @@ export const TIME_PHASES = {
 export const AREAS = {
   cottage: {
     name: 'Cottage Garden',
-    x: 980, y: 1960, width: 840, height: 840,
+    x: 1820, y: 1960, width: 840, height: 840,
     music: 'gentle',
   },
   secretGarden: {
@@ -107,17 +107,17 @@ export const AREAS = {
   },
   roseGarden: {
     name: 'Rose Garden',
-    x: 1820, y: 980, width: 840, height: 840,
+    x: 140, y: 1960, width: 840, height: 840,
     music: 'dreamy',
   },
   crystalLake: {
     name: 'Crystal Lake',
-    x: 1820, y: 1960, width: 840, height: 840,
+    x: 1820, y: 980, width: 840, height: 840,
     music: 'serene',
   },
   greenhouse: {
     name: 'Greenhouse',
-    x: 140, y: 980, width: 840, height: 840,
+    x: 980, y: 1960, width: 840, height: 840,
     music: 'mystical',
   },
   centralPlaza: {
@@ -127,12 +127,12 @@ export const AREAS = {
   },
   maze: {
     name: 'Hedge Maze',
-    x: 140, y: 1960, width: 840, height: 840,
+    x: 140, y: 980, width: 840, height: 840,
     music: 'mystical',
   },
   cherryGarden: {
-    name: 'Cherry Garden',
-    x: 1820, y: 160, width: 840, height: 840,
+    name: 'Cherry Blossom Hill',
+    x: 980, y: 160, width: 840, height: 840,
     music: 'peaceful',
   },
   forgottenChurch: {
@@ -141,8 +141,8 @@ export const AREAS = {
     music: 'serene',
   },
   observatory: {
-    name: 'Observatory',
-    x: 980, y: 160, width: 840, height: 840,
+    name: 'The Observatory',
+    x: 1820, y: 160, width: 840, height: 840,
     music: 'celebration',
   },
 } as const;

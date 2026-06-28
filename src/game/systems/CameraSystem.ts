@@ -9,7 +9,7 @@ import { CAMERA_LERP, CAMERA_DEADZONE_W, CAMERA_DEADZONE_H, WORLD_WIDTH, WORLD_H
 export class CameraSystem {
   private scene: GameScene;
   private camera: Phaser.Cameras.Scene2D.Camera;
-  private targetZoom = 1;
+  private targetZoom = 1.5;
   private zoomSpeed = 0.02;
 
   constructor(scene: GameScene) {
@@ -17,7 +17,7 @@ export class CameraSystem {
     this.camera = scene.cameras.main;
 
     this.camera.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-    this.camera.setZoom(1);
+    this.camera.setZoom(1.5);
 
     // Start following player
     const player = scene.playerSystem.gameObject;

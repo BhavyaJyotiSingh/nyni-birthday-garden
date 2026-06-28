@@ -59,40 +59,40 @@ export const ISLAND_ZONES: AreaConfig[] = [
   {
     key: 'cottage',
     name: 'Cottage Garden',
-    bounds: { x: zoneX(1), y: zoneY(2), w: Z, h: Z },
+    bounds: { x: zoneX(2), y: zoneY(2), w: Z, h: Z },
     groundColor: 0x3d7a30,
     objects: [
       // Main cottage building
-      { type: 'house_cottage', x: zc(1), y: zoneY(2)+220, scale: 1.1, collides: true, depth: zoneY(2)+300 },
+      { type: 'house_cottage', x: zc(2), y: zoneY(2)+220, scale: 1.1, collides: true, depth: zoneY(2)+300 },
       // Wakeup bench
-      { type: 'bench', x: zc(1)+60, y: zoneY(2)+420,
+      { type: 'bench', x: zc(2)+60, y: zoneY(2)+420,
         interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
       // Letter table
-      { id: 'cottage_letter_table', type: 'letter_table', x: zc(1)-40, y: zoneY(2)+370,
+      { id: 'cottage_letter_table', type: 'letter_table', x: zc(2)-40, y: zoneY(2)+370,
         interactive: true, interactionType: 'letter', dialogueId: 'read_letter', collides: true },
       // Flower pots on cottage steps
-      { type: 'flower_pot', x: zc(1)-60, y: zoneY(2)+310, scale: 0.9 },
-      { type: 'flower_pot', x: zc(1)+60, y: zoneY(2)+310, scale: 0.9 },
+      { type: 'flower_pot', x: zc(2)-60, y: zoneY(2)+310, scale: 0.9 },
+      { type: 'flower_pot', x: zc(2)+60, y: zoneY(2)+310, scale: 0.9 },
       // Mailbox
-      { type: 'mailbox', x: zc(1)+120, y: zoneY(2)+340, scale: 0.9 },
+      { type: 'mailbox', x: zc(2)+120, y: zoneY(2)+340, scale: 0.9 },
       // Garden fence enclosure
-      { type: 'fence_h', x: zc(1)-200, y: zoneY(2)+460, collides: true },
-      { type: 'fence_h', x: zc(1)-168, y: zoneY(2)+460, collides: true },
-      { type: 'fence_h', x: zc(1)+140, y: zoneY(2)+460, collides: true },
-      { type: 'fence_h', x: zc(1)+172, y: zoneY(2)+460, collides: true },
-      { type: 'fence_v', x: zc(1)-200, y: zoneY(2)+420, collides: true },
-      { type: 'fence_v', x: zc(1)+200, y: zoneY(2)+420, collides: true },
+      { type: 'fence_h', x: zc(2)-200, y: zoneY(2)+460, collides: true },
+      { type: 'fence_h', x: zc(2)-168, y: zoneY(2)+460, collides: true },
+      { type: 'fence_h', x: zc(2)+140, y: zoneY(2)+460, collides: true },
+      { type: 'fence_h', x: zc(2)+172, y: zoneY(2)+460, collides: true },
+      { type: 'fence_v', x: zc(2)-200, y: zoneY(2)+420, collides: true },
+      { type: 'fence_v', x: zc(2)+200, y: zoneY(2)+420, collides: true },
       // Trees
-      { type: 'tree_cherry', x: zoneX(1)+80,  y: zoneY(2)+160, scale: 1.1, collides: true },
-      { type: 'tree_oak',    x: zoneX(1)+740, y: zoneY(2)+200, scale: 1.0, collides: true },
-      { type: 'tree_apple',  x: zoneX(1)+680, y: zoneY(2)+580, scale: 1.0, collides: true },
-      { type: 'tree_oak',    x: zoneX(1)+100, y: zoneY(2)+620, scale: 0.9, collides: true },
+      { type: 'tree_cherry', x: zoneX(2)+80,  y: zoneY(2)+160, scale: 1.1, collides: true },
+      { type: 'tree_oak',    x: zoneX(2)+740, y: zoneY(2)+200, scale: 1.0, collides: true },
+      { type: 'tree_apple',  x: zoneX(2)+680, y: zoneY(2)+580, scale: 1.0, collides: true },
+      { type: 'tree_oak',    x: zoneX(2)+100, y: zoneY(2)+620, scale: 0.9, collides: true },
       // Lanterns
-      { type: 'lantern', x: zc(1)-80, y: zoneY(2)+440, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zc(1)+80, y: zoneY(2)+440, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zc(2)-80, y: zoneY(2)+440, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zc(2)+80, y: zoneY(2)+440, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
       // Barrels by cottage wall
-      { type: 'barrel', x: zc(1)+90, y: zoneY(2)+300, scale: 0.8 },
-      { type: 'barrel', x: zc(1)+110, y: zoneY(2)+295, scale: 0.75 },
+      { type: 'barrel', x: zc(2)+90, y: zoneY(2)+300, scale: 0.8 },
+      { type: 'barrel', x: zc(2)+110, y: zoneY(2)+295, scale: 0.75 },
     ],
   },
 
@@ -122,13 +122,41 @@ export const ISLAND_ZONES: AreaConfig[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════════
-  // OBSERVATORY — N zone (row 0, col 1) — ENDING AREA
+  // OBSERVATORY — NE zone (row 0, col 2)
   // ═══════════════════════════════════════════════════════════════════
   {
     key: 'observatory',
     name: 'The Observatory',
-    bounds: { x: zoneX(1), y: zoneY(0), w: Z, h: Z },
+    bounds: { x: zoneX(2), y: zoneY(0), w: Z, h: Z },
     groundColor: 0x0a0a20,
+    dialogueOnEnter: 'enter_cherryGarden', // triggers entering text
+    objects: [
+      { id: 'bhavya_tree', type: 'tree_big_cherry', x: zc(2), y: zr(0)-80, scale: 1.7, collides: true },
+      { type: 'tree_cherry', x: zoneX(2)+120, y: zoneY(0)+180, scale: 1.2, collides: true },
+      { type: 'tree_cherry', x: zoneX(2)+700, y: zoneY(0)+180, scale: 1.1, collides: true },
+      { type: 'tree_cherry', x: zoneX(2)+140, y: zoneY(0)+620, scale: 1.0, collides: true },
+      { type: 'tree_cherry', x: zoneX(2)+680, y: zoneY(0)+620, scale: 1.2, collides: true },
+      { type: 'tree_cherry', x: zc(2)-180,    y: zoneY(0)+320, scale: 0.9, collides: true },
+      { type: 'tree_cherry', x: zc(2)+180,    y: zoneY(0)+320, scale: 0.9, collides: true },
+      { type: 'bench', x: zc(2), y: zr(0)+120, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
+      ...Array.from({ length: 10 }, (_, i) => ({
+        type: 'lantern_lit',
+        x: zc(2) + Math.cos((i/10)*Math.PI*2) * 230,
+        y: zr(0) - 60 + Math.sin((i/10)*Math.PI*2) * 130,
+        scale: 1.0,
+        interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light',
+      })),
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // CHERRY GARDEN / CHERRY BLOSSOM HILL — N zone (row 0, col 1) — ENDING AREA
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    key: 'cherryGarden',
+    name: 'Cherry Blossom Hill',
+    bounds: { x: zoneX(1), y: zoneY(0), w: Z, h: Z },
+    groundColor: 0x3a5020,
     dialogueOnEnter: 'enter_observatory',
     objects: [
       { id: 'observatory_cherry_tree', type: 'tree_big_cherry', x: zc(1), y: zr(0)-80, scale: 2.0, collides: true },
@@ -153,56 +181,26 @@ export const ISLAND_ZONES: AreaConfig[] = [
     ],
   },
 
-  // ═══════════════════════════════════════════════════════════════════
-  // CHERRY GARDEN — NE zone (row 0, col 2)
-  // ═══════════════════════════════════════════════════════════════════
-  {
-    key: 'cherryGarden',
-    name: 'Cherry Garden',
-    bounds: { x: zoneX(2), y: zoneY(0), w: Z, h: Z },
-    groundColor: 0x3a5020,
-    dialogueOnEnter: 'enter_cherryGarden',
-    objects: [
-      { id: 'bhavya_tree', type: 'tree_big_cherry', x: zc(2), y: zr(0)-80, scale: 1.7, collides: true },
-      { type: 'tree_cherry', x: zoneX(2)+120, y: zoneY(0)+180, scale: 1.2, collides: true },
-      { type: 'tree_cherry', x: zoneX(2)+700, y: zoneY(0)+180, scale: 1.1, collides: true },
-      { type: 'tree_cherry', x: zoneX(2)+140, y: zoneY(0)+620, scale: 1.0, collides: true },
-      { type: 'tree_cherry', x: zoneX(2)+680, y: zoneY(0)+620, scale: 1.2, collides: true },
-      { type: 'tree_cherry', x: zc(2)-180,    y: zoneY(0)+320, scale: 0.9, collides: true },
-      { type: 'tree_cherry', x: zc(2)+180,    y: zoneY(0)+320, scale: 0.9, collides: true },
-      { type: 'bench', x: zc(2), y: zr(0)+120, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
-      ...Array.from({ length: 10 }, (_, i) => ({
-        type: 'lantern_lit',
-        x: zc(2) + Math.cos((i/10)*Math.PI*2) * 230,
-        y: zr(0) - 60 + Math.sin((i/10)*Math.PI*2) * 130,
-        scale: 1.0,
-        interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light',
-      })),
-    ],
-  },
-
-  // ═══════════════════════════════════════════════════════════════════
-  // GREENHOUSE — W zone (row 1, col 0)
+  // GREENHOUSE — S-Middle zone (row 2, col 1)
   // ═══════════════════════════════════════════════════════════════════
   {
     key: 'greenhouse',
     name: 'Greenhouse',
-    bounds: { x: zoneX(0), y: zoneY(1), w: Z, h: Z },
+    bounds: { x: zoneX(1), y: zoneY(2), w: Z, h: Z },
     groundColor: 0x3a6828,
     dialogueOnEnter: 'enter_greenhouse',
     objects: [
-      { type: 'greenhouse_bldg', x: zc(0), y: zr(1)-100, scale: 1.0, collides: true, interactive: true, interactionType: 'gazebo', dialogueId: 'greenhouse_inspect' },
-      { type: 'windmill', x: zoneX(0)+160, y: zoneY(1)+180, scale: 0.9, collides: true },
-      { type: 'bench', x: zc(0)+120, y: zr(1)+40, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
-      { type: 'flower_pot', x: zc(0)-80, y: zr(1)-40, scale: 0.9 },
-      { type: 'flower_pot', x: zc(0)+80, y: zr(1)-40, scale: 0.9 },
-      { type: 'tree_oak', x: zoneX(0)+120, y: zoneY(1)+600, scale: 1.1, collides: true },
-      { type: 'tree_oak', x: zoneX(0)+700, y: zoneY(1)+200, scale: 1.0, collides: true },
-      { type: 'tree_pine', x: zoneX(0)+720, y: zoneY(1)+650, scale: 1.0, collides: true },
-      { type: 'lantern', x: zc(0)-60, y: zr(1)+80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zc(0)+60, y: zr(1)+80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'barrel', x: zc(0)-120, y: zr(1)-80, scale: 0.9 },
-      { type: 'crate',  x: zc(0)-140, y: zr(1)-50, scale: 0.9 },
+      { type: 'greenhouse_bldg', x: zc(1), y: zr(2)-100, scale: 1.0, collides: true, interactive: true, interactionType: 'gazebo', dialogueId: 'greenhouse_inspect' },
+      { type: 'bench', x: zc(1)+120, y: zr(2)+40, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
+      { type: 'flower_pot', x: zc(1)-80, y: zr(2)-40, scale: 0.9 },
+      { type: 'flower_pot', x: zc(1)+80, y: zr(2)-40, scale: 0.9 },
+      { type: 'tree_oak', x: zoneX(1)+120, y: zoneY(2)+600, scale: 1.1, collides: true },
+      { type: 'tree_oak', x: zoneX(1)+700, y: zoneY(2)+200, scale: 1.0, collides: true },
+      { type: 'tree_pine', x: zoneX(1)+720, y: zoneY(2)+650, scale: 1.0, collides: true },
+      { type: 'lantern', x: zc(1)-60, y: zr(2)+80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zc(1)+60, y: zr(2)+80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'barrel', x: zc(1)-120, y: zr(2)-80, scale: 0.9 },
+      { type: 'crate',  x: zc(1)-140, y: zr(2)-50, scale: 0.9 },
     ],
   },
 
@@ -242,94 +240,95 @@ export const ISLAND_ZONES: AreaConfig[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════════
-  // ROSE GARDEN — E zone (row 1, col 2)
+  // ROSE GARDEN — SW zone (row 2, col 0)
   // ═══════════════════════════════════════════════════════════════════
   {
     key: 'roseGarden',
     name: 'Rose Garden',
-    bounds: { x: zoneX(2), y: zoneY(1), w: Z, h: Z },
+    bounds: { x: zoneX(0), y: zoneY(2), w: Z, h: Z },
     groundColor: 0x305a28,
     dialogueOnEnter: 'enter_roseGarden',
     objects: [
-      { type: 'shop_florist', x: zc(2), y: zoneY(2)+140, scale: 1.0, collides: true, interactive: true, interactionType: 'sign', dialogueId: 'dock_look' },
-      { type: 'flower_arch', x: zoneX(2)+60,  y: zr(1),     scale: 1.2, collides: false },
-      { type: 'flower_arch', x: zoneX(2)+780,  y: zoneY(1)+400, scale: 1.2, collides: false },
-      { type: 'bench', x: zc(2)-100, y: zr(1)+180, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
-      { type: 'bench', x: zc(2)+100, y: zr(1)+180, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
-      { type: 'tree_cherry', x: zoneX(2)+120, y: zoneY(1)+180, scale: 1.0, collides: true },
-      { type: 'tree_cherry', x: zoneX(2)+700, y: zoneY(1)+180, scale: 1.1, collides: true },
-      { type: 'tree_oak',    x: zoneX(2)+140, y: zoneY(1)+680, scale: 1.0, collides: true },
-      { type: 'tree_oak',    x: zoneX(2)+700, y: zoneY(1)+680, scale: 0.9, collides: true },
-      { type: 'lantern', x: zc(2)-60, y: zr(1)-80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zc(2)+60, y: zr(1)-80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'flower_pot', x: zc(2)-160, y: zr(1)+60, scale: 0.9 },
-      { type: 'flower_pot', x: zc(2)+160, y: zr(1)+60, scale: 0.9 },
-      { type: 'flower_pot', x: zc(2),     y: zr(1)-160, scale: 1.0 },
+      { type: 'shop_florist', x: zc(0), y: zoneY(2)+140, scale: 1.0, collides: true, interactive: true, interactionType: 'sign', dialogueId: 'dock_look' },
+      { type: 'flower_arch', x: zoneX(0)+60,  y: zr(2),     scale: 1.2, collides: false },
+      { type: 'flower_arch', x: zoneX(0)+780,  y: zoneY(2)+400, scale: 1.2, collides: false },
+      { type: 'bench', x: zc(0)-100, y: zr(2)+180, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
+      { type: 'bench', x: zc(0)+100, y: zr(2)+180, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
+      { type: 'tree_cherry', x: zoneX(0)+120, y: zoneY(2)+180, scale: 1.0, collides: true },
+      { type: 'tree_cherry', x: zoneX(0)+700, y: zoneY(2)+180, scale: 1.1, collides: true },
+      { type: 'tree_oak',    x: zoneX(0)+140, y: zoneY(2)+680, scale: 1.0, collides: true },
+      { type: 'tree_oak',    x: zoneX(0)+700, y: zoneY(2)+680, scale: 0.9, collides: true },
+      { type: 'lantern', x: zc(0)-60, y: zr(2)-80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zc(0)+60, y: zr(2)-80, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'flower_pot', x: zc(0)-160, y: zr(2)+60, scale: 0.9 },
+      { type: 'flower_pot', x: zc(0)+160, y: zr(2)+60, scale: 0.9 },
+      { type: 'flower_pot', x: zc(0),     y: zr(2)-160, scale: 1.0 },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════════
-  // MAZE — SW zone (row 2, col 0)
+  // MAZE — W zone (row 1, col 0)
   // ═══════════════════════════════════════════════════════════════════
   {
     key: 'maze',
     name: 'Hedge Maze',
-    bounds: { x: zoneX(0), y: zoneY(2), w: Z, h: Z },
+    bounds: { x: zoneX(0), y: zoneY(1), w: Z, h: Z },
     groundColor: 0x244820,
     dialogueOnEnter: 'enter_maze',
     objects: [
-      { type: 'sign_post', x: zc(0), y: zoneY(2)+760, interactive: true, interactionType: 'sign', dialogueId: 'maze_hint' },
-      { type: 'lantern', x: zoneX(0)+200, y: zoneY(2)+400, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zoneX(0)+600, y: zoneY(2)+300, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zoneX(0)+300, y: zoneY(2)+600, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'mushroom', x: zoneX(0)+180, y: zoneY(2)+200, scale: 1.0 },
-      { type: 'mushroom', x: zoneX(0)+640, y: zoneY(2)+560, scale: 0.9 },
+      { type: 'windmill', x: zoneX(0)+160, y: zoneY(1)+180, scale: 0.9, collides: true },
+      { type: 'sign_post', x: zc(0), y: zoneY(1)+760, interactive: true, interactionType: 'sign', dialogueId: 'maze_hint' },
+      { type: 'lantern', x: zoneX(0)+200, y: zoneY(1)+400, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zoneX(0)+600, y: zoneY(1)+300, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zoneX(0)+300, y: zoneY(1)+600, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'mushroom', x: zoneX(0)+180, y: zoneY(1)+200, scale: 1.0 },
+      { type: 'mushroom', x: zoneX(0)+640, y: zoneY(1)+560, scale: 0.9 },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════════
-  // CRYSTAL LAKE — SE zone (row 2, col 2)
+  // CRYSTAL LAKE — E zone (row 1, col 2)
   // ═══════════════════════════════════════════════════════════════════
   {
     key: 'crystalLake',
     name: 'Crystal Lake',
-    bounds: { x: zoneX(2), y: zoneY(2), w: Z, h: Z },
+    bounds: { x: zoneX(2), y: zoneY(1), w: Z, h: Z },
     groundColor: 0x204838,
     hasWater: true,
-    waterBounds: { x: zoneX(2)+100, y: zoneY(2)+200, w: 640, h: 380 },
+    waterBounds: { x: zoneX(2)+100, y: zoneY(1)+200, w: 640, h: 380 },
     dialogueOnEnter: 'enter_crystalLake',
     objects: [
-      { id: 'crystal_lake_bridge', type: 'bridge_h', x: zc(2), y: zoneY(2)+390, scale: 1.5, collides: true },
-      { type: 'dock', x: zc(2)-100, y: zoneY(2)+220, scale: 1.2, interactive: true, interactionType: 'dock', dialogueId: 'dock_look', collides: true },
-      { type: 'rock_small', x: zc(2)-60, y: zoneY(2)+230, scale: 1.0, interactive: true, interactionType: 'skip_stone', dialogueId: 'skip_stones' },
-      { type: 'tree_willow', x: zoneX(2)+120, y: zoneY(2)+230, scale: 1.1, collides: true },
-      { type: 'tree_willow', x: zoneX(2)+700, y: zoneY(2)+230, scale: 1.0, collides: true },
-      { type: 'tree_willow', x: zoneX(2)+120, y: zoneY(2)+640, scale: 1.0, collides: true },
-      { type: 'tree_willow', x: zoneX(2)+700, y: zoneY(2)+640, scale: 1.1, collides: true },
-      { type: 'lantern', x: zc(2)-100, y: zoneY(2)+400, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zc(2)+100, y: zoneY(2)+400, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'bench', x: zc(2), y: zoneY(2)+680, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
+      { id: 'crystal_lake_bridge', type: 'bridge_h', x: zc(2), y: zoneY(1)+390, scale: 1.5, collides: true },
+      { type: 'dock', x: zc(2)-100, y: zoneY(1)+220, scale: 1.2, interactive: true, interactionType: 'dock', dialogueId: 'dock_look', collides: true },
+      { type: 'rock_small', x: zc(2)-60, y: zoneY(1)+230, scale: 1.0, interactive: true, interactionType: 'skip_stone', dialogueId: 'skip_stones' },
+      { type: 'tree_willow', x: zoneX(2)+120, y: zoneY(1)+230, scale: 1.1, collides: true },
+      { type: 'tree_willow', x: zoneX(2)+700, y: zoneY(1)+230, scale: 1.0, collides: true },
+      { type: 'tree_willow', x: zoneX(2)+120, y: zoneY(1)+640, scale: 1.0, collides: true },
+      { type: 'tree_willow', x: zoneX(2)+700, y: zoneY(1)+640, scale: 1.1, collides: true },
+      { type: 'lantern', x: zc(2)-100, y: zoneY(1)+400, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zc(2)+100, y: zoneY(1)+400, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'bench', x: zc(2), y: zoneY(1)+680, interactive: true, interactionType: 'bench', dialogueId: 'bench_sit', collides: true },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════════
-  // FORGOTTEN CHURCH — overlaps north row
+  // FORGOTTEN CHURCH — NE zone (row 0, col 2)
   // ═══════════════════════════════════════════════════════════════════
   {
     key: 'forgottenChurch',
     name: 'Forgotten Shrine',
-    bounds: { x: zoneX(1), y: zoneY(0), w: Z, h: Z },
+    bounds: { x: zoneX(2), y: zoneY(0), w: Z, h: Z },
     groundColor: 0x504838,
     dialogueOnEnter: 'enter_forgottenChurch',
     objects: [
-      { id: 'church_mirror', type: 'mirror', x: zc(1)-120, y: zr(0)+60,
+      { id: 'church_mirror', type: 'mirror', x: zc(2)-120, y: zr(0)+60,
         interactive: true, interactionType: 'mirror', dialogueId: 'look_mirror', collides: true },
-      { id: 'nikhil_desk',     type: 'table_empty', x: zc(1)+100, y: zr(0)+80, collides: true },
-      { id: 'nikhil_notebook', type: 'notebook',    x: zc(1)+100, y: zr(0)+60,
+      { id: 'nikhil_desk',     type: 'table_empty', x: zc(2)+100, y: zr(0)+80, collides: true },
+      { id: 'nikhil_notebook', type: 'notebook',    x: zc(2)+100, y: zr(0)+60,
         interactive: true, interactionType: 'notebook', dialogueId: 'read_notebook' },
-      { type: 'flower_arch', x: zc(1), y: zoneY(0)+180, scale: 1.3, collides: false },
-      { type: 'lantern', x: zc(1)-80, y: zr(0)+120, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
-      { type: 'lantern', x: zc(1)+80, y: zr(0)+120, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'flower_arch', x: zc(2), y: zoneY(0)+180, scale: 1.3, collides: false },
+      { type: 'lantern', x: zc(2)-80, y: zr(0)+120, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
+      { type: 'lantern', x: zc(2)+80, y: zr(0)+120, interactive: true, interactionType: 'lantern', dialogueId: 'lantern_light' },
     ],
   },
 ];
@@ -472,8 +471,8 @@ export class WorldBuilder {
     if (this.distToSegment(x, y, cx1-400, cy1-100, cx0+80, cy1-160) < 40 + r) return true;
 
     // 5. Check ellipse ponds
-    // Crystal lake: center (zoneX(2)+420, zoneY(2)+395), width 640, height 380 -> radius X = 320, Y = 190
-    const clx = zoneX(2)+420, cly = zoneY(2)+395;
+    // Crystal lake: center (zoneX(2)+420, zoneY(1)+395), width 640, height 380 -> radius X = 320, Y = 190
+    const clx = zoneX(2)+420, cly = zoneY(1)+395;
     const cldx = x - clx, cldy = y - cly;
     if ((cldx * cldx) / (320*320) + (cldy * cldy) / (190*190) < 1.05) return true;
 
@@ -482,8 +481,8 @@ export class WorldBuilder {
     const sgdx = x - sgx, sgdy = y - sgy;
     if ((sgdx * sgdx) / (140*140) + (sgdy * sgdy) / (80*80) < 1.05) return true;
 
-    // Rose Garden stream: center (zc(2)-80, zr(1)+220), width 200, height 110 -> radius X = 100, Y = 55
-    const rgx = zc(2)-80, rgy = zr(1)+220;
+    // Rose Garden stream: center (zc(0)-80, zr(2)+220), width 200, height 110 -> radius X = 100, Y = 55
+    const rgx = zc(0)-80, rgy = zr(2)+220;
     const rgdx = x - rgx, rgdy = y - rgy;
     if ((rgdx * rgdx) / (100*100) + (rgdy * rgdy) / (55*55) < 1.05) return true;
 
@@ -524,6 +523,18 @@ export class WorldBuilder {
     spr.setScale(scale);
     spr.setOrigin(0.5, 0.84);
     spr.setDepth(y);
+
+    if (key.startsWith('tree_')) {
+      this.scene.tweens.add({
+        targets: spr,
+        angle: { from: -1.2, to: 1.2 },
+        duration: 3000 + Math.random() * 2000,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut',
+        delay: Math.random() * 2000,
+      });
+    }
 
     if (collides) {
       this.scene.physics.add.existing(spr, true);
@@ -621,7 +632,7 @@ export class WorldBuilder {
     grass.setOrigin(0, 0).setDepth(-1500);
 
     const cobble = this.scene.add.tileSprite(zoneX(1), zoneY(1), Z, Z, 'cobble_tile');
-    cobble.setOrigin(0, 0).setDepth(-1480).setAlpha(0.6);
+    cobble.setOrigin(0, 0).setDepth(-1480).setAlpha(0.65);
 
     const tints: [string, number][] = [
       ['cottage',       0x3a7028],
@@ -633,23 +644,109 @@ export class WorldBuilder {
       ['roseGarden',    0x305a28],
       ['maze',          0x202e18],
       ['crystalLake',   0x1e3828],
-      ['forgottenChurch',0x302820],
     ];
     for (const [key, col] of tints) {
       const cfg = ZONE_MAP.get(key);
       if (!cfg) continue;
       const { x, y, w, h } = cfg.bounds;
-      const r = this.scene.add.rectangle(x + w/2, y + h/2, w, h, col, 0.7);
+      const r = this.scene.add.rectangle(x + w/2, y + h/2, w, h, col, 0.22);
       r.setDepth(-1490);
     }
 
     const dots = this.scene.add.graphics().setDepth(-1470);
-    for (let i = 0; i < 2800; i++) {
-      const gx = OX + 10 + this.rand() * 2500;
-      const gy = OY + 10 + this.rand() * 2500;
-      const bright = this.rand() < 0.5;
-      dots.fillStyle(bright ? 0x4a9040 : 0x1e4818, this.rand() * 0.16 + 0.04);
-      dots.fillRect(gx, gy, 2 + this.rand() * 3, 2 + this.rand() * 2);
+    
+    // Procedural ground composition (moss, short grass, sand, dirt, leaf litter, twigs, flower petals)
+    for (let i = 0; i < 3500; i++) {
+      const gx = OX + 20 + this.rand() * 2480;
+      const gy = OY + 20 + this.rand() * 2480;
+      const roll = this.rand();
+      
+      if (roll < 0.25) {
+        // Moss patch / Grass clump
+        dots.fillStyle(0x224818, 0.18);
+        dots.fillCircle(gx, gy, 3 + this.rand() * 6);
+        dots.fillStyle(0x3a7028, 0.12);
+        dots.fillCircle(gx + 2, gy - 1, 2 + this.rand() * 4);
+      } else if (roll < 0.45) {
+        // Short grass tuft
+        dots.lineStyle(1.5, 0x4d9640, 0.4);
+        dots.lineBetween(gx, gy, gx, gy - 3 - this.rand() * 4);
+        dots.lineBetween(gx + 1, gy, gx + 2, gy - 2 - this.rand() * 3);
+      } else if (roll < 0.60) {
+        // Dirt / Mud patch
+        dots.fillStyle(0x705038, 0.15);
+        dots.fillEllipse(gx, gy, 6 + this.rand() * 12, 3 + this.rand() * 5);
+      } else if (roll < 0.70) {
+        // Sand spots (near lake or stream)
+        dots.fillStyle(0xd4c090, 0.16);
+        dots.fillCircle(gx, gy, 2 + this.rand() * 5);
+      } else if (roll < 0.82) {
+        // Twig / Leaf litter
+        dots.lineStyle(1.0, 0x5a3e20, 0.55);
+        dots.lineBetween(gx, gy, gx + 3 + this.rand() * 5, gy + this.rand() * 3);
+      } else {
+        // Scattered fallen flower petals matching the biome
+        let color = 0xffaabf; // default pink
+        const zoneX = Math.floor((gx - OX) / 840);
+        const zoneY = Math.floor((gy - OY) / 840);
+        
+        if (zoneX === 2 && zoneY === 1) { // Rose Garden
+          color = this.rand() > 0.4 ? 0xe02850 : 0xff4488; // Red/Pink
+        } else if (zoneX === 0 && zoneY === 0) { // Secret Garden / Meadow
+          color = this.rand() > 0.5 ? 0xf8c830 : 0xa060d8; // Yellow/Purple
+        } else if (zoneX === 2 && zoneY === 0) { // Cherry Garden
+          color = this.rand() > 0.5 ? 0xffbcd4 : 0xf8f0e8; // Pink/White
+        } else if (zoneX === 1 && zoneY === 0) { // Shrine
+          color = 0xfff0e8; // White
+        }
+        
+        dots.fillStyle(color, 0.45 + this.rand() * 0.4);
+        dots.fillRect(gx, gy, 2, 2);
+      }
+    }
+
+    // Path cracks, weeds, moss, and pebbles overlays along cobblestones
+    const pathBuf = 50;
+    const cx0 = zc(0), cx1 = zc(1), cx2 = zc(2);
+    const cy0 = zr(0), cy1 = zr(1), cy2 = zr(2);
+    
+    // We run a smaller loop to add detail specifically along the path corridors
+    for (let i = 0; i < 900; i++) {
+      let px = 0, py = 0;
+      const alongCol = this.rand() < 0.5;
+      
+      if (alongCol) {
+        // Coordinate along vertical spines
+        const col = this.rand() < 0.33 ? cx0 : (this.rand() < 0.5 ? cx1 : cx2);
+        px = col + (this.rand() * 2 - 1) * pathBuf;
+        py = OY + this.rand() * 2520;
+      } else {
+        // Coordinate along horizontal rows
+        const row = this.rand() < 0.33 ? cy0 : (this.rand() < 0.5 ? cy1 : cy2);
+        px = OX + this.rand() * 2520;
+        py = row + (this.rand() * 2 - 1) * pathBuf;
+      }
+      
+      const roll = this.rand();
+      if (roll < 0.25) {
+        // Path crack
+        dots.lineStyle(1.2, 0x302520, 0.48);
+        dots.lineBetween(px, py, px + 5 + this.rand() * 8, py + (this.rand() * 6 - 3));
+      } else if (roll < 0.55) {
+        // Moss growing in joints
+        dots.fillStyle(0x2a5020, 0.28);
+        dots.fillCircle(px, py, 2 + this.rand() * 4);
+      } else if (roll < 0.80) {
+        // Small weed growing on path
+        dots.lineStyle(1.2, 0x4a9040, 0.5);
+        dots.lineBetween(px, py, px, py - 3 - this.rand() * 3);
+      } else {
+        // Loose pebble
+        dots.fillStyle(0x888888, 0.7);
+        dots.fillCircle(px, py, 2 + this.rand() * 2);
+        dots.fillStyle(0xffffff, 0.4);
+        dots.fillRect(px - 1, py - 1, 1, 1);
+      }
     }
   }
 
@@ -830,12 +927,12 @@ export class WorldBuilder {
   private drawWaterFeatures(): void {
     const g = this.scene.add.graphics().setDepth(-1300);
 
-    // Crystal Lake (SE zone)
-    this.drawPond(g, zoneX(2)+420, zoneY(2)+395, 640, 380, false);
+    // Crystal Lake (E zone, row 1, col 2)
+    this.drawPond(g, zoneX(2)+420, zoneY(1)+395, 640, 380, false);
     
     // Add Crystal Lake water colliders (leaving a vertical corridor for the horizontal bridge)
     const clx = zoneX(2)+420; // 2240
-    const cly = zoneY(2)+395; // 2235
+    const cly = zoneY(1)+395; // 1395
     // Upper lake water collider (above the bridge)
     this.createWaterCollider(clx, cly - 105, 620, 150);
     // Lower lake water collider (below the bridge)
@@ -845,14 +942,14 @@ export class WorldBuilder {
     this.drawPond(g, zc(0)+60, zr(0)+120, 280, 160, true);
     this.createWaterCollider(zc(0)+60, zr(0)+120, 260, 140);
 
-    // Rose garden stream (E zone)
-    this.drawPond(g, zc(2)-80, zr(1)+220, 200, 110, true);
-    this.createWaterCollider(zc(2)-80, zr(1)+220, 180, 95);
+    // Rose garden stream (SW zone, row 2, col 0)
+    this.drawPond(g, zc(0)-80, zr(2)+220, 200, 110, true);
+    this.createWaterCollider(zc(0)-80, zr(2)+220, 180, 95);
 
     // Lily pads on lake
     for (let i = 0; i < 28; i++) {
       const lx = zoneX(2)+140 + this.rand() * 560;
-      const ly = zoneY(2)+230 + this.rand() * 320;
+      const ly = zoneY(1)+230 + this.rand() * 320;
       const lily = this.scene.add.sprite(lx, ly, this.rand() > 0.4 ? 'lily_pad' : 'flower_lily');
       lily.setScale(0.6 + this.rand() * 0.5).setDepth(ly - 4).setAlpha(0.9);
       this.scene.tweens.add({ targets: lily, y: ly + 5, duration: 1400 + this.rand()*1600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
@@ -877,6 +974,60 @@ export class WorldBuilder {
         }
       },
     });
+
+    // ── Waterfall Cascade (connecting Observatory to Crystal Lake) ──
+    const waterfallG = this.scene.add.graphics().setDepth(-1290);
+    const wfX = 2240; 
+    const wfYStart = zoneY(0) + 640; // ~800
+    const wfYEnd = zoneY(1) + 100;   // ~1080
+    
+    this.scene.time.addEvent({
+      delay: 50, loop: true,
+      callback: () => {
+        waterfallG.clear();
+        // Base cascading stream (rich teal-blue water)
+        waterfallG.fillStyle(0x1a5878, 0.75);
+        waterfallG.fillRect(wfX - 22, wfYStart, 44, wfYEnd - wfYStart);
+        
+        // Cascading white highlights running down
+        waterfallG.fillStyle(0xffffff, 0.95);
+        for (let j = 0; j < 14; j++) {
+          const speedFactor = 0.28;
+          const offset = (this.scene.time.now * speedFactor + j * 45) % (wfYEnd - wfYStart);
+          const wy = wfYStart + offset;
+          waterfallG.fillRect(wfX - 22 + Math.random() * 38, wy, 2.5 + Math.random() * 4, 10 + Math.random() * 12);
+        }
+        
+        // Bubbling foam at waterfall base
+        waterfallG.fillStyle(0xa8d8e8, 0.8);
+        for (let j = 0; j < 6; j++) {
+          waterfallG.fillCircle(wfX - 18 + Math.random() * 36, wfYEnd + Math.random() * 12, 5 + Math.random() * 8);
+        }
+        waterfallG.fillStyle(0xffffff, 0.9);
+        for (let j = 0; j < 4; j++) {
+          waterfallG.fillCircle(wfX - 12 + Math.random() * 24, wfYEnd + Math.random() * 8, 3 + Math.random() * 5);
+        }
+      }
+    });
+
+    // ── Underwater Fish Shadows (Crystal Lake) ──
+    for (let i = 0; i < 7; i++) {
+      const fx = zoneX(2) + 220 + Math.random() * 420;
+      const fy = zoneY(2) + 260 + Math.random() * 260;
+      const fish = this.scene.add.ellipse(fx, fy, 11, 4.5, 0x082030, 0.36);
+      fish.setDepth(-1296);
+      
+      // Gentle underwater swerving movement
+      this.scene.tweens.add({
+        targets: fish,
+        x: fx + (Math.random() > 0.5 ? 45 : -45),
+        y: fy + (Math.random() > 0.5 ? 22 : -22),
+        duration: 3500 + Math.random() * 2500,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut'
+      });
+    }
   }
 
   private drawPond(g: Phaser.GameObjects.Graphics, cx: number, cy: number, w: number, h: number, small: boolean): void {

@@ -32,7 +32,7 @@ export class PlayerSystem {
     this.scene = scene;
 
     // Create player sprite at Cottage
-    this.sprite = scene.add.sprite(1400, 2180, 'player_down');
+    this.sprite = scene.add.sprite(2392, 2392, 'player_down');
     this.sprite.setScale(PLAYER_SCALE);
     this.sprite.setDepth(100);
     this.sprite.setOrigin(0.5, 0.8);
@@ -113,13 +113,13 @@ export class PlayerSystem {
       const keyU = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
       
       if (Phaser.Input.Keyboard.JustDown(keyT)) {
-        this.setPosition(2240, 580);
+        this.setPosition(1400, 233); // Cherry Blossom Hill
       }
       if (Phaser.Input.Keyboard.JustDown(keyY)) {
-        this.setPosition(1400, 580);
+        this.setPosition(2392, 408); // Observatory / Birthday Garden area
       }
       if (Phaser.Input.Keyboard.JustDown(keyU)) {
-        this.setPosition(2240, 2260);
+        this.setPosition(1983, 1283); // Crystal Lake
       }
     }
 

@@ -11,6 +11,8 @@ export class EffectsManager {
   private petalTimer = 0;
   private pollenTimer = 0;
   private leafTimer = 0;
+  private footstepTimer = 0;
+  private waterfallSplashTimer = 0;
   private godRays: Phaser.GameObjects.Graphics | null = null;
 
   constructor(scene: GameScene) {
@@ -27,6 +29,8 @@ export class EffectsManager {
     this.updatePetals(dt);
     this.updatePollen(dt);
     this.updateLeaves(dt);
+    this.updateFootsteps(dt);
+    this.updateWaterfallSplashes(dt);
     this.drawGodRays(this.scene.time.now);
   }
 
@@ -283,12 +287,75 @@ export class EffectsManager {
     };
 
     // Multiple bursts
+    // Multiple bursts
     for (let i = 0; i < 8; i++) {
       createBurst(
         cx + randFloat(-200, 200),
         cy + randFloat(-250, -100),
         i * randInt(400, 800)
       );
+    }
+  }
+
+  private updateFootsteps(dt: number): void {
+    const player = this.scene.playerSystem.gameObject;
+    if (!player) return;
+
+    const body = player.body as Phaser.Physics.Arcade.Body;
+    if (!body || body.velocity.length() < 10) return;
+
+    this.footstepTimer += dt;
+    if (this.footstepTimer >= 0.25) {
+      this.footstepTimer = 0;
+
+      const px = player.x;
+      const py = player.y + 10;
+
+      // Play soft footstep sound
+      if (Math.random() < 0.65) {
+        this.scene.audioSystem.playFootstep();
+      }
+
+      // Spawn footsteps particles
+      const area = this.scene.currentArea;
+      const isWater = area === 'crystalLake';
+      const key = isWater ? 'particle_water_drop' : 'particle_pollen';
+      
+      for (let i = 0; i < 2; i++) {
+        const fx = px + randFloat(-6, 6);
+        const fy = py + randFloat(-2, 2);
+        const p = this.scene.add.sprite(fx, fy, key);
+        p.setScale(randFloat(0.4, 0.75));
+        p.setAlpha(0.6);
+        p.setDepth(fy - 1);
+        if (!isWater) p.setTint(0x7cba61); // Grass/pollen color green/teal
+
+        this.scene.tweens.add({
+          targets: p,
+          y: fy - randFloat(4, 9),
+          scale: 0,
+          alpha: 0,
+          duration: randInt(250, 450),
+          onComplete: () => p.destroy(),
+        });
+      }
+    }
+  }
+
+  private updateWaterfallSplashes(dt: number): void {
+    this.waterfallSplashTimer += dt;
+    if (this.waterfallSplashTimer >= 0.18) {
+      this.waterfallSplashTimer = 0;
+      
+      const wfX = 2240; // waterfall base X
+      const wfY = 1080; // waterfall base Y
+      
+      // Only splash if within camera viewport range to save performance
+      const cam = this.scene.cameras.main;
+      const dist = Phaser.Math.Distance.Between(cam.worldView.centerX, cam.worldView.centerY, wfX, wfY);
+      if (dist < 700) {
+        this.createWaterSplash(wfX + randFloat(-24, 24), wfY + randFloat(-6, 6));
+      }
     }
   }
 }

@@ -154,6 +154,10 @@ export const UI_ASSETS: AssetEntry[] = [
   { key: 'ui_button_interact', type: 'placeholder' },
   { key: 'ui_heart_filled',    type: 'placeholder' },
   { key: 'ui_heart_empty',     type: 'placeholder' },
+  { key: 'ui_minimap_player',   type: 'placeholder' },
+  { key: 'ui_minimap_memory',   type: 'placeholder' },
+  { key: 'ui_minimap_npc',      type: 'placeholder' },
+  { key: 'ui_minimap_landmark', type: 'placeholder' },
 ];
 
 // ── Environment Tiles ────────────────────────────────────────
@@ -164,6 +168,7 @@ export const ENV_ASSETS: AssetEntry[] = [
   { key: 'sand_tile',   type: 'placeholder' },
   { key: 'stone_tile',  type: 'placeholder' },
   { key: 'cobble_tile', type: 'placeholder' },
+  { key: 'marble_tile', type: 'placeholder' },
   { key: 'ocean_tile',  type: 'placeholder' },
 ];
 

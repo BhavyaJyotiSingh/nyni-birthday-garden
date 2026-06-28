@@ -20,6 +20,7 @@ import { AudioSystem } from '../systems/AudioSystem';
 import { CompanionSystem } from '../systems/CompanionSystem';
 import { NpcSystem } from '../systems/NpcSystem';
 import { WorldBuilder } from '../world/WorldBuilderHD2D';
+import { MinimapSystem } from '../systems/MinimapSystem';
 import { DIALOGUES } from '../data/dialogues';
 import { eventBus } from '../EventBus';
 
@@ -40,6 +41,7 @@ export class GameScene extends Phaser.Scene {
   public companionSystem!: CompanionSystem;
   public npcSystem!: NpcSystem;
   public worldBuilder!: WorldBuilder;
+  public minimapSystem!: MinimapSystem;
 
   // State
   public currentArea: AreaKey = 'cottage';
@@ -54,62 +56,79 @@ export class GameScene extends Phaser.Scene {
 
   create(): void {
     console.log('GameScene: create started');
-    // Set world bounds
-    this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+    try {
+      // Set world bounds
+      this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-    // Initialize systems (order matters)
-    this.saveSystem = new SaveSystem(this);
-    this.effectsManager = new EffectsManager(this);
-    this.flowerSystem = new FlowerSystem(this);
-    this.playerSystem = new PlayerSystem(this);
-    this.butterflySystem = new ButterflySystem(this);
-    this.interactionSystem = new InteractionSystem(this);
-    this.dialogueSystem = new DialogueSystem(this);
-    this.cameraSystem = new CameraSystem(this);
-    this.environmentManager = new EnvironmentManager(this);
-    this.uiSystem = new UISystem(this);
-    this.cutsceneManager = new CutsceneManager(this);
-    this.audioSystem = new AudioSystem(this);
-    this.companionSystem = new CompanionSystem(this);
-    this.npcSystem = new NpcSystem(this);
+      // Initialize systems (order matters)
+      this.saveSystem = new SaveSystem(this);
+      this.effectsManager = new EffectsManager(this);
+      this.flowerSystem = new FlowerSystem(this);
+      this.playerSystem = new PlayerSystem(this);
+      this.butterflySystem = new ButterflySystem(this);
+      this.interactionSystem = new InteractionSystem(this);
+      this.dialogueSystem = new DialogueSystem(this);
+      this.cameraSystem = new CameraSystem(this);
+      this.environmentManager = new EnvironmentManager(this);
+      this.uiSystem = new UISystem(this);
+      this.cutsceneManager = new CutsceneManager(this);
+      this.audioSystem = new AudioSystem(this);
+      this.companionSystem = new CompanionSystem(this);
+      this.npcSystem = new NpcSystem(this);
 
-    // Build the world (needs playerSystem and interactionSystem initialized)
-    this.worldBuilder = new WorldBuilder(this);
-    this.worldBuilder.build();
+      // Build the world (needs playerSystem and interactionSystem initialized)
+      this.worldBuilder = new WorldBuilder(this);
+      this.worldBuilder.build();
 
-    // Set up event listeners
-    this.setupEvents();
+      // Minimap System
+      this.minimapSystem = new MinimapSystem(this);
 
-    // Load save or start fresh
-    const saveData = this.saveSystem.load();
-    if (saveData) {
-      this.playerSystem.setPosition(saveData.playerX, saveData.playerY);
-      this.companionSystem.resetToPlayer(saveData.playerX, saveData.playerY);
-      this.environmentManager.setTime(saveData.timeProgress);
-      saveData.discoveredMemories.forEach((id: string) => {
-        this.interactionSystem.markMemoryDiscovered(id);
+      // Set up event listeners
+      this.setupEvents();
+
+      // Load save or start fresh
+      const saveData = this.saveSystem.load();
+      if (saveData) {
+        this.playerSystem.setPosition(saveData.playerX, saveData.playerY);
+        this.companionSystem.resetToPlayer(saveData.playerX, saveData.playerY);
+        this.environmentManager.setTime(saveData.timeProgress);
+        saveData.discoveredMemories.forEach((id: string) => {
+          this.interactionSystem.markMemoryDiscovered(id);
+        });
+        saveData.litLanterns.forEach((id: string) => {
+          this.interactionSystem.markLanternLit(id);
+        });
+        this.playerControlEnabled = true;
+        this.gameStarted = true;
+      } else {
+        // Start opening cutscene
+        this.time.delayedCall(500, () => {
+          this.cutsceneManager.playOpening();
+        });
+      }
+
+      // Auto-save timer
+      this.time.addEvent({
+        delay: 30000,
+        callback: () => this.saveGame(),
+        loop: true,
       });
-      saveData.litLanterns.forEach((id: string) => {
-        this.interactionSystem.markLanternLit(id);
-      });
-      this.playerControlEnabled = true;
-      this.gameStarted = true;
-    } else {
-      // Start opening cutscene
-      this.time.delayedCall(500, () => {
-        this.cutsceneManager.playOpening();
-      });
+
+      console.log('GameScene: create complete, emitting game-ready');
+      eventBus.emit('game-ready');
+    } catch (err: unknown) {
+      // Display error visually so we can debug the black screen
+      const errMsg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err);
+      console.error('GameScene create() CRASHED:', errMsg);
+      this.add.rectangle(0, 0, WORLD_WIDTH, WORLD_HEIGHT, 0x000000, 1).setOrigin(0, 0).setDepth(999990);
+      this.add.text(640, 360, `CRASH:\n${errMsg}`, {
+        fontSize: '16px',
+        color: '#ff4444',
+        backgroundColor: '#000000',
+        padding: { x: 12, y: 8 },
+        wordWrap: { width: 1200 },
+      }).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(999999);
     }
-
-    // Auto-save timer
-    this.time.addEvent({
-      delay: 30000,
-      callback: () => this.saveGame(),
-      loop: true,
-    });
-
-    console.log('GameScene: create complete, emitting game-ready');
-    eventBus.emit('game-ready');
   }
 
   private setupEvents(): void {
@@ -145,21 +164,38 @@ export class GameScene extends Phaser.Scene {
   update(_time: number, delta: number): void {
     if (!this.gameStarted && !this.cutsceneManager.isPlaying) return;
 
-    // Update all systems
-    this.playerSystem.update(delta);
-    this.flowerSystem.update(delta);
-    this.butterflySystem.update(delta);
-    this.interactionSystem.update();
-    this.cameraSystem.update(delta);
-    this.environmentManager.update(delta);
-    this.effectsManager.update(delta);
-    this.uiSystem.update();
-    this.cutsceneManager.update(delta);
-    this.companionSystem.update(delta);
-    this.npcSystem.update(delta);
+    try {
+      // Update all systems
+      this.playerSystem.update(delta);
+      this.flowerSystem.update(delta);
+      this.butterflySystem.update(delta);
+      this.interactionSystem.update();
+      this.cameraSystem.update(delta);
+      this.environmentManager.update(delta);
+      this.effectsManager.update(delta);
+      this.uiSystem.update();
+      this.cutsceneManager.update(delta);
+      this.companionSystem.update(delta);
+      this.npcSystem.update(delta);
+      this.minimapSystem.update(delta);
+      this.audioSystem.update(this.playerSystem.x, this.playerSystem.y);
 
-    // Check area transitions
-    this.checkAreaTransition();
+      // Check area transitions
+      this.checkAreaTransition();
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err);
+      console.error('GameScene update() CRASHED:', errMsg);
+      this.gameStarted = false;
+      this.playerControlEnabled = false;
+      this.add.rectangle(0, 0, WORLD_WIDTH, WORLD_HEIGHT, 0x000000, 1).setOrigin(0, 0).setDepth(999990);
+      this.add.text(640, 360, `CRASH IN UPDATE:\n${errMsg}`, {
+        fontSize: '16px',
+        color: '#ff4444',
+        backgroundColor: '#000000',
+        padding: { x: 12, y: 8 },
+        wordWrap: { width: 1200 },
+      }).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(999999);
+    }
   }
 
   private checkAreaTransition(): void {
@@ -202,7 +238,7 @@ export class GameScene extends Phaser.Scene {
     if (this.companionSystem) this.companionSystem.onAreaEntered(area);
 
     // Check for ending trigger
-    if (area === 'observatory' && !this.endingTriggered) {
+    if (area === 'cherryGarden' && !this.endingTriggered) {
       this.endingTriggered = true;
       this.time.delayedCall(2000, () => {
         this.cutsceneManager.playEndingMeet();

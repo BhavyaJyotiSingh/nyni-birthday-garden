@@ -353,6 +353,10 @@ export class InteractionSystem {
     return Array.from(this.discoveredMemories);
   }
 
+  getActiveMemoryOrbs(): MemoryData[] {
+    return MEMORIES.filter(m => !this.discoveredMemories.has(m.id));
+  }
+
   getLitLanterns(): string[] {
     return Array.from(this.litLanterns);
   }

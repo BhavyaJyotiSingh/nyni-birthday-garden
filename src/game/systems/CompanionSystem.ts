@@ -22,14 +22,15 @@ export class CompanionSystem {
   constructor(scene: GameScene) {
     this.scene = scene;
 
-    // Spawn Bhavya initially beneath the cherry tree in the Cherry Garden
-    // Coordinates: x: 2240, y: 600 (matching the cherry tree location in Cherry Garden)
-    this.ragdoll = scene.physics.add.sprite(2240, 600, 'ragdoll_cross_eyes');
+    // Spawn Bhavya initially near Crystal Lake (185, 118) units
+    // Coordinates: x: 2082, y: 1441
+    this.ragdoll = scene.physics.add.sprite(2082, 1441, 'ragdoll_cross_eyes');
     this.ragdoll.setScale(2.0);
     this.ragdoll.setOrigin(0.5, 0.7);
     this.ragdoll.setBounce(0.12);
     this.ragdoll.setDrag(600, 600); // heavy drag when dropped
     this.ragdoll.setCollideWorldBounds(true);
+    this.ragdoll.setVisible(false); // start invisible, visible when player approaches within 12 units
     
     const body = this.ragdoll.body as Phaser.Physics.Arcade.Body;
     body.setSize(16, 20);
@@ -103,6 +104,21 @@ export class CompanionSystem {
   }
 
   update(_delta: number): void {
+    // Reveal Bhavya when player is close (within 12 units = 126 pixels)
+    if (!this.ragdoll.visible && !this.endingMode) {
+      const px = this.scene.playerSystem.x;
+      const py = this.scene.playerSystem.y;
+      const d = Phaser.Math.Distance.Between(px, py, this.ragdoll.x, this.ragdoll.y);
+      if (d < 126) {
+        this.ragdoll.setVisible(true);
+        this.scene.effectsManager.createFireflyBurst?.(this.ragdoll.x, this.ragdoll.y - 12);
+        this.scene.audioSystem.playLightClick?.();
+      } else {
+        // Keep hidden and return early so he doesn't update or move
+        return;
+      }
+    }
+
     const body = this.ragdoll.body as Phaser.Physics.Arcade.Body;
 
     // Update coordinates for the interactable reference

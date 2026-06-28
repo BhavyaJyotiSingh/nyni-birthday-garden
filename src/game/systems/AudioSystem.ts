@@ -11,6 +11,8 @@ export class AudioSystem {
   private initialized = false;
   private windGain: GainNode | null = null;
   private ambientInterval: number | null = null;
+  private waterfallSource: AudioBufferSourceNode | null = null;
+  private waterfallGain: GainNode | null = null;
 
   constructor(scene: GameScene) {
 
@@ -27,6 +29,7 @@ export class AudioSystem {
 
         this.startWind();
         this.startBirdChirps();
+        this.startWaterfallNoise();
       } catch (_e) {
         // Audio not available
       }
@@ -290,6 +293,53 @@ export class AudioSystem {
     gain.connect(this.masterGain);
     osc.start(now);
     osc.stop(now + 0.08);
+  }
+
+  private startWaterfallNoise(): void {
+    if (!this.ctx || !this.masterGain) return;
+
+    const bufferSize = this.ctx.sampleRate * 2;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    this.waterfallSource = this.ctx.createBufferSource();
+    this.waterfallSource.buffer = buffer;
+    this.waterfallSource.loop = true;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 650;
+    filter.Q.value = 0.8;
+
+    this.waterfallGain = this.ctx.createGain();
+    this.waterfallGain.gain.value = 0; // starts silent
+
+    this.waterfallSource.connect(filter);
+    filter.connect(this.waterfallGain);
+    this.waterfallGain.connect(this.masterGain);
+    this.waterfallSource.start();
+  }
+
+  update(px: number, py: number): void {
+    if (!this.initialized || !this.waterfallGain) return;
+
+    const wfX = 2240; // waterfall base X
+    const wfY = 1080; // waterfall base Y
+
+    const dx = px - wfX;
+    const dy = py - wfY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    // Fades out at 800px away, maximum volume is 0.1
+    const maxRange = 800;
+    const volume = Math.max(0, 0.1 * (1 - dist / maxRange));
+
+    if (this.ctx) {
+      this.waterfallGain.gain.setTargetAtTime(volume, this.ctx.currentTime, 0.15);
+    }
   }
 
   destroy(): void {
