@@ -2,26 +2,17 @@
 // CutsceneManager — Opening, ending, and scripted sequences
 // ============================================================
 
-import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
 import { BIRTHDAY_MESSAGE } from '../data/memories';
 
 export class CutsceneManager {
   private scene: GameScene;
   private _isPlaying = false;
-  private npcSprite: Phaser.GameObjects.Sprite | null = null;
 
   get isPlaying(): boolean { return this._isPlaying; }
 
   constructor(scene: GameScene) {
     this.scene = scene;
-
-    // Create NPC in birthday garden (hidden initially)
-    this.npcSprite = scene.add.sprite(2400, 5950, 'npc_idle');
-    this.npcSprite.setScale(2);
-    this.npcSprite.setDepth(5950);
-    this.npcSprite.setOrigin(0.5, 0.8);
-    this.npcSprite.setVisible(false);
   }
 
   update(_delta: number): void {
@@ -70,23 +61,27 @@ export class CutsceneManager {
     this._isPlaying = false;
   }
 
-  /** Ending — player meets NPC */
+  /** Ending — player meets NPC (Bhavya stands) */
   async playEndingMeet(): Promise<void> {
     this._isPlaying = true;
     this.scene.playerControlEnabled = false;
 
-    // Show NPC
-    if (this.npcSprite) {
-      this.npcSprite.setVisible(true);
-      this.npcSprite.setAlpha(0);
+    const targetX = 2400;
+    const targetY = 480;
 
-      this.scene.tweens.add({
-        targets: this.npcSprite,
-        alpha: 1,
-        duration: 1000,
-        ease: 'Sine.easeOut',
-      });
-    }
+    // Teleport Bhavya's ragdoll beneath the Observatory tree and stand him up
+    this.scene.companionSystem.gameObject.setPosition(targetX, targetY);
+    this.scene.companionSystem.setEndingMode(true);
+    this.scene.companionSystem.gameObject.setVisible(true);
+    this.scene.companionSystem.gameObject.setAlpha(0);
+
+    // Fade Bhavya in standing
+    this.scene.tweens.add({
+      targets: this.scene.companionSystem.gameObject,
+      alpha: 1,
+      duration: 1200,
+      ease: 'Sine.easeOut',
+    });
 
     // Camera zooms in slightly
     this.scene.cameraSystem.zoomTo(1.1, 1500);
@@ -104,24 +99,24 @@ export class CutsceneManager {
     this.scene.playerControlEnabled = false;
 
     const targetX = 2400;
-    const targetY = 5950;
+    const targetY = 480;
 
-    // Walk player to NPC
-    await this.scene.playerSystem.walkTo(targetX - 30, targetY, 2000);
+    // Walk player close to standing Bhavya
+    await this.scene.playerSystem.walkTo(targetX - 40, targetY, 2000);
 
-    // Walk together to center
+    // Walk both slowly to the center beneath the giant cherry tree
     const centerX = 2400;
-    const centerY = 6000;
-
+    const centerY = 440;
     const walkDuration = 2500;
+
     this.scene.tweens.add({
-      targets: this.npcSprite,
-      x: centerX + 20,
+      targets: this.scene.companionSystem.gameObject,
+      x: centerX + 25,
       y: centerY,
       duration: walkDuration,
       ease: 'Sine.easeInOut',
     });
-    await this.scene.playerSystem.walkTo(centerX - 20, centerY, walkDuration);
+    await this.scene.playerSystem.walkTo(centerX - 25, centerY, walkDuration);
 
     await this.wait(500);
 
@@ -130,20 +125,32 @@ export class CutsceneManager {
     this._isPlaying = false;
   }
 
-  /** Ending finale — fireworks, butterflies, birthday message */
+  /** Ending finale — fireworks, butterflies, birthday message, cake */
   async playEndingFinale(): Promise<void> {
     this._isPlaying = true;
     this.scene.playerControlEnabled = false;
 
     const cx = 2400;
-    const cy = 6000;
+    const cy = 440;
 
-    // Camera circle
+    // Camera zooms out slightly for grand finale
     this.scene.cameraSystem.zoomTo(1.15, 1000);
+
+    // Spawn Birthday Cake
+    const cake = this.scene.add.sprite(cx, cy - 25, 'cake');
+    cake.setScale(0);
+    cake.setDepth(cy - 20);
+    this.scene.tweens.add({
+      targets: cake,
+      scaleX: 1.5,
+      scaleY: 1.5,
+      duration: 1200,
+      ease: 'Back.easeOut',
+    });
 
     // Bloom rapid flowers in circle
     for (let angle = 0; angle < Math.PI * 2; angle += 0.15) {
-      for (let r = 40; r < 180; r += 30) {
+      for (let r = 40; r < 200; r += 35) {
         const fx = cx + Math.cos(angle) * r;
         const fy = cy + Math.sin(angle) * r;
         this.scene.flowerSystem.tryBloomAt(fx, fy);

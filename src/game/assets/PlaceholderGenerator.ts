@@ -35,8 +35,8 @@ export class PlaceholderGenerator {
       this.drawCharacter(key);
     } else if (key.startsWith('cat_')) {
       this.drawCat(key);
-    } else if (key === 'ragdoll_cross_eyes') {
-      this.drawRagdoll();
+    } else if (key.startsWith('ragdoll_')) {
+      this.drawRagdoll(key);
     } else if (key.startsWith('flower_')) {
       this.drawFlower(key);
     } else if (key.startsWith('tree_')) {
@@ -146,31 +146,62 @@ export class PlaceholderGenerator {
     this.gfx.generateTexture(key, w, h);
   }
 
-  private drawRagdoll(): void {
+  private drawRagdoll(key: string): void {
     const w = 24, h = 32;
     this.gfx.clear();
 
+    const isStanding = key === 'ragdoll_standing';
+    const isOpen = key === 'ragdoll_open_eyes';
+
     this.gfx.fillStyle(0x000000, 0.15);
     this.gfx.fillEllipse(12, 29, 18, 4);
+
     this.gfx.fillStyle(0xf4d1b4, 1);
     this.gfx.fillRect(8, 5, 9, 9);
+
     this.gfx.fillStyle(0x6b3c22, 1);
     this.gfx.fillRect(7, 3, 11, 4);
-    this.gfx.lineStyle(1, 0x17121c, 1);
-    this.gfx.lineBetween(10, 8, 13, 11);
-    this.gfx.lineBetween(13, 8, 10, 11);
-    this.gfx.lineBetween(15, 8, 18, 11);
-    this.gfx.lineBetween(18, 8, 15, 11);
+
+    if (isStanding || isOpen) {
+      this.gfx.fillStyle(0xffffff, 1);
+      this.gfx.fillRect(9, 7, 2, 2);
+      this.gfx.fillRect(13, 7, 2, 2);
+      this.gfx.fillStyle(0x000000, 1);
+      this.gfx.fillRect(10, 8, 1, 1);
+      this.gfx.fillRect(14, 8, 1, 1);
+    } else {
+      this.gfx.lineStyle(1, 0x17121c, 1);
+      this.gfx.lineBetween(9, 7, 11, 9);
+      this.gfx.lineBetween(11, 7, 9, 9);
+      this.gfx.lineBetween(13, 7, 15, 9);
+      this.gfx.lineBetween(15, 7, 13, 9);
+    }
+
+    if (isStanding) {
+      this.gfx.fillStyle(0xe06b86, 1);
+      this.gfx.fillRect(10, 11, 4, 1);
+    } else {
+      this.gfx.fillStyle(0x17121c, 1);
+      this.gfx.fillRect(10, 11, 4, 1);
+    }
+
     this.gfx.fillStyle(0x6fa8dc, 1);
     this.gfx.fillRect(7, 14, 11, 10);
+
     this.gfx.fillStyle(0xf4d1b4, 1);
-    this.gfx.fillRect(4, 15, 4, 10);
-    this.gfx.fillRect(18, 15, 4, 10);
+    if (isStanding) {
+      this.gfx.fillRect(5, 14, 2, 8);
+      this.gfx.fillRect(17, 14, 2, 8);
+    } else {
+      this.gfx.fillRect(4, 15, 4, 10);
+      this.gfx.fillRect(18, 15, 4, 10);
+    }
+
     this.gfx.fillStyle(0x3d4f71, 1);
     this.gfx.fillRect(8, 24, 4, 6);
-    this.gfx.fillRect(14, 24, 4, 6);
+    this.gfx.fillRect(12, 24, 4, 6);
 
-    this.gfx.generateTexture('ragdoll_cross_eyes', w, h);
+    this.gfx.generateTexture(key, w, h);
   }
 
   private drawFlower(key: string): void {
@@ -644,6 +675,89 @@ export class PlaceholderGenerator {
         this.gfx.fillStyle(COLORS.stone1, 1);
         this.gfx.fillEllipse(rw * 0.42, rh * 0.38, rw * 0.35, rh * 0.22);
         this.gfx.generateTexture(key, rw, rh);
+        break;
+      }
+      case 'mirror': {
+        const w = 32, h = 48;
+        this.gfx.fillStyle(0x000000, 0.15);
+        this.gfx.fillEllipse(w / 2, h - 3, 20, 6);
+        // Frame
+        this.gfx.fillStyle(COLORS.woodDark, 1);
+        this.gfx.fillRect(w / 2 - 2, h - 16, 4, 14); // Stand post
+        this.gfx.fillRect(w / 2 - 10, h - 4, 20, 4); // Base
+        this.gfx.fillEllipse(w / 2, 20, 14, 18); // Outer frame
+        // Mirror Glass
+        this.gfx.fillStyle(0x88ccff, 1);
+        this.gfx.fillEllipse(w / 2, 20, 11, 15);
+        // Reflection highlight
+        this.gfx.fillStyle(0xffffff, 0.4);
+        this.gfx.fillEllipse(w / 2 - 3, 16, 4, 8);
+        this.gfx.generateTexture(key, w, h);
+        break;
+      }
+      case 'letter_table':
+      case 'table_empty': {
+        const empty = key === 'table_empty';
+        const w = 32, h = 32;
+        this.gfx.fillStyle(0x000000, 0.15);
+        this.gfx.fillEllipse(w / 2, h - 3, 22, 6);
+        // Table legs
+        this.gfx.fillStyle(COLORS.woodDark, 1);
+        this.gfx.fillRect(6, 12, 3, 18);
+        this.gfx.fillRect(23, 12, 3, 18);
+        // Table top
+        this.gfx.fillStyle(COLORS.woodMed, 1);
+        this.gfx.fillRect(2, 8, 28, 5);
+        
+        if (!empty) {
+          // Letter on top
+          this.gfx.fillStyle(0xffffff, 1);
+          this.gfx.fillRect(10, 6, 10, 6);
+          this.gfx.fillStyle(0x888888, 1);
+          this.gfx.fillRect(12, 8, 6, 1); // text line 1
+          this.gfx.fillRect(12, 10, 4, 1); // text line 2
+        }
+        this.gfx.generateTexture(key, w, h);
+        break;
+      }
+      case 'notebook': {
+        const w = 16, h = 16;
+        this.gfx.fillStyle(0x000000, 0.15);
+        this.gfx.fillEllipse(w / 2, h - 2, 10, 4);
+        // Cover
+        this.gfx.fillStyle(0x3b4f71, 1);
+        this.gfx.fillRect(2, 2, 12, 11);
+        // Pages
+        this.gfx.fillStyle(0xf0eee4, 1);
+        this.gfx.fillRect(3, 3, 10, 9);
+        this.gfx.fillStyle(0x3b4f71, 1);
+        this.gfx.fillRect(8, 2, 1, 12); // spine
+        this.gfx.generateTexture(key, w, h);
+        break;
+      }
+      case 'cake': {
+        const w = 32, h = 32;
+        this.gfx.fillStyle(0x000000, 0.15);
+        this.gfx.fillEllipse(w / 2, h - 3, 20, 5);
+        // Plate
+        this.gfx.fillStyle(0xdddddd, 1);
+        this.gfx.fillRect(4, h - 6, 24, 3);
+        // Cake base
+        this.gfx.fillStyle(0x5a3a28, 1);
+        this.gfx.fillRect(6, h - 18, 20, 12);
+        // Frosting pink
+        this.gfx.fillStyle(0xf2a0b5, 1);
+        this.gfx.fillRect(6, h - 21, 20, 3);
+        // White cream stripe
+        this.gfx.fillStyle(0xffffff, 1);
+        this.gfx.fillRect(6, h - 13, 20, 2);
+        // Candle
+        this.gfx.fillStyle(0xffea55, 1);
+        this.gfx.fillRect(w / 2 - 1, h - 27, 2, 6);
+        // Flame
+        this.gfx.fillStyle(0xff3333, 1);
+        this.gfx.fillCircle(w / 2, h - 29, 2);
+        this.gfx.generateTexture(key, w, h);
         break;
       }
       default: {

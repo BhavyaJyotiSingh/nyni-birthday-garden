@@ -18,6 +18,7 @@ import { SaveSystem } from '../systems/SaveSystem';
 import { CutsceneManager } from '../systems/CutsceneManager';
 import { AudioSystem } from '../systems/AudioSystem';
 import { CompanionSystem } from '../systems/CompanionSystem';
+import { NpcSystem } from '../systems/NpcSystem';
 import { WorldBuilder } from '../world/WorldBuilder';
 import { DIALOGUES } from '../data/dialogues';
 import { eventBus } from '../EventBus';
@@ -37,10 +38,11 @@ export class GameScene extends Phaser.Scene {
   public cutsceneManager!: CutsceneManager;
   public audioSystem!: AudioSystem;
   public companionSystem!: CompanionSystem;
+  public npcSystem!: NpcSystem;
   public worldBuilder!: WorldBuilder;
 
   // State
-  public currentArea: AreaKey = 'entranceGarden';
+  public currentArea: AreaKey = 'cottage';
   private visitedAreas: Set<string> = new Set();
   private gameStarted = false;
   public endingTriggered = false;
@@ -69,6 +71,7 @@ export class GameScene extends Phaser.Scene {
     this.cutsceneManager = new CutsceneManager(this);
     this.audioSystem = new AudioSystem(this);
     this.companionSystem = new CompanionSystem(this);
+    this.npcSystem = new NpcSystem(this);
 
     // Build the world (needs playerSystem and interactionSystem initialized)
     this.worldBuilder = new WorldBuilder(this);
@@ -153,6 +156,7 @@ export class GameScene extends Phaser.Scene {
     this.uiSystem.update();
     this.cutsceneManager.update(delta);
     this.companionSystem.update(delta);
+    this.npcSystem.update(delta);
 
     // Check area transitions
     this.checkAreaTransition();
@@ -193,8 +197,12 @@ export class GameScene extends Phaser.Scene {
       }
     }
 
+    // Notify NPC and Companion systems
+    if (this.npcSystem) this.npcSystem.onAreaEntered(area);
+    if (this.companionSystem) this.companionSystem.onAreaEntered(area);
+
     // Check for ending trigger
-    if (area === 'birthdayGarden' && !this.endingTriggered) {
+    if (area === 'observatory' && !this.endingTriggered) {
       this.endingTriggered = true;
       this.time.delayedCall(2000, () => {
         this.cutsceneManager.playEndingMeet();

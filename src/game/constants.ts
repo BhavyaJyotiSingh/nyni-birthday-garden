@@ -121,46 +121,64 @@ export const TIME_PHASES = {
 
 // Area definitions
 export const AREAS = {
-  entranceGarden: {
-    name: 'Entrance Garden',
-    x: 1600, y: 0,
-    width: 1600, height: 800,
+  cottage: {
+    name: 'Cottage',
+    x: 1000, y: 5400,
+    width: 1400, height: 1000,
     music: 'gentle',
   },
-  flowerMeadow: {
-    name: 'Flower Meadow',
-    x: 1200, y: 800,
-    width: 2400, height: 1000,
+  secretGarden: {
+    name: 'Secret Garden',
+    x: 2400, y: 5400,
+    width: 1400, height: 1000,
     music: 'peaceful',
   },
-  cherryBlossomForest: {
-    name: 'Cherry Blossom Forest',
-    x: 1000, y: 1800,
-    width: 2000, height: 1200,
+  roseGarden: {
+    name: 'Rose Garden',
+    x: 1000, y: 4400,
+    width: 1400, height: 1000,
     music: 'dreamy',
   },
   crystalLake: {
     name: 'Crystal Lake',
-    x: 800, y: 3000,
-    width: 2800, height: 1000,
+    x: 2400, y: 4400,
+    width: 1400, height: 1000,
     music: 'serene',
   },
-  lanternGarden: {
-    name: 'Lantern Garden',
-    x: 1400, y: 4000,
-    width: 1600, height: 1000,
+  greenhouse: {
+    name: 'Greenhouse',
+    x: 1000, y: 3400,
+    width: 1400, height: 1000,
     music: 'mystical',
   },
-  sunflowerField: {
-    name: 'Sunflower Field',
-    x: 1000, y: 5000,
-    width: 2200, height: 600,
+  centralPlaza: {
+    name: 'Central Plaza',
+    x: 2400, y: 3400,
+    width: 1400, height: 1000,
     music: 'warm',
   },
-  birthdayGarden: {
-    name: 'Birthday Garden',
-    x: 1000, y: 5600,
-    width: 2800, height: 800,
+  maze: {
+    name: 'Maze',
+    x: 1000, y: 2200,
+    width: 1400, height: 1200,
+    music: 'mystical',
+  },
+  cherryGarden: {
+    name: 'Cherry Garden',
+    x: 2400, y: 2200,
+    width: 1400, height: 1200,
+    music: 'peaceful',
+  },
+  forgottenChurch: {
+    name: 'Forgotten Church',
+    x: 1400, y: 1000,
+    width: 2000, height: 1200,
+    music: 'serene',
+  },
+  observatory: {
+    name: 'Observatory',
+    x: 1700, y: 0,
+    width: 1400, height: 1000,
     music: 'celebration',
   },
 } as const;

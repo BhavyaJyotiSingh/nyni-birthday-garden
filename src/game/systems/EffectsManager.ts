@@ -25,37 +25,37 @@ export class EffectsManager {
 
   private updatePetals(dt: number): void {
     this.petalTimer += dt;
-    if (this.petalTimer < 0.8) return;
+    if (this.petalTimer < 0.6) return;
     this.petalTimer = 0;
 
-    // Only spawn if in cherry blossom area or birthday garden
     const area = this.scene.currentArea;
-    if (area !== 'cherryBlossomForest' && area !== 'birthdayGarden') return;
+    // Spawn if in cherry garden or observatory
+    if (area !== 'cherryGarden' && area !== 'observatory') return;
 
     const cam = this.scene.cameras.main;
     const px = this.scene.playerSystem.x;
     const py = this.scene.playerSystem.y;
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       const petal = this.scene.add.sprite(
         px + randFloat(-cam.width / 2, cam.width / 2),
         py - cam.height / 2 - 20,
         Math.random() > 0.5 ? 'particle_petal_pink' : 'particle_petal_white'
       );
-      petal.setScale(randFloat(0.8, 1.5));
+      petal.setScale(randFloat(0.8, 1.6));
       petal.setAlpha(randFloat(0.5, 0.9));
       petal.setDepth(97000);
 
-      const endX = petal.x + randFloat(-100, 100);
+      const endX = petal.x + randFloat(-150, 150);
       const endY = py + cam.height / 2 + 30;
 
       this.scene.tweens.add({
         targets: petal,
         x: endX,
         y: endY,
-        rotation: randFloat(-2, 2),
+        rotation: randFloat(-3, 3),
         alpha: 0,
-        duration: randInt(3000, 6000),
+        duration: randInt(3500, 6500),
         ease: 'Sine.easeIn',
         onComplete: () => petal.destroy(),
       });
@@ -64,32 +64,33 @@ export class EffectsManager {
 
   private updatePollen(dt: number): void {
     this.pollenTimer += dt;
-    if (this.pollenTimer < 2) return;
+    if (this.pollenTimer < 1.5) return;
     this.pollenTimer = 0;
 
     const area = this.scene.currentArea;
-    if (area !== 'flowerMeadow' && area !== 'sunflowerField') return;
+    // Spawn in rose garden or secret garden
+    if (area !== 'roseGarden' && area !== 'secretGarden') return;
 
     const cam = this.scene.cameras.main;
     const px = this.scene.playerSystem.x;
     const py = this.scene.playerSystem.y;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const pollen = this.scene.add.sprite(
         px + randFloat(-cam.width / 2, cam.width / 2),
         py + randFloat(-cam.height / 2, cam.height / 2),
         'particle_pollen'
       );
-      pollen.setScale(randFloat(0.5, 1.0));
+      pollen.setScale(randFloat(0.5, 1.2));
       pollen.setAlpha(0);
       pollen.setDepth(96000);
 
       this.scene.tweens.add({
         targets: pollen,
-        x: pollen.x + randFloat(-40, 40),
-        y: pollen.y - randFloat(20, 60),
-        alpha: { from: 0, to: 0.4 },
-        duration: randInt(3000, 5000),
+        x: pollen.x + randFloat(-50, 50),
+        y: pollen.y - randFloat(30, 70),
+        alpha: { from: 0, to: 0.5 },
+        duration: randInt(2500, 4500),
         yoyo: true,
         ease: 'Sine.easeInOut',
         onComplete: () => pollen.destroy(),
@@ -99,11 +100,11 @@ export class EffectsManager {
 
   private updateLeaves(dt: number): void {
     this.leafTimer += dt;
-    if (this.leafTimer < 3) return;
+    if (this.leafTimer < 2.5) return;
     this.leafTimer = 0;
 
     const area = this.scene.currentArea;
-    if (area !== 'cherryBlossomForest' && area !== 'flowerMeadow') return;
+    if (area !== 'cottage' && area !== 'greenhouse') return;
 
     const cam = this.scene.cameras.main;
     const px = this.scene.playerSystem.x;
@@ -128,6 +129,75 @@ export class EffectsManager {
       ease: 'Sine.easeIn',
       onComplete: () => leaf.destroy(),
     });
+  }
+
+  /** Spooky burst of fireflies */
+  createFireflyBurst(x: number, y: number): void {
+    for (let i = 0; i < 15; i++) {
+      const angle = randFloat(0, Math.PI * 2);
+      const dist = randFloat(10, 45);
+      const ff = this.scene.add.sprite(x, y, 'particle_firefly');
+      ff.setScale(randFloat(1.5, 3.5));
+      ff.setDepth(99000);
+      ff.setAlpha(0.85);
+
+      this.scene.tweens.add({
+        targets: ff,
+        x: x + Math.cos(angle) * dist,
+        y: y + Math.sin(angle) * dist - randFloat(10, 30),
+        alpha: 0,
+        scale: 0,
+        duration: randInt(800, 1600),
+        ease: 'Cubic.easeOut',
+        onComplete: () => ff.destroy(),
+      });
+    }
+  }
+
+  /** Splash effect for disappearing bridge */
+  createWaterSplash(x: number, y: number): void {
+    for (let i = 0; i < 20; i++) {
+      const angle = randFloat(-Math.PI, 0); // upward splash
+      const speed = randFloat(30, 90);
+      const drop = this.scene.add.sprite(x, y, 'particle_water_drop');
+      drop.setScale(randFloat(1.0, 2.5));
+      drop.setDepth(98000);
+      drop.setAlpha(0.9);
+
+      this.scene.tweens.add({
+        targets: drop,
+        x: x + Math.cos(angle) * speed,
+        y: y + Math.sin(angle) * speed + 50, // falls down under gravity
+        alpha: 0,
+        duration: randInt(600, 1000),
+        ease: 'Quad.easeOut',
+        onComplete: () => drop.destroy(),
+      });
+    }
+  }
+
+  /** Small dust puff for Bhavya's sudden collapse */
+  createDustCollapse(x: number, y: number): void {
+    for (let i = 0; i < 10; i++) {
+      const angle = randFloat(0, Math.PI * 2);
+      const dist = randFloat(5, 25);
+      const dust = this.scene.add.sprite(x, y, 'particle_sparkle');
+      dust.setScale(randFloat(1.5, 3.0));
+      dust.setDepth(y + 1);
+      dust.setAlpha(0.6);
+      dust.setTint(0xcccccc); // dust color
+
+      this.scene.tweens.add({
+        targets: dust,
+        x: x + Math.cos(angle) * dist,
+        y: y + Math.sin(angle) * dist - 5,
+        alpha: 0,
+        scale: 0,
+        duration: randInt(400, 800),
+        ease: 'Quad.easeOut',
+        onComplete: () => dust.destroy(),
+      });
+    }
   }
 
   /** Create fireworks at position (for ending) */

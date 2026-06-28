@@ -184,6 +184,114 @@ export class AudioSystem {
     osc.stop(now + 0.38);
   }
 
+  /** Play a procedural light click sound */
+  playLightClick(): void {
+    if (!this.ctx || !this.masterGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(1200, now);
+    osc.frequency.linearRampToValueAtTime(100, now + 0.02);
+
+    gain.gain.setValueAtTime(0.04, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(now);
+    osc.stop(now + 0.02);
+  }
+
+  /** Play procedural rustle sound (paper/leaves/wind gust) */
+  playRustle(): void {
+    if (!this.ctx || !this.masterGain) return;
+
+    const now = this.ctx.currentTime;
+    const bufferSize = this.ctx.sampleRate * 0.25;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noiseSource = this.ctx.createBufferSource();
+    noiseSource.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(2500, now);
+    filter.Q.setValueAtTime(3, now);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.03, now + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+    noiseSource.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.masterGain);
+
+    noiseSource.start(now);
+    noiseSource.stop(now + 0.25);
+  }
+
+  /** Play procedural water splash sound */
+  playSplash(): void {
+    if (!this.ctx || !this.masterGain) return;
+
+    const now = this.ctx.currentTime;
+    const bufferSize = this.ctx.sampleRate * 0.6;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noiseSource = this.ctx.createBufferSource();
+    noiseSource.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(800, now);
+    filter.frequency.exponentialRampToValueAtTime(150, now + 0.5);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.05, now + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+    noiseSource.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.masterGain);
+
+    noiseSource.start(now);
+    noiseSource.stop(now + 0.6);
+  }
+
+  /** Play procedural soft footstep sound */
+  playFootstep(): void {
+    if (!this.ctx || !this.masterGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(110, now);
+    osc.frequency.linearRampToValueAtTime(40, now + 0.08);
+
+    gain.gain.setValueAtTime(0.025, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(now);
+    osc.stop(now + 0.08);
+  }
+
   destroy(): void {
     if (this.ambientInterval) clearInterval(this.ambientInterval);
     if (this.ctx) this.ctx.close();

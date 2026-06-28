@@ -1,6 +1,5 @@
 // ============================================================
 // Memory Data — Heartfelt texts discovered throughout the world
-// Edit these messages to personalize the game.
 // ============================================================
 
 export interface MemoryData {
@@ -15,9 +14,9 @@ export interface MemoryData {
 export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_beginning',
-    area: 'entranceGarden',
-    x: 2200,
-    y: 350,
+    area: 'cottage',
+    x: 1700,
+    y: 5600,
     title: 'A New Beginning',
     lines: [
       'Every love story has a beginning...',
@@ -28,9 +27,9 @@ export const MEMORIES: MemoryData[] = [
   },
   {
     id: 'memory_first_walk',
-    area: 'flowerMeadow',
-    x: 2100,
-    y: 1200,
+    area: 'secretGarden',
+    x: 2900,
+    y: 5700,
     title: 'Our First Walk',
     lines: [
       'Do you remember our first walk together?',
@@ -41,9 +40,9 @@ export const MEMORIES: MemoryData[] = [
   },
   {
     id: 'memory_laughter',
-    area: 'cherryBlossomForest',
+    area: 'roseGarden',
     x: 1800,
-    y: 2400,
+    y: 4700,
     title: 'Your Laughter',
     lines: [
       'Your laughter is my favorite sound.',
@@ -55,8 +54,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_quiet_moment',
     area: 'crystalLake',
-    x: 2000,
-    y: 3400,
+    x: 3400,
+    y: 4500,
     title: 'Quiet Moments',
     lines: [
       'Some of my favorite memories are the quiet ones.',
@@ -66,55 +65,55 @@ export const MEMORIES: MemoryData[] = [
     ],
   },
   {
-    id: 'memory_light',
-    area: 'lanternGarden',
+    id: 'memory_greenhouse',
+    area: 'greenhouse',
+    x: 1700,
+    y: 3800,
+    title: 'Cozy Shelters',
+    lines: [
+      'Like plants in a greenhouse, we built our own shelter.',
+      'A warm, quiet space away from all the noise outside.',
+      'Safe from the cold wind.',
+      'Just you, me, and the things we grew together.',
+    ],
+  },
+  {
+    id: 'memory_plaza',
+    area: 'centralPlaza',
+    x: 3100,
+    y: 3600,
+    title: 'Shared Journeys',
+    lines: [
+      'In the middle of the busy city plaza, I held your hand.',
+      'The noise of the crowd faded away completely.',
+      'It didn\'t matter where we were heading...',
+      'As long as we were walking together.',
+    ],
+  },
+  {
+    id: 'memory_maze',
+    area: 'maze',
     x: 2200,
-    y: 4400,
-    title: 'My Light',
+    y: 2400,
+    title: 'Finding Each Other',
     lines: [
-      'You are the light that guides me home.',
-      'On dark days, you shine the brightest.',
-      'You make even the ordinary feel magical.',
-      'Like lanterns in a garden of stars.',
+      'Sometimes the paths were confusing and tangled.',
+      'Like a maze with no clear exit.',
+      'But we always found our way back to each other.',
+      'Because our hearts knew the way.',
     ],
   },
   {
-    id: 'memory_growing',
-    area: 'sunflowerField',
-    x: 2000,
-    y: 5200,
-    title: 'Growing Together',
-    lines: [
-      'Like sunflowers, we grow toward the light.',
-      'Every day with you, I become a better person.',
-      'We have grown so much together...',
-      'And I cannot wait to see where we bloom next.',
-    ],
-  },
-  {
-    id: 'memory_promise',
-    area: 'birthdayGarden',
+    id: 'memory_church',
+    area: 'forgottenChurch',
     x: 2200,
-    y: 5800,
-    title: 'A Promise',
+    y: 1200,
+    title: 'A Silent Vow',
     lines: [
-      'I want to fill your life with beautiful moments.',
-      'To be the person who makes your heart feel safe.',
-      'Today, on your birthday, I want you to know...',
-      'That every path I walk, I want to walk with you.',
-    ],
-  },
-  {
-    id: 'memory_heart',
-    area: 'birthdayGarden',
-    x: 2600,
-    y: 6050,
-    title: 'My Heart',
-    lines: [
-      'If this garden could speak...',
-      'It would tell you that every flower is a thought of you.',
-      'Every petal, a moment I have cherished.',
-      'And every path, a promise that I will always be here.',
+      'Under the high arches of the quiet church...',
+      'We made a silent promise to each other.',
+      'To stand by one another through the seasons.',
+      'A vow that time itself cannot erase.',
     ],
   },
 ];

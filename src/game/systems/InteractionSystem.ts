@@ -29,8 +29,21 @@ export class InteractionSystem {
   private promptSprite: Phaser.GameObjects.Text | null = null;
   private cooldown = 0;
 
+  // Psychological event flags
+  private letterRead = false;
+  private letterVanished = false;
+  private bridgeDisappeared = false;
+  private mirrorReflection: Phaser.GameObjects.Sprite | null = null;
+
   constructor(scene: GameScene) {
     this.scene = scene;
+
+    // Listen to letter read completion
+    scene.events.on('dialogue-complete', (dialogueId: string) => {
+      if (dialogueId === 'read_letter') {
+        this.letterRead = true;
+      }
+    });
 
     if (scene.input.keyboard) {
       this.interactKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
@@ -111,6 +124,90 @@ export class InteractionSystem {
     this.cooldown = Math.max(0, this.cooldown - 1);
     const px = this.scene.playerSystem.x;
     const py = this.scene.playerSystem.y;
+
+    // ── Psychological Event: Vanishing Letter
+    if (this.letterRead && !this.letterVanished) {
+      const letterTableObj = this.interactables.find(i => i.id === 'cottage_letter_table');
+      if (letterTableObj) {
+        if (dist(px, py, letterTableObj.x, letterTableObj.y) > 150) {
+          this.letterVanished = true;
+          if (letterTableObj.sprite) {
+            letterTableObj.sprite.setTexture('table_empty');
+            this.scene.effectsManager.createFireflyBurst(letterTableObj.x, letterTableObj.y);
+            this.scene.audioSystem.playRustle();
+          }
+          this.interactables = this.interactables.filter(i => i.id !== 'cottage_letter_table');
+        }
+      }
+    }
+
+    // ── Psychological Event: Disappearing Bridge
+    if (!this.bridgeDisappeared) {
+      const bridgeObj = this.scene.children.list.find(
+        c => c.active && (c as any).id === 'crystal_lake_bridge'
+      ) as Phaser.GameObjects.Sprite | undefined;
+
+      if (bridgeObj) {
+        if (py > 5050 && dist(px, py, bridgeObj.x, bridgeObj.y) > 180) {
+          this.bridgeDisappeared = true;
+          this.scene.tweens.add({
+            targets: bridgeObj,
+            alpha: 0,
+            duration: 1000,
+            ease: 'Sine.easeIn',
+            onComplete: () => {
+              if (bridgeObj.body) {
+                (bridgeObj.body as Phaser.Physics.Arcade.StaticBody).destroy();
+              }
+              bridgeObj.destroy();
+            }
+          });
+          this.scene.effectsManager.createWaterSplash(bridgeObj.x, bridgeObj.y);
+          this.scene.audioSystem.playSplash();
+        }
+      }
+    }
+
+    // ── Psychological Event: Mirror Reflection
+    const activeMirror = this.interactables.find(i => i.type === 'mirror');
+    if (activeMirror) {
+      const d = dist(px, py, activeMirror.x, activeMirror.y);
+      if (d < 120) {
+        if (!this.mirrorReflection) {
+          this.mirrorReflection = this.scene.add.sprite(activeMirror.x, activeMirror.y - 12, 'ragdoll_cross_eyes');
+          this.mirrorReflection.setScale(1.6);
+          this.mirrorReflection.setDepth(activeMirror.y - 1);
+          this.mirrorReflection.setAlpha(0);
+        }
+        const reflectX = activeMirror.x - (px - activeMirror.x) * 0.8;
+        this.mirrorReflection.setX(reflectX);
+        this.mirrorReflection.setAlpha(Phaser.Math.Clamp((120 - d) / 80, 0, 0.7));
+        this.mirrorReflection.setFlipX(this.scene.playerSystem.direction === 'left');
+      } else if (this.mirrorReflection) {
+        this.mirrorReflection.destroy();
+        this.mirrorReflection = null;
+      }
+    }
+
+    // ── Psychological Event: Self-Lighting Lanterns
+    if (this.scene.playerSystem.isWalking) {
+      const dir = this.scene.playerSystem.direction;
+      for (const obj of this.interactables) {
+        if (obj.type === 'lantern' && !this.litLanterns.has(obj.id)) {
+          const d = dist(px, py, obj.x, obj.y);
+          let isBehind = false;
+          if (dir === 'up' && obj.y > py) isBehind = true;
+          else if (dir === 'down' && obj.y < py) isBehind = true;
+          else if (dir === 'left' && obj.x > px) isBehind = true;
+          else if (dir === 'right' && obj.x < px) isBehind = true;
+
+          if (d < 150 && isBehind) {
+            this.lightLantern(obj);
+            this.scene.audioSystem.playLightClick();
+          }
+        }
+      }
+    }
 
     // Find nearest interactable
     let nearest: InteractableObject | null = null;
@@ -267,5 +364,13 @@ export class InteractionSystem {
         this.lightLantern(obj);
       }
     }
+  }
+
+  getInteractables(): InteractableObject[] {
+    return this.interactables;
+  }
+
+  getInteractable(id: string): InteractableObject | undefined {
+    return this.interactables.find(i => i.id === id);
   }
 }

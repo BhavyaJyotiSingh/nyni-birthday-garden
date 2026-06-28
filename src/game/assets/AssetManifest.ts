@@ -27,6 +27,8 @@ export const NPC_ASSETS: AssetEntry[] = [
   { key: 'cat_orange', type: 'placeholder' },
   { key: 'cat_gray', type: 'placeholder' },
   { key: 'ragdoll_cross_eyes', type: 'placeholder' },
+  { key: 'ragdoll_open_eyes', type: 'placeholder' },
+  { key: 'ragdoll_standing', type: 'placeholder' },
 ];
 
 // ── Flowers ─────────────────────────────────────────────────
@@ -75,6 +77,11 @@ export const STRUCTURE_ASSETS: AssetEntry[] = [
   { key: 'sign_post',    type: 'placeholder' },
   { key: 'stone_path',   type: 'placeholder' },
   { key: 'dock',         type: 'placeholder' },
+  { key: 'mirror',       type: 'placeholder' },
+  { key: 'letter_table', type: 'placeholder' },
+  { key: 'table_empty',  type: 'placeholder' },
+  { key: 'notebook',     type: 'placeholder' },
+  { key: 'cake',         type: 'placeholder' },
 ];
 
 // ── Butterflies ─────────────────────────────────────────────

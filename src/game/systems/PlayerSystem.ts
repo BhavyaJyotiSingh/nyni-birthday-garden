@@ -16,6 +16,8 @@ export class PlayerSystem {
   private isMoving = false;
   private _lastFlowerX = 0;
   private _lastFlowerY = 0;
+  private stillTime = 0;
+  private footstepsTriggered = false;
 
   // Mobile joystick input
   public joystickVector = { x: 0, y: 0 };
@@ -29,8 +31,8 @@ export class PlayerSystem {
   constructor(scene: GameScene) {
     this.scene = scene;
 
-    // Create player sprite at entrance garden
-    this.sprite = scene.add.sprite(2400, 250, 'player_down');
+    // Create player sprite at Cottage
+    this.sprite = scene.add.sprite(1700, 5930, 'player_down');
     this.sprite.setScale(PLAYER_SCALE);
     this.sprite.setDepth(100);
     this.sprite.setOrigin(0.5, 0.8);
@@ -94,12 +96,30 @@ export class PlayerSystem {
     this.handleInput();
     this.updateAnimation();
     this.checkFlowerSpawn();
+    this.checkStandingFootsteps(_delta);
 
     // Depth sort by Y position
     this.sprite.setDepth(this.sprite.y);
   }
 
   private handleInput(): void {
+    // Teleport Cheat Keys for Testing (T: Cherry Garden, Y: Observatory, U: Crystal Lake)
+    if (this.scene.input.keyboard) {
+      const keyT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+      const keyY = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
+      const keyU = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+      
+      if (Phaser.Input.Keyboard.JustDown(keyT)) {
+        this.setPosition(3100, 2750);
+      }
+      if (Phaser.Input.Keyboard.JustDown(keyY)) {
+        this.setPosition(2400, 500);
+      }
+      if (Phaser.Input.Keyboard.JustDown(keyU)) {
+        this.setPosition(3400, 4500);
+      }
+    }
+
     let vx = 0;
     let vy = 0;
 
@@ -183,5 +203,67 @@ export class PlayerSystem {
         onComplete: () => resolve(),
       });
     });
+  }
+
+  private checkStandingFootsteps(delta: number): void {
+    if (this.isMoving) {
+      this.stillTime = 0;
+      this.footstepsTriggered = false;
+      return;
+    }
+
+    this.stillTime += delta;
+
+    if (this.stillTime >= 2400 && !this.footstepsTriggered) {
+      this.footstepsTriggered = true;
+
+      // Play first footstep
+      this.scene.audioSystem.playFootstep();
+      
+      const ox = this.facing === 'left' ? 20 : this.facing === 'right' ? -20 : 0;
+      const oy = this.facing === 'up' ? 20 : this.facing === 'down' ? -20 : 15;
+      
+      const particle1 = this.scene.add.sprite(this.sprite.x + ox, this.sprite.y + oy, 'particle_leaf');
+      particle1.setScale(0.8);
+      particle1.setAlpha(0.5);
+      particle1.setDepth(this.sprite.y - 1);
+      this.scene.tweens.add({
+        targets: particle1,
+        y: particle1.y - 10,
+        alpha: 0,
+        duration: 500,
+        onComplete: () => particle1.destroy()
+      });
+
+      // Play second footstep 250ms later
+      this.scene.time.delayedCall(250, () => {
+        this.scene.audioSystem.playFootstep();
+        const particle2 = this.scene.add.sprite(this.sprite.x + ox + (Math.random() - 0.5) * 10, this.sprite.y + oy, 'particle_leaf');
+        particle2.setScale(0.8);
+        particle2.setAlpha(0.5);
+        particle2.setDepth(this.sprite.y - 1);
+        this.scene.tweens.add({
+          targets: particle2,
+          y: particle2.y - 10,
+          alpha: 0,
+          duration: 500,
+          onComplete: () => particle2.destroy()
+        });
+      });
+    }
+  }
+
+  setPosition(x: number, y: number): void {
+    this.sprite.setPosition(x, y);
+    if (this.sprite.body) {
+      (this.sprite.body as Phaser.Physics.Arcade.Body).reset(x, y);
+    }
+  }
+
+  getHandPosition(): { x: number; y: number } {
+    return {
+      x: this.sprite.x + (this.facing === 'left' ? -12 : this.facing === 'right' ? 12 : 0),
+      y: this.sprite.y - 12
+    };
   }
 }
