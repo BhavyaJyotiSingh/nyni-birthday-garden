@@ -5,180 +5,182 @@
 export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720;
 
-export const TILE_SIZE = 32;
+export const TILE_SIZE = 16; // Native 16-bit tile unit
 
-// World dimensions (in pixels) — seamless connected world
-export const WORLD_WIDTH = 4800;
-export const WORLD_HEIGHT = 6400;
+// World dimensions (in pixels) — intimate garden world (scaled down from old 4800×6400)
+export const WORLD_WIDTH = 3200;
+export const WORLD_HEIGHT = 4000;
 
 // Player
-export const PLAYER_SPEED = 120;
-export const PLAYER_ACCEL = 600;
-export const PLAYER_DECEL = 400;
+export const PLAYER_SPEED = 100;
+export const PLAYER_ACCEL = 500;
+export const PLAYER_DECEL = 350;
 export const PLAYER_SPRITE_W = 16;
 export const PLAYER_SPRITE_H = 24;
-export const PLAYER_SCALE = 2;
+export const PLAYER_SCALE = 3; // Scale up for crisp 16-bit look
 
 // Flower system
-export const FLOWER_CELL_SIZE = 28;
+export const FLOWER_CELL_SIZE = 24;
 export const FLOWERS_PER_CLUSTER_MIN = 3;
 export const FLOWERS_PER_CLUSTER_MAX = 6;
 export const FLOWER_BLOOM_DURATION = 600;
-export const FLOWER_SWAY_DURATION = 2000;
-export const MAX_ACTIVE_FLOWERS = 800;
+export const FLOWER_SWAY_DURATION = 2200;
+export const MAX_ACTIVE_FLOWERS = 600;
 
 // Butterflies
-export const MAX_BUTTERFLIES = 20;
-export const BUTTERFLY_VISUAL_RANGE = 150;
-export const BUTTERFLY_SPEED = 40;
+export const MAX_BUTTERFLIES = 16;
+export const BUTTERFLY_VISUAL_RANGE = 130;
+export const BUTTERFLY_SPEED = 38;
 export const BUTTERFLY_FLUTTER_FREQ = 4;
 
 // Camera
-export const CAMERA_LERP = 0.08;
-export const CAMERA_DEADZONE_W = 60;
-export const CAMERA_DEADZONE_H = 40;
+export const CAMERA_LERP = 0.07;
+export const CAMERA_DEADZONE_W = 50;
+export const CAMERA_DEADZONE_H = 35;
 
 // Day/night cycle — total game ~15-20 min
 export const DAY_CYCLE_DURATION = 17.5 * 60 * 1000; // ms
 
 // Interaction
-export const INTERACT_RANGE = 48;
+export const INTERACT_RANGE = 44;
 
 // Dialogue
 export const DIALOGUE_CHARS_PER_SEC = 35;
 export const DIALOGUE_BOX_WIDTH = 520;
 export const DIALOGUE_BOX_HEIGHT = 160;
 
-// Colors — carefully curated HD-2D palette
+// ── HD-2D 16-bit Color Palette — warm garden palette matching refmap ───────
 export const COLORS = {
-  // Grass
-  grass1: 0x4a8c3f,
-  grass2: 0x3d7a35,
-  grass3: 0x5a9e4a,
-  grass4: 0x67ab55,
+  // Grass — rich dark greens like the refmap's lush lawn
+  grass1: 0x3d7a35,
+  grass2: 0x356b2c,
+  grass3: 0x4a8f40,
+  grass4: 0x2e5e28,
 
-  // Flowers
-  flowerPink: 0xf2a0b5,
-  flowerRed: 0xe85577,
-  flowerYellow: 0xf5d76e,
-  flowerWhite: 0xf0eee4,
-  flowerPurple: 0xb07ce8,
-  flowerBlue: 0x7eb8e0,
-  flowerOrange: 0xf0a050,
-  flowerLavender: 0xc5a3d9,
+  // Flowers — warm vibrant tones from refmap
+  flowerPink:     0xf0709a,
+  flowerRed:      0xe03358,
+  flowerYellow:   0xf5c842,
+  flowerWhite:    0xf5f0e8,
+  flowerPurple:   0xa06ad0,
+  flowerBlue:     0x5898d8,
+  flowerOrange:   0xf0843c,
+  flowerLavender: 0xc098d4,
 
-  // Cherry blossom
-  cherryLight: 0xffb7c5,
-  cherryMed: 0xf48fb1,
-  cherryDark: 0xe06090,
-  cherryBark: 0x5a3a28,
+  // Cherry blossom — refmap's dominant pink tone
+  cherryLight: 0xffbcd4,
+  cherryMed:   0xf090b8,
+  cherryDark:  0xd85890,
+  cherryBark:  0x4a2e1a,
 
-  // Water
-  waterDeep: 0x2a6496,
-  waterMid: 0x3d8eb9,
-  waterLight: 0x7ec8e3,
-  waterFoam: 0xc5e8f0,
+  // Water — deep teal pond as in refmap
+  waterDeep:  0x1a3d5c,
+  waterMid:   0x245880,
+  waterLight: 0x5ab0d0,
+  waterFoam:  0xb0dce8,
 
-  // Stone
-  stone1: 0x8a8a7a,
-  stone2: 0x9a9a8a,
-  stone3: 0x7a7a6a,
+  // Stone — warm cream/tan cobblestone as in refmap paths
+  stone1: 0xb8a880,
+  stone2: 0xc8b890,
+  stone3: 0xa09870,
+  stoneDark: 0x706050,
 
-  // Wood
-  woodLight: 0xa0805a,
-  woodMed: 0x8a6a45,
-  woodDark: 0x6a4a2a,
+  // Wood — warm brown as in refmap bench/arch/fence
+  woodLight: 0xb88c5a,
+  woodMed:   0x9a7040,
+  woodDark:  0x6a4a28,
 
   // Sky / atmosphere
-  skyMorning: 0x87ceeb,
+  skyMorning:   0x87ceeb,
   skyAfternoon: 0x6bb3d9,
-  skyGolden: 0xf5c06a,
-  skySunset: 0xe8789a,
-  skyNight: 0x0a0a2e,
+  skyGolden:    0xf5c06a,
+  skySunset:    0xe8789a,
+  skyNight:     0x0a0a2e,
 
   // Lighting
-  lanternGlow: 0xffcc44,
-  fireflyGlow: 0xccff66,
+  lanternGlow:  0xffcc44,
+  fireflyGlow:  0xccff66,
   sunlightGold: 0xfff2cc,
-  moonlight: 0xb8c8e8,
+  moonlight:    0xb8c8e8,
 
   // UI
-  uiBg: 0x1a0a2e,
+  uiBg:      0x1a0a2e,
   uiBgAlpha: 0.85,
-  uiText: 0xf0e8d8,
-  uiAccent: 0xf2a0b5,
-  uiBorder: 0x483868,
+  uiText:    0xf0e8d8,
+  uiAccent:  0xf2a0b5,
+  uiBorder:  0x483868,
 } as const;
 
-// Time of day phases (as percentage of DAY_CYCLE_DURATION)
+// Time of day phases
 export const TIME_PHASES = {
   morning:    { start: 0.00, end: 0.25, tint: 0xe8e8ff, alpha: 0.05 },
-  afternoon:  { start: 0.25, end: 0.45, tint: 0xfffff0, alpha: 0.0  },
+  afternoon:  { start: 0.25, end: 0.45, tint: 0xfffff0, alpha: 0.00 },
   goldenHour: { start: 0.45, end: 0.60, tint: 0xffd080, alpha: 0.12 },
   sunset:     { start: 0.60, end: 0.75, tint: 0xff8888, alpha: 0.18 },
   night:      { start: 0.75, end: 1.00, tint: 0x2233aa, alpha: 0.45 },
 } as const;
 
-// Area definitions
+// ── Area definitions — scaled to new 3200×4000 world ────────────────────────
+// Layout: 2 columns × 5 rows of 1600×800px zones
 export const AREAS = {
   cottage: {
-    name: 'Cottage',
-    x: 1000, y: 5400,
-    width: 1400, height: 1000,
+    name: 'Cottage Garden',
+    x: 0,    y: 3200,
+    width: 1600, height: 800,
     music: 'gentle',
   },
   secretGarden: {
     name: 'Secret Garden',
-    x: 2400, y: 5400,
-    width: 1400, height: 1000,
+    x: 1600, y: 3200,
+    width: 1600, height: 800,
     music: 'peaceful',
   },
   roseGarden: {
     name: 'Rose Garden',
-    x: 1000, y: 4400,
-    width: 1400, height: 1000,
+    x: 0,    y: 2400,
+    width: 1600, height: 800,
     music: 'dreamy',
   },
   crystalLake: {
     name: 'Crystal Lake',
-    x: 2400, y: 4400,
-    width: 1400, height: 1000,
+    x: 1600, y: 2400,
+    width: 1600, height: 800,
     music: 'serene',
   },
   greenhouse: {
     name: 'Greenhouse',
-    x: 1000, y: 3400,
-    width: 1400, height: 1000,
+    x: 0,    y: 1600,
+    width: 1600, height: 800,
     music: 'mystical',
   },
   centralPlaza: {
     name: 'Central Plaza',
-    x: 2400, y: 3400,
-    width: 1400, height: 1000,
+    x: 1600, y: 1600,
+    width: 1600, height: 800,
     music: 'warm',
   },
   maze: {
-    name: 'Maze',
-    x: 1000, y: 2200,
-    width: 1400, height: 1200,
+    name: 'Hedge Maze',
+    x: 0,    y: 800,
+    width: 1600, height: 800,
     music: 'mystical',
   },
   cherryGarden: {
     name: 'Cherry Garden',
-    x: 2400, y: 2200,
-    width: 1400, height: 1200,
+    x: 1600, y: 800,
+    width: 1600, height: 800,
     music: 'peaceful',
   },
   forgottenChurch: {
-    name: 'Forgotten Church',
-    x: 1400, y: 1000,
-    width: 2000, height: 1200,
+    name: 'Forgotten Shrine',
+    x: 400,  y: 200,
+    width: 2400, height: 600,
     music: 'serene',
   },
   observatory: {
     name: 'Observatory',
-    x: 1700, y: 0,
-    width: 1400, height: 1000,
+    x: 800,  y: 0,
+    width: 1600, height: 200,
     music: 'celebration',
   },
 } as const;
