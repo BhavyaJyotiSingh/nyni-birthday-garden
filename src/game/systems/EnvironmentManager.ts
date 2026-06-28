@@ -4,7 +4,7 @@
 
 import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
-import { DAY_CYCLE_DURATION, TIME_PHASES, COLORS } from '../constants';
+import { DAY_CYCLE_DURATION, TIME_PHASES } from '../constants';
 import { randFloat, randInt } from '../utils/math';
 
 export class EnvironmentManager {
@@ -114,7 +114,7 @@ export class EnvironmentManager {
     }
   }
 
-  private updateFireflies(delta: number): void {
+  private updateFireflies(_delta: number): void {
     if (this.timeProgress < 0.7) return;
 
     // Spawn fireflies

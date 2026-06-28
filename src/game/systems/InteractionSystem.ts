@@ -25,7 +25,6 @@ export class InteractionSystem {
   private memoryOrbs: Map<string, Phaser.GameObjects.Sprite> = new Map();
   private discoveredMemories: Set<string> = new Set();
   private litLanterns: Set<string> = new Set();
-  private nearestInteractable: InteractableObject | null = null;
   private interactKey!: Phaser.Input.Keyboard.Key;
   private promptSprite: Phaser.GameObjects.Text | null = null;
   private cooldown = 0;
@@ -124,8 +123,6 @@ export class InteractionSystem {
         nearest = obj;
       }
     }
-
-    this.nearestInteractable = nearest;
 
     // Show/hide prompt
     if (nearest && this.promptSprite) {

@@ -5,7 +5,6 @@
 import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
 import { BIRTHDAY_MESSAGE } from '../data/memories';
-import { randFloat } from '../utils/math';
 
 export class CutsceneManager {
   private scene: GameScene;

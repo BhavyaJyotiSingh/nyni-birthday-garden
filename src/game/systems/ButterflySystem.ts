@@ -131,7 +131,7 @@ export class ButterflySystem {
     b.wingPhase += dt * 12;
 
     // Wing flutter animation (scaleX oscillation)
-    b.sprite.setScaleX(Math.abs(Math.cos(b.wingPhase)) * b.sprite.scaleY + 0.3);
+    b.sprite.scaleX = Math.abs(Math.cos(b.wingPhase)) * b.sprite.scaleY + 0.3;
 
     // Vertical bob
     const bob = Math.sin(this.scene.time.now * 0.003 + b.flutterOffset) * 4;
@@ -222,7 +222,7 @@ export class ButterflySystem {
     b.sprite.x += Math.sin(b.stateTimer * 3) * dt * 15;
   }
 
-  private stateCircle(b: ButterflyEntity, dt: number, duration: number, nextState: ButterflyState): void {
+  private stateCircle(b: ButterflyEntity, _dt: number, duration: number, nextState: ButterflyState): void {
     const angle = b.stateTimer * 1.5;
     const radius = 25;
     b.sprite.x = b.targetX + Math.cos(angle) * radius;

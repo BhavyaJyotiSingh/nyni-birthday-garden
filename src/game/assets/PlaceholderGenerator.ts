@@ -15,7 +15,7 @@ export class PlaceholderGenerator {
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.gfx = scene.make.graphics({ x: 0, y: 0, add: false });
+    this.gfx = scene.make.graphics({ x: 0, y: 0 });
   }
 
   generateAll(): void {

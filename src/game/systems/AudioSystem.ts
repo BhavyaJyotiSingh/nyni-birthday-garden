@@ -10,7 +10,6 @@ export class AudioSystem {
   private ctx: AudioContext | null = null;
   private masterGain: GainNode | null = null;
   private initialized = false;
-  private windNode: OscillatorNode | null = null;
   private windGain: GainNode | null = null;
   private ambientInterval: number | null = null;
 

@@ -61,7 +61,7 @@ export class PreloadScene extends Phaser.Scene {
     generator.generateAll();
 
     // Create a simple 1x1 white texture for tinting/particles
-    const gfx = this.make.graphics({ x: 0, y: 0, add: false });
+    const gfx = this.make.graphics({ x: 0, y: 0 });
     gfx.fillStyle(0xffffff, 1);
     gfx.fillRect(0, 0, 4, 4);
     gfx.generateTexture('white_pixel', 4, 4);

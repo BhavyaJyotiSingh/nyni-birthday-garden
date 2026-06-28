@@ -16,11 +16,7 @@ export interface SaveData {
 const SAVE_KEY = 'nyni_bday_garden_save';
 
 export class SaveSystem {
-  private scene: GameScene;
-
-  constructor(scene: GameScene) {
-    this.scene = scene;
-  }
+  constructor(_scene: GameScene) {}
 
   save(data: SaveData): void {
     try {

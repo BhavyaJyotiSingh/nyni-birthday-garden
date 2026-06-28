@@ -61,7 +61,7 @@ export class PlayerSystem {
     this._lastFlowerY = y;
   }
 
-  update(delta: number): void {
+  update(_delta: number): void {
     if (!this.scene.playerControlEnabled) {
       const body = this.sprite.body as Phaser.Physics.Arcade.Body;
       body.setVelocity(0, 0);

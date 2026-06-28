@@ -25,7 +25,6 @@ export class DialogueSystem {
   private currentDialogueId = '';
   private _isActive = false;
   private isTyping = false;
-  private advanceKey!: Phaser.Input.Keyboard.Key;
   private isMemory = false;
 
   get isActive(): boolean { return this._isActive; }
@@ -35,7 +34,7 @@ export class DialogueSystem {
     this.createUI();
 
     if (scene.input.keyboard) {
-      this.advanceKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).on('down', () => this.advance());
       scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).on('down', () => this.advance());
       scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E).on('down', () => this.advance());
     }
