@@ -6,7 +6,8 @@ import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
 import { INTERACT_RANGE } from '../constants';
 import { dist } from '../utils/math';
-import { MEMORIES, MemoryData } from '../data/memories';
+import { MEMORIES } from '../data/memories';
+import type { MemoryData } from '../data/memories';
 
 export interface InteractableObject {
   id: string;

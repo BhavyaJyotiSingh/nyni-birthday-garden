@@ -4,8 +4,9 @@
 
 import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
-import { DIALOGUES, DialogueLine } from '../data/dialogues';
-import { MemoryData } from '../data/memories';
+import { DIALOGUES } from '../data/dialogues';
+import type { DialogueLine } from '../data/dialogues';
+import type { MemoryData } from '../data/memories';
 import { DIALOGUE_CHARS_PER_SEC } from '../constants';
 
 export class DialogueSystem {

@@ -4,8 +4,10 @@
 
 import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
-import { WORLD_OBJECTS, AreaConfig } from '../data/worldConfig';
-import { WORLD_WIDTH, WORLD_HEIGHT, COLORS, AreaKey } from '../constants';
+import { WORLD_OBJECTS } from '../data/worldConfig';
+import type { AreaConfig } from '../data/worldConfig';
+import { WORLD_WIDTH, WORLD_HEIGHT, COLORS } from '../constants';
+import type { AreaKey } from '../constants';
 
 export class WorldBuilder {
   private scene: GameScene;

@@ -12,12 +12,13 @@ export default defineConfig({
   },
   build: {
     target: 'es2022',
-    minify: 'esbuild',
     sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          phaser: ['phaser'],
+        manualChunks(id: string) {
+          if (id.includes('node_modules/phaser')) {
+            return 'phaser';
+          }
         },
       },
     },

@@ -3,7 +3,8 @@
 // ============================================================
 
 import Phaser from 'phaser';
-import { WORLD_WIDTH, WORLD_HEIGHT, AREAS, AreaKey } from '../constants';
+import { WORLD_WIDTH, WORLD_HEIGHT, AREAS } from '../constants';
+import type { AreaKey } from '../constants';
 import { PlayerSystem } from '../systems/PlayerSystem';
 import { FlowerSystem } from '../systems/FlowerSystem';
 import { ButterflySystem } from '../systems/ButterflySystem';

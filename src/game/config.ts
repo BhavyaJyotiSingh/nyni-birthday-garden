@@ -4,6 +4,7 @@
 
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
+import { PreloadScene } from './scenes/PreloadScene';
 import { GameScene } from './scenes/GameScene';
 import { CreditsScene } from './scenes/CreditsScene';
 
@@ -27,7 +28,7 @@ export function createGameConfig(parent: string): Phaser.Types.Core.GameConfig {
         debug: false,
       },
     },
-    scene: [BootScene, GameScene, CreditsScene],
+    scene: [BootScene, PreloadScene, GameScene, CreditsScene],
     input: {
       activePointers: 2,
     },

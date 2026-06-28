@@ -4,7 +4,6 @@
 // ============================================================
 
 import { GameScene } from '../scenes/GameScene';
-import { AreaKey } from '../constants';
 
 export class AudioSystem {
   private scene: GameScene;
