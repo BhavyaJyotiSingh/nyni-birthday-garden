@@ -6,7 +6,6 @@
 import { GameScene } from '../scenes/GameScene';
 
 export class AudioSystem {
-  private scene: GameScene;
   private ctx: AudioContext | null = null;
   private masterGain: GainNode | null = null;
   private initialized = false;
@@ -14,7 +13,6 @@ export class AudioSystem {
   private ambientInterval: number | null = null;
 
   constructor(scene: GameScene) {
-    this.scene = scene;
 
     // Initialize on first user interaction (browser policy)
     const initAudio = () => {

@@ -75,8 +75,8 @@ export class PreloadScene extends Phaser.Scene {
           this.load.image(asset.key, asset.path);
         } else if (asset.type === 'spritesheet') {
           this.load.spritesheet(asset.key, asset.path, {
-            frameWidth: asset.frameWidth,
-            frameHeight: asset.frameHeight,
+            frameWidth: asset.frameWidth ?? 32,
+            frameHeight: asset.frameHeight ?? 32,
           });
         }
       }
