@@ -53,10 +53,6 @@ export class GameScene extends Phaser.Scene {
     // Set world bounds
     this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-    // Build the world
-    this.worldBuilder = new WorldBuilder(this);
-    this.worldBuilder.build();
-
     // Initialize systems (order matters)
     this.saveSystem = new SaveSystem(this);
     this.effectsManager = new EffectsManager(this);
@@ -70,6 +66,10 @@ export class GameScene extends Phaser.Scene {
     this.uiSystem = new UISystem(this);
     this.cutsceneManager = new CutsceneManager(this);
     this.audioSystem = new AudioSystem(this);
+
+    // Build the world (needs playerSystem and interactionSystem initialized)
+    this.worldBuilder = new WorldBuilder(this);
+    this.worldBuilder.build();
 
     // Set up event listeners
     this.setupEvents();
