@@ -15,8 +15,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_beginning',
     area: 'cottage',
-    x: 1700,
-    y: 5600,
+    x: 1360,
+    y: 2180,
     title: 'A New Beginning',
     lines: [
       'Every love story has a beginning...',
@@ -28,8 +28,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_first_walk',
     area: 'secretGarden',
-    x: 2900,
-    y: 5700,
+    x: 560,
+    y: 560,
     title: 'Our First Walk',
     lines: [
       'Do you remember our first walk together?',
@@ -41,8 +41,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_laughter',
     area: 'roseGarden',
-    x: 1800,
-    y: 4700,
+    x: 2240,
+    y: 1180,
     title: 'Your Laughter',
     lines: [
       'Your laughter is my favorite sound.',
@@ -54,8 +54,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_quiet_moment',
     area: 'crystalLake',
-    x: 3400,
-    y: 4500,
+    x: 2140,
+    y: 2180,
     title: 'Quiet Moments',
     lines: [
       'Some of my favorite memories are the quiet ones.',
@@ -67,8 +67,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_greenhouse',
     area: 'greenhouse',
-    x: 1700,
-    y: 3800,
+    x: 560,
+    y: 1350,
     title: 'Cozy Shelters',
     lines: [
       'Like plants in a greenhouse, we built our own shelter.',
@@ -80,8 +80,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_plaza',
     area: 'centralPlaza',
-    x: 3100,
-    y: 3600,
+    x: 1400,
+    y: 1460,
     title: 'Shared Journeys',
     lines: [
       'In the middle of the busy city plaza, I held your hand.',
@@ -93,8 +93,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_maze',
     area: 'maze',
-    x: 2200,
-    y: 2400,
+    x: 560,
+    y: 2380,
     title: 'Finding Each Other',
     lines: [
       'Sometimes the paths were confusing and tangled.',
@@ -106,8 +106,8 @@ export const MEMORIES: MemoryData[] = [
   {
     id: 'memory_church',
     area: 'forgottenChurch',
-    x: 2200,
-    y: 1200,
+    x: 1400,
+    y: 700,
     title: 'A Silent Vow',
     lines: [
       'Under the high arches of the quiet church...',

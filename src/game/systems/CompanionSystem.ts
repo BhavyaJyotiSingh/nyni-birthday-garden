@@ -23,8 +23,8 @@ export class CompanionSystem {
     this.scene = scene;
 
     // Spawn Bhavya initially beneath the cherry tree in the Cherry Garden
-    // Coordinates: x: 3100, y: 2700 (matching the cherry tree location in worldConfig)
-    this.ragdoll = scene.physics.add.sprite(3100, 2750, 'ragdoll_cross_eyes');
+    // Coordinates: x: 2240, y: 600 (matching the cherry tree location in Cherry Garden)
+    this.ragdoll = scene.physics.add.sprite(2240, 600, 'ragdoll_cross_eyes');
     this.ragdoll.setScale(2.0);
     this.ragdoll.setOrigin(0.5, 0.7);
     this.ragdoll.setBounce(0.12);

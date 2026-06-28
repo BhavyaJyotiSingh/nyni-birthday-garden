@@ -40,6 +40,16 @@ export class PlaceholderGenerator {
       this.drawCharacter(key);
     } else if (key.startsWith('cat_')) {
       this.drawCat(key);
+    } else if (key.startsWith('dog_')) {
+      this.drawDog(key);
+    } else if (key.startsWith('bird_')) {
+      this.drawBird(key);
+    } else if (key === 'bunny') {
+      this.drawBunny();
+    } else if (key === 'chicken') {
+      this.drawChicken();
+    } else if (key === 'duck') {
+      this.drawDuck();
     } else if (key.startsWith('ragdoll_')) {
       this.drawRagdoll(key);
     } else if (key.startsWith('flower_')) {
@@ -248,6 +258,180 @@ export class PlaceholderGenerator {
     px(this.gfx, dark, 14,14, 2, 1, 0.5);
 
     this.gfx.generateTexture(key, W, H);
+  }
+
+  // ── Dogs ─────────────────────────────────────────────────────────────────
+  private drawDog(key: string): void {
+    const W = 34, H = 28;
+    this.gfx.clear();
+    const isGolden = key === 'dog_golden';
+    const fur = isGolden ? 0xd4a040 : 0x9a6838;
+    const drk = isGolden ? 0x905818 : 0x6a3818;
+    const hi  = isGolden ? 0xf0cc70 : 0xc89060;
+    const out = 0x080808;
+
+    px(this.gfx, 0x000000, 5, 25, 22, 3, 0.18);
+    px(this.gfx, out, 2, 12, 22, 10);
+    px(this.gfx, hi,  3, 13, 20, 3);
+    px(this.gfx, fur, 3, 16, 20, 4);
+    px(this.gfx, drk, 3, 20, 20, 1);
+    px(this.gfx, out, 18, 5, 14, 12);
+    px(this.gfx, hi,  19, 6, 12, 3);
+    px(this.gfx, fur, 19, 9, 12, 7);
+    px(this.gfx, out, 18, 5, 5, 8);
+    px(this.gfx, drk, 19, 6, 4, 7);
+    px(this.gfx, out, 27, 5, 5, 8);
+    px(this.gfx, drk, 27, 6, 4, 7);
+    px(this.gfx, out, 20, 9, 3, 3);
+    px(this.gfx, 0x3a2010, 21, 10, 2, 2);
+    px(this.gfx, 0xffffff, 21, 10, 1, 1);
+    px(this.gfx, out, 27, 11, 6, 5);
+    px(this.gfx, hi,  28, 12, 4, 3);
+    px(this.gfx, 0x1a0a0a, 29, 11, 3, 2);
+    px(this.gfx, 0xffbbbb, 28, 13, 4, 2);
+    px(this.gfx, out, 3, 21, 5, 5);
+    px(this.gfx, out, 18, 21, 5, 5);
+    px(this.gfx, fur, 4, 22, 3, 4);
+    px(this.gfx, fur, 19, 22, 3, 4);
+    px(this.gfx, out, 0, 6, 4, 8);
+    px(this.gfx, fur, 1, 7, 2, 6);
+    px(this.gfx, hi,  1, 7, 1, 3);
+
+    this.gfx.generateTexture(key, W, H);
+  }
+
+  // ── Birds ────────────────────────────────────────────────────────────────
+  private drawBird(key: string): void {
+    const W = 16, H = 16;
+    this.gfx.clear();
+    const isRed = key === 'bird_red';
+    const body = isRed ? 0xd03020 : 0x3060d0;
+    const wing = isRed ? 0xa01810 : 0x1840a0;
+    const beak = isRed ? 0xf0c030 : 0xf0d020;
+    const out  = 0x080808;
+
+    px(this.gfx, 0x000000, 2, 14, 12, 2, 0.18);
+    px(this.gfx, out,  3, 6, 10, 8);
+    px(this.gfx, body, 4, 7, 8, 6);
+    px(this.gfx, 0xffffff, 4, 10, 8, 2);
+    px(this.gfx, out,  5, 2, 7, 6);
+    px(this.gfx, body, 6, 3, 5, 4);
+    px(this.gfx, 0xffffff, 6, 3, 3, 1, 0.3);
+    px(this.gfx, out,  0, 6, 4, 4);
+    px(this.gfx, wing, 1, 7, 3, 3);
+    px(this.gfx, out,  10, 6, 5, 4);
+    px(this.gfx, wing, 10, 7, 4, 3);
+    px(this.gfx, beak, 9, 3, 4, 2);
+    px(this.gfx, 0xf0d020, 9, 3, 4, 1, 0.7);
+    px(this.gfx, out, 7, 1, 2, 3);
+    px(this.gfx, 0xffffff, 7, 1, 2, 2, 0.8);
+    px(this.gfx, out, 7, 2, 1, 1);
+    px(this.gfx, 0xf0b030, 5, 12, 2, 2);
+    px(this.gfx, 0xf0b030, 9, 12, 2, 2);
+
+    this.gfx.generateTexture(key, W, H);
+  }
+
+  // ── Bunny ────────────────────────────────────────────────────────────────
+  private drawBunny(): void {
+    const W = 20, H = 24;
+    this.gfx.clear();
+    const fur = 0xf0f0f0, furSh = 0xd0d0d0, furHi = 0xffffff, inner = 0xffbbbb;
+    const out = 0x080808;
+
+    px(this.gfx, 0x000000, 3, 20, 14, 3, 0.18);
+    px(this.gfx, out, 3, 10, 14, 10);
+    this.gfx.fillStyle(fur, 1);
+    this.gfx.fillEllipse(10, 15, 12, 8);
+    px(this.gfx, furHi, 4, 11, 8, 3);
+    px(this.gfx, furSh, 4, 17, 8, 2);
+    px(this.gfx, out, 5, 4, 10, 9);
+    this.gfx.fillStyle(fur, 1);
+    this.gfx.fillCircle(10, 8, 5);
+    px(this.gfx, furHi, 6, 5, 5, 3);
+    px(this.gfx, out, 5, 0, 4, 7);
+    px(this.gfx, fur, 6, 1, 2, 5);
+    px(this.gfx, inner, 6, 1, 2, 5, 0.5);
+    px(this.gfx, out, 11, 0, 4, 7);
+    px(this.gfx, fur, 11, 1, 2, 5);
+    px(this.gfx, inner, 11, 1, 2, 5, 0.5);
+    px(this.gfx, out, 7, 6, 2, 2);
+    px(this.gfx, 0xff2060, 7, 6, 2, 2);
+    px(this.gfx, 0xffffff, 7, 6, 1, 1);
+    px(this.gfx, out, 12, 6, 2, 2);
+    px(this.gfx, 0xff2060, 12, 6, 2, 2);
+    px(this.gfx, 0xffffff, 12, 6, 1, 1);
+    px(this.gfx, 0xffaaaa, 9, 9, 3, 2);
+    px(this.gfx, furHi, 1, 15, 4, 4);
+    px(this.gfx, fur, 2, 16, 2, 2);
+    px(this.gfx, out, 3, 19, 5, 4);
+    px(this.gfx, out, 12, 19, 5, 4);
+    px(this.gfx, fur, 4, 20, 3, 3);
+    px(this.gfx, fur, 13, 20, 3, 3);
+
+    this.gfx.generateTexture('bunny', W, H);
+  }
+
+  // ── Chicken ──────────────────────────────────────────────────────────────
+  private drawChicken(): void {
+    const W = 20, H = 22;
+    this.gfx.clear();
+    const out = 0x080808;
+
+    px(this.gfx, 0x000000, 2, 18, 16, 3, 0.18);
+    px(this.gfx, out, 3, 8, 14, 10);
+    this.gfx.fillStyle(0xf0eeea, 1);
+    this.gfx.fillEllipse(10, 13, 12, 8);
+    px(this.gfx, 0xffffff, 4, 9, 9, 3);
+    px(this.gfx, 0xd8d8d0, 4, 14, 9, 2);
+    px(this.gfx, out, 5, 3, 9, 8);
+    this.gfx.fillStyle(0xf0eeea, 1);
+    this.gfx.fillCircle(10, 8, 4);
+    px(this.gfx, 0xffffff, 6, 4, 4, 2);
+    px(this.gfx, 0xd04028, 6, 2, 4, 3);
+    px(this.gfx, 0xd04028, 8, 1, 3, 2);
+    px(this.gfx, out, 8, 6, 3, 3);
+    px(this.gfx, 0xf0c830, 9, 7, 2, 2);
+    px(this.gfx, 0xf0c830, 3, 14, 2, 2);
+    px(this.gfx, 0xf0c830, 15, 14, 2, 2);
+    px(this.gfx, 0xf0c830, 3, 17, 2, 3);
+    px(this.gfx, 0xf0c830, 15, 17, 2, 3);
+    px(this.gfx, 0xd04028, 7, 5, 3, 2);
+    px(this.gfx, out, 7, 5, 2, 2);
+    px(this.gfx, 0xd04028, 8, 5, 2, 2);
+    px(this.gfx, 0xffffff, 8, 5, 1, 1);
+    px(this.gfx, 0xf05030, 1, 8, 3, 5);
+
+    this.gfx.generateTexture('chicken', W, H);
+  }
+
+  // ── Duck ─────────────────────────────────────────────────────────────────
+  private drawDuck(): void {
+    const W = 22, H = 22;
+    this.gfx.clear();
+    const out = 0x080808;
+
+    px(this.gfx, 0x000000, 2, 18, 18, 3, 0.18);
+    px(this.gfx, out, 2, 10, 18, 8);
+    this.gfx.fillStyle(0x306028, 1);
+    this.gfx.fillEllipse(11, 14, 16, 7);
+    px(this.gfx, 0x408030, 3, 11, 13, 3);
+    px(this.gfx, 0x204818, 3, 16, 13, 1);
+    px(this.gfx, 0xffffff, 8, 8, 5, 4);
+    px(this.gfx, out, 6, 4, 9, 7);
+    this.gfx.fillStyle(0x306028, 1);
+    this.gfx.fillCircle(10, 8, 4);
+    px(this.gfx, 0x408030, 7, 5, 5, 3);
+    px(this.gfx, out, 13, 8, 6, 3);
+    px(this.gfx, 0xf0b030, 14, 9, 4, 2);
+    px(this.gfx, out, 8, 5, 2, 2);
+    px(this.gfx, 0xffffff, 8, 5, 2, 2);
+    px(this.gfx, out, 8, 5, 1, 1);
+    px(this.gfx, 0xf0b030, 4, 17, 3, 3);
+    px(this.gfx, 0xf0b030, 14, 17, 3, 3);
+    px(this.gfx, 0x204818, 2, 13, 5, 4);
+
+    this.gfx.generateTexture('duck', W, H);
   }
 
   // ── Ragdoll cat / companion character ───────────────────────────────────
@@ -1493,6 +1677,435 @@ export class PlaceholderGenerator {
           px(this.gfx, 0xff8820, cx, 6, 2, 2, 0.5);
         }
 
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── House Cottage ───────────────────────────────────────
+      case 'house_cottage': {
+        const W = 80, H = 80;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 8, 74, 64, 6, 0.18);
+        px(this.gfx, out, 4, 16, 72, 32);
+        px(this.gfx, 0xa84828, 5, 17, 70, 10);
+        px(this.gfx, 0xc85c2c, 5, 20, 70, 18);
+        px(this.gfx, 0xe07038, 10, 20, 60, 10);
+        px(this.gfx, 0xf08050, 14, 20, 52, 5);
+        px(this.gfx, out, 20, 14, 40, 8);
+        px(this.gfx, 0xd8984a, 21, 15, 38, 5);
+        px(this.gfx, 0xf0b858, 22, 15, 36, 2);
+        px(this.gfx, out, 54, 8, 14, 18);
+        px(this.gfx, 0x8a6040, 55, 9, 12, 16);
+        px(this.gfx, 0xb08060, 56, 9, 10, 6);
+        px(this.gfx, out, 4, 46, 72, 34);
+        px(this.gfx, 0xeee0c0, 5, 47, 70, 22);
+        px(this.gfx, 0xf8f0d8, 5, 47, 70, 8);
+        px(this.gfx, 0xd8c8a0, 5, 63, 70, 8);
+        for (let y = 50; y < 68; y += 6) px(this.gfx, 0xc8b890, 5, y, 70, 1, 0.3);
+        px(this.gfx, out, 28, 54, 24, 26);
+        px(this.gfx, 0x7a4a28, 29, 55, 22, 25);
+        px(this.gfx, 0xa06838, 31, 55, 18, 12);
+        px(this.gfx, 0xe0c080, 37, 58, 5, 4);
+        px(this.gfx, out, 6, 50, 18, 16);
+        px(this.gfx, 0x88ccff, 7, 51, 16, 14);
+        px(this.gfx, 0xffffff, 7, 51, 16, 4, 0.3);
+        px(this.gfx, out, 15, 51, 2, 14);
+        px(this.gfx, out, 7, 58, 16, 2);
+        px(this.gfx, out, 56, 50, 18, 16);
+        px(this.gfx, 0x88ccff, 57, 51, 16, 14);
+        px(this.gfx, 0xffffff, 57, 51, 16, 4, 0.3);
+        px(this.gfx, out, 65, 51, 2, 14);
+        px(this.gfx, out, 57, 58, 16, 2);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── House Stone ─────────────────────────────────────────
+      case 'house_stone': {
+        const W = 80, H = 80;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 8, 74, 64, 6, 0.18);
+        px(this.gfx, out, 4, 14, 72, 34);
+        px(this.gfx, 0x485868, 5, 15, 70, 8);
+        px(this.gfx, 0x5a6878, 5, 17, 70, 20);
+        px(this.gfx, 0x6a7888, 10, 17, 60, 10);
+        px(this.gfx, out, 18, 12, 44, 8);
+        px(this.gfx, 0x6a7888, 19, 13, 42, 5);
+        px(this.gfx, out, 14, 6, 12, 16);
+        px(this.gfx, 0x808070, 15, 7, 10, 14);
+        px(this.gfx, 0xa0a090, 16, 7, 8, 5);
+        px(this.gfx, out, 4, 46, 72, 34);
+        px(this.gfx, 0x9a9080, 5, 47, 70, 32);
+        for (let sy = 48; sy < 78; sy += 8) {
+          const offset = ((sy - 48) / 8) % 2 === 0 ? 0 : 12;
+          for (let sx = 5 + offset; sx < 74; sx += 24) {
+            px(this.gfx, 0xb0a890, sx, sy, 22, 6);
+            px(this.gfx, 0xc0b8a0, sx, sy, 22, 2, 0.4);
+            px(this.gfx, out, sx + 22, sy, 2, 6, 0.25);
+          }
+        }
+        px(this.gfx, out, 30, 52, 20, 28);
+        px(this.gfx, 0x5c4028, 31, 60, 18, 20);
+        px(this.gfx, 0x6e5030, 31, 53, 18, 8);
+        px(this.gfx, 0xe0c080, 38, 65, 4, 4);
+        px(this.gfx, out, 6, 52, 20, 16);
+        px(this.gfx, 0x80aad0, 7, 53, 18, 14);
+        px(this.gfx, out, 5, 52, 4, 16);
+        px(this.gfx, 0x5c4028, 5, 52, 3, 16);
+        px(this.gfx, out, 23, 52, 4, 16);
+        px(this.gfx, 0x5c4028, 23, 52, 3, 16);
+        px(this.gfx, out, 54, 52, 20, 16);
+        px(this.gfx, 0x80aad0, 55, 53, 18, 14);
+        px(this.gfx, out, 53, 52, 4, 16);
+        px(this.gfx, 0x5c4028, 53, 52, 3, 16);
+        px(this.gfx, out, 71, 52, 4, 16);
+        px(this.gfx, 0x5c4028, 71, 52, 3, 16);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Shop Bakery ─────────────────────────────────────────
+      case 'shop_bakery': {
+        const W = 80, H = 78;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 8, 76, 72, 6, 0.18);
+        px(this.gfx, out, 2, 18, 76, 16);
+        for (let ax = 2; ax < 76; ax += 8) {
+          px(this.gfx, ax % 16 === 2 ? 0xf0d030 : 0xf0a020, ax, 18, 8, 14);
+        }
+        px(this.gfx, 0xffffff, 2, 18, 74, 3, 0.2);
+        px(this.gfx, out, 2, 32, 76, 44);
+        px(this.gfx, 0xf5e8c0, 3, 33, 74, 32);
+        px(this.gfx, out, 10, 36, 60, 24);
+        px(this.gfx, 0xa8d0f0, 11, 37, 58, 22);
+        px(this.gfx, 0xffffff, 11, 37, 58, 5, 0.35);
+        px(this.gfx, 0xd08030, 14, 44, 8, 6);
+        px(this.gfx, 0xffffff, 15, 44, 6, 2);
+        px(this.gfx, 0xff4888, 16, 43, 4, 2);
+        px(this.gfx, out, 30, 52, 20, 24);
+        px(this.gfx, 0x6a4820, 31, 53, 18, 23);
+        px(this.gfx, 0xe0c080, 38, 64, 4, 4);
+        px(this.gfx, out, 14, 6, 52, 14);
+        px(this.gfx, 0xd08030, 15, 7, 50, 12);
+        px(this.gfx, 0xf0c050, 15, 7, 50, 4, 0.6);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Shop Florist ────────────────────────────────────────
+      case 'shop_florist': {
+        const W = 80, H = 76;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 8, 76, 72, 6, 0.18);
+        px(this.gfx, out, 2, 18, 76, 14);
+        px(this.gfx, 0x2a7028, 2, 18, 76, 12);
+        for (let ax = 2; ax < 76; ax += 6) px(this.gfx, 0x3a9038, ax, 18, 4, 10);
+        px(this.gfx, 0xffffff, 2, 18, 74, 2, 0.2);
+        px(this.gfx, out, 2, 30, 76, 46);
+        px(this.gfx, 0xeadcc0, 3, 31, 74, 34);
+        px(this.gfx, out, 8, 34, 64, 24);
+        px(this.gfx, 0xa8d4b0, 9, 35, 62, 22);
+        px(this.gfx, 0xffffff, 9, 35, 62, 5, 0.3);
+        for (let fi = 0; fi < 8; fi++) {
+          const cols = [0xf060a0, 0xf8c830, 0x5090e8, 0xffbcd4, 0xe82850, 0xb890d8, 0xf8f0e8, 0xf07830];
+          px(this.gfx, cols[fi], 12 + fi * 8, 44, 5, 5);
+          px(this.gfx, 0x2e6820, 14 + fi * 8, 41, 2, 5, 0.7);
+        }
+        px(this.gfx, out, 28, 52, 24, 24);
+        px(this.gfx, 0x3c5c28, 29, 53, 22, 23);
+        px(this.gfx, 0xe0c080, 38, 65, 4, 4);
+        px(this.gfx, out, 14, 6, 52, 14);
+        px(this.gfx, 0x2a7028, 15, 7, 50, 12);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Shop Market ─────────────────────────────────────────
+      case 'shop_market': {
+        const W = 96, H = 88;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 10, 88, 80, 8, 0.18);
+        px(this.gfx, out, 2, 16, 92, 16);
+        for (let ax = 2; ax < 92; ax += 10) {
+          px(this.gfx, ax % 20 === 2 ? 0xd03028 : 0xf0f0f0, ax, 16, 10, 14);
+        }
+        px(this.gfx, 0xffffff, 2, 16, 90, 3, 0.25);
+        px(this.gfx, out, 2, 30, 92, 58);
+        px(this.gfx, 0xe8e0d0, 3, 31, 90, 46);
+        px(this.gfx, out, 8, 36, 36, 20);
+        px(this.gfx, 0xb0d0e8, 9, 37, 34, 18);
+        px(this.gfx, out, 52, 36, 36, 20);
+        px(this.gfx, 0xb0d0e8, 53, 37, 34, 18);
+        px(this.gfx, out, 36, 42, 24, 46);
+        px(this.gfx, 0x4a3818, 37, 43, 22, 45);
+        px(this.gfx, 0xe0c080, 45, 65, 4, 4);
+        px(this.gfx, out, 2, 68, 10, 18);
+        px(this.gfx, 0x7a5028, 3, 69, 8, 16);
+        px(this.gfx, out, 82, 68, 10, 18);
+        px(this.gfx, 0x7a5028, 83, 69, 8, 16);
+        px(this.gfx, out, 16, 4, 64, 14);
+        px(this.gfx, 0xd03028, 17, 5, 62, 12);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Inn ─────────────────────────────────────────────────
+      case 'inn': {
+        const W = 88, H = 100;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 8, 86, 80, 6, 0.18);
+        px(this.gfx, out, 2, 14, 84, 36);
+        px(this.gfx, 0x3a4860, 3, 15, 82, 8);
+        px(this.gfx, 0x4a5870, 3, 18, 82, 24);
+        px(this.gfx, 0x5a6880, 10, 18, 68, 12);
+        px(this.gfx, out, 20, 10, 48, 10);
+        px(this.gfx, 0x5a6880, 21, 11, 46, 7);
+        px(this.gfx, out, 10, 48, 68, 8);
+        px(this.gfx, 0xd4a060, 11, 49, 66, 6);
+        for (let bx = 14; bx < 74; bx += 10) {
+          px(this.gfx, out, bx, 48, 4, 8);
+          px(this.gfx, 0xa07040, bx + 1, 49, 2, 6);
+        }
+        px(this.gfx, out, 2, 54, 84, 46);
+        px(this.gfx, 0xf0e8d8, 3, 55, 82, 34);
+        px(this.gfx, out, 14, 36, 16, 14);
+        px(this.gfx, 0x88c0e0, 15, 37, 14, 12);
+        px(this.gfx, out, 56, 36, 16, 14);
+        px(this.gfx, 0x88c0e0, 57, 37, 14, 12);
+        px(this.gfx, out, 28, 60, 32, 40);
+        px(this.gfx, 0x8a5828, 29, 61, 30, 39);
+        px(this.gfx, 0xd4a030, 35, 76, 3, 3);
+        px(this.gfx, 0xd4a030, 50, 76, 3, 3);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Church ──────────────────────────────────────────────
+      case 'church': {
+        const W = 100, H = 112;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 10, 96, 80, 8, 0.18);
+        px(this.gfx, out, 38, 0, 24, 40);
+        px(this.gfx, 0x505860, 39, 1, 22, 8);
+        px(this.gfx, 0x606870, 39, 6, 22, 28);
+        px(this.gfx, out, 47, 2, 6, 18);
+        px(this.gfx, out, 44, 8, 12, 6);
+        px(this.gfx, 0xe8d090, 48, 3, 4, 16);
+        px(this.gfx, 0xe8d090, 45, 9, 10, 4);
+        px(this.gfx, out, 2, 36, 96, 30);
+        px(this.gfx, 0x606870, 3, 42, 94, 20);
+        px(this.gfx, out, 2, 64, 96, 48);
+        px(this.gfx, 0xd8d0c0, 3, 65, 94, 36);
+        for (let sy = 66; sy < 98; sy += 8) {
+          for (let sx = 3; sx < 94; sx += 20) px(this.gfx, 0xeae0cc, sx, sy, 18, 6);
+        }
+        px(this.gfx, out, 36, 72, 28, 40);
+        px(this.gfx, 0x5c4020, 37, 82, 26, 30);
+        px(this.gfx, 0x7a5828, 37, 73, 26, 12);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Greenhouse Bldg ─────────────────────────────────────
+      case 'greenhouse_bldg': {
+        const W = 80, H = 80;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 6, 76, 72, 6, 0.18);
+        px(this.gfx, out, 2, 20, 76, 60);
+        px(this.gfx, 0x88c890, 3, 29, 74, 42, 0.8);
+        for (let gx = 3; gx < 76; gx += 16) px(this.gfx, 0x4a7830, gx, 21, 2, 50);
+        for (let gy = 21; gy < 70; gy += 14) px(this.gfx, 0x4a7830, 3, gy, 74, 2);
+        px(this.gfx, 0x2e6820, 8, 35, 4, 20, 0.7);
+        px(this.gfx, 0x2e6820, 28, 30, 4, 25, 0.7);
+        px(this.gfx, out, 32, 52, 16, 28);
+        px(this.gfx, 0x3a6028, 33, 53, 14, 27);
+        px(this.gfx, 0xe0c080, 38, 68, 3, 4);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Stone Wall H / V ────────────────────────────────────
+      case 'stone_wall_h': {
+        const W = 32, H = 20;
+        const out = 0x080808;
+        const s1 = COLORS.stone1, s2 = COLORS.stone2;
+        px(this.gfx, out, 0, 0, W, H);
+        for (let sy = 2; sy < 18; sy += 8) {
+          const off = (sy === 2 ? 0 : 12);
+          for (let sx = 2 + off; sx < 30; sx += 22) {
+            px(this.gfx, s2, sx, sy, 20, 6);
+            px(this.gfx, s1, sx, sy, 20, 2, 0.35);
+          }
+        }
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+      case 'stone_wall_v': {
+        const W = 20, H = 32;
+        const out = 0x080808;
+        const s1 = COLORS.stone1, s2 = COLORS.stone2;
+        px(this.gfx, out, 0, 0, W, H);
+        for (let sy = 2; sy < 30; sy += 8) {
+          px(this.gfx, s2, 2, sy, 16, 6);
+          px(this.gfx, s1, 2, sy, 16, 2, 0.3);
+        }
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Gate ────────────────────────────────────────────────
+      case 'gate': {
+        const W = 80, H = 48;
+        const out = 0x080808;
+        const s1 = COLORS.stone1, s2 = COLORS.stone2;
+        px(this.gfx, out, 0, 8, 80, 40);
+        this.gfx.fillStyle(s2, 1);
+        this.gfx.fillRect(0, 8, 80, 40);
+        this.gfx.fillStyle(out, 1);
+        this.gfx.fillRect(16, 8, 48, 38);
+        px(this.gfx, 0x5c4028, 17, 9, 46, 36);
+        px(this.gfx, out, 0, 0, 16, 48);
+        px(this.gfx, s2, 1, 1, 14, 46);
+        px(this.gfx, out, 64, 0, 16, 48);
+        px(this.gfx, s2, 65, 1, 14, 46);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Lamp Post ───────────────────────────────────────────
+      case 'lamp_post': {
+        const W = 28, H = 80;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 5, 74, 14, 6, 0.18);
+        px(this.gfx, out, 10, 16, 8, 60);
+        px(this.gfx, 0x484848, 11, 17, 6, 58);
+        px(this.gfx, out, 4, 12, 22, 6);
+        px(this.gfx, 0x484848, 5, 13, 20, 4);
+        px(this.gfx, out, 2, 0, 24, 14);
+        px(this.gfx, 0x303030, 3, 1, 22, 3);
+        px(this.gfx, 0xffd860, 3, 4, 22, 8, 0.95);
+        this.gfx.fillStyle(COLORS.lanternGlow, 0.06);
+        this.gfx.fillCircle(14, 8, 22);
+        px(this.gfx, out, 7, 74, 14, 6);
+        px(this.gfx, 0x484848, 8, 75, 12, 4);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Flower Pot ──────────────────────────────────────────
+      case 'flower_pot': {
+        const W = 24, H = 28;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 3, 22, 18, 4, 0.18);
+        px(this.gfx, out, 4, 12, 16, 16);
+        px(this.gfx, 0xd06838, 5, 13, 14, 14);
+        px(this.gfx, out, 3, 10, 18, 4);
+        px(this.gfx, 0xe07840, 4, 11, 16, 2);
+        this.gfx.fillStyle(0x2e6820, 1);
+        this.gfx.fillCircle(12, 8, 8);
+        px(this.gfx, COLORS.flowerPink, 9, 4, 4, 4);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Mailbox ─────────────────────────────────────────────
+      case 'mailbox': {
+        const W = 26, H = 36;
+        const out = 0x080808;
+        px(this.gfx, out, 4, 12, 6, 22);
+        px(this.gfx, COLORS.woodMed, 5, 13, 4, 20);
+        px(this.gfx, out, 2, 4, 22, 12);
+        px(this.gfx, 0xd03028, 3, 5, 20, 10);
+        this.gfx.fillStyle(0xd03028, 1);
+        this.gfx.fillEllipse(13, 8, 18, 10);
+        px(this.gfx, out, 3, 10, 20, 2);
+        px(this.gfx, 0xd4a030, 20, 7, 4, 4);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Notice Board ────────────────────────────────────────
+      case 'notice_board': {
+        const W = 48, H = 48;
+        const out = 0x080808;
+        px(this.gfx, out, 8, 22, 8, 24);
+        px(this.gfx, out, 32, 22, 8, 24);
+        px(this.gfx, COLORS.woodMed, 9, 23, 6, 22);
+        px(this.gfx, COLORS.woodMed, 33, 23, 6, 22);
+        px(this.gfx, out, 2, 4, 44, 20);
+        px(this.gfx, COLORS.woodLight, 3, 5, 42, 18);
+        px(this.gfx, 0xf8f0e0, 5, 7, 38, 8);
+        px(this.gfx, 0xff3030, 36, 7, 4, 4);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Barrel ──────────────────────────────────────────────
+      case 'barrel': {
+        const W = 24, H = 28;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 2, 22, 20, 6, 0.18);
+        px(this.gfx, out, 2, 2, 20, 26);
+        px(this.gfx, COLORS.woodMed, 3, 3, 18, 10);
+        px(this.gfx, COLORS.woodLight, 4, 3, 16, 5);
+        px(this.gfx, COLORS.woodMed, 3, 13, 18, 8);
+        px(this.gfx, COLORS.woodLight, 4, 13, 16, 3);
+        px(this.gfx, COLORS.woodMed, 3, 21, 18, 6);
+        px(this.gfx, 0x3a2010, 2, 6, 20, 2);
+        px(this.gfx, 0x3a2010, 2, 14, 20, 2);
+        px(this.gfx, 0x3a2010, 2, 22, 20, 2);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Crate ───────────────────────────────────────────────
+      case 'crate': {
+        const W = 28, H = 28;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 2, 22, 24, 6, 0.18);
+        px(this.gfx, out, 2, 2, 24, 26);
+        px(this.gfx, COLORS.woodMed, 3, 3, 22, 8);
+        px(this.gfx, COLORS.woodLight, 4, 3, 20, 4);
+        px(this.gfx, COLORS.woodMed, 3, 11, 22, 8);
+        px(this.gfx, COLORS.woodMed, 3, 19, 22, 8);
+        for (const y of [10, 18, 26]) px(this.gfx, out, 3, y, 22, 2);
+        px(this.gfx, 0x9a7840, 3, 12, 22, 2, 0.6);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Market Stall ────────────────────────────────────────
+      case 'market_stall': {
+        const W = 80, H = 66;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 6, 64, 72, 8, 0.18);
+        px(this.gfx, out, 0, 8, 80, 16);
+        for (let x = 0; x < 80; x += 10) px(this.gfx, x % 20 === 0 ? 0xd03028 : 0xf0f0f0, x, 8, 10, 14);
+        px(this.gfx, out, 4, 42, 72, 24);
+        px(this.gfx, COLORS.woodLight, 5, 43, 70, 8);
+        px(this.gfx, COLORS.woodMed, 5, 51, 70, 12);
+        px(this.gfx, out, 4, 24, 6, 42);
+        px(this.gfx, COLORS.woodMed, 5, 25, 4, 40);
+        px(this.gfx, out, 70, 24, 6, 42);
+        px(this.gfx, COLORS.woodMed, 71, 25, 4, 40);
+        this.gfx.generateTexture(key, W, H);
+        break;
+      }
+
+      // ── Well ────────────────────────────────────────────────
+      case 'well': {
+        const W = 48, H = 54;
+        const out = 0x080808;
+        px(this.gfx, 0x000000, 8, 46, 32, 8, 0.18);
+        px(this.gfx, out, 6, 32, 36, 20);
+        px(this.gfx, COLORS.stone2, 7, 33, 34, 18);
+        px(this.gfx, out, 2, 10, 44, 24);
+        for (const ox of [4, 38]) {
+          px(this.gfx, out, ox, 10, 6, 26);
+          px(this.gfx, COLORS.woodMed, ox + 1, 11, 4, 24);
+        }
+        px(this.gfx, out, 0, 4, 48, 10);
+        px(this.gfx, 0xa84828, 1, 5, 46, 6);
         this.gfx.generateTexture(key, W, H);
         break;
       }

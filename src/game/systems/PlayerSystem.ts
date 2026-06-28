@@ -32,7 +32,7 @@ export class PlayerSystem {
     this.scene = scene;
 
     // Create player sprite at Cottage
-    this.sprite = scene.add.sprite(1700, 5930, 'player_down');
+    this.sprite = scene.add.sprite(1400, 2180, 'player_down');
     this.sprite.setScale(PLAYER_SCALE);
     this.sprite.setDepth(100);
     this.sprite.setOrigin(0.5, 0.8);
@@ -113,13 +113,13 @@ export class PlayerSystem {
       const keyU = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
       
       if (Phaser.Input.Keyboard.JustDown(keyT)) {
-        this.setPosition(3100, 2750);
+        this.setPosition(2240, 580);
       }
       if (Phaser.Input.Keyboard.JustDown(keyY)) {
-        this.setPosition(2400, 500);
+        this.setPosition(1400, 580);
       }
       if (Phaser.Input.Keyboard.JustDown(keyU)) {
-        this.setPosition(3400, 4500);
+        this.setPosition(2240, 2260);
       }
     }
 

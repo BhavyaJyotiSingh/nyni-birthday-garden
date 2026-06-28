@@ -1,114 +1,85 @@
 // ============================================================
-// Game Constants — All magic numbers, palettes, and config
+// Game Constants — HD-2D Island Town, 2800×2800 world
 // ============================================================
 
-export const GAME_WIDTH = 1280;
+export const GAME_WIDTH  = 1280;
 export const GAME_HEIGHT = 720;
 
-export const TILE_SIZE = 16; // Native 16-bit tile unit
+export const TILE_SIZE = 16; // 16-bit native tile unit
 
-// World dimensions (in pixels) — intimate garden world (scaled down from old 4800×6400)
-export const WORLD_WIDTH = 3200;
-export const WORLD_HEIGHT = 4000;
+// Island world — square map with ocean boundary
+export const WORLD_WIDTH  = 2800;
+export const WORLD_HEIGHT = 2800;
 
-// Player
-export const PLAYER_SPEED = 100;
-export const PLAYER_ACCEL = 500;
-export const PLAYER_DECEL = 350;
+// Player — original 16-bit HD-2D settings
+export const PLAYER_SPEED  = 100;
+export const PLAYER_ACCEL  = 500;
+export const PLAYER_DECEL  = 350;
 export const PLAYER_SPRITE_W = 16;
 export const PLAYER_SPRITE_H = 24;
-export const PLAYER_SCALE = 3; // Scale up for crisp 16-bit look
+export const PLAYER_SCALE  = 3;  // Scale up for crisp 16-bit look
 
 // Flower system
-export const FLOWER_CELL_SIZE = 24;
-export const FLOWERS_PER_CLUSTER_MIN = 3;
-export const FLOWERS_PER_CLUSTER_MAX = 6;
-export const FLOWER_BLOOM_DURATION = 600;
-export const FLOWER_SWAY_DURATION = 2200;
-export const MAX_ACTIVE_FLOWERS = 600;
+export const FLOWER_CELL_SIZE           = 22;
+export const FLOWERS_PER_CLUSTER_MIN    = 3;
+export const FLOWERS_PER_CLUSTER_MAX    = 7;
+export const FLOWER_BLOOM_DURATION      = 550;
+export const FLOWER_SWAY_DURATION       = 2000;
+export const MAX_ACTIVE_FLOWERS         = 700;
 
 // Butterflies
-export const MAX_BUTTERFLIES = 16;
+export const MAX_BUTTERFLIES       = 18;
 export const BUTTERFLY_VISUAL_RANGE = 130;
-export const BUTTERFLY_SPEED = 38;
+export const BUTTERFLY_SPEED       = 38;
 export const BUTTERFLY_FLUTTER_FREQ = 4;
 
 // Camera
-export const CAMERA_LERP = 0.07;
+export const CAMERA_LERP       = 0.07;
 export const CAMERA_DEADZONE_W = 50;
 export const CAMERA_DEADZONE_H = 35;
 
-// Day/night cycle — total game ~15-20 min
-export const DAY_CYCLE_DURATION = 17.5 * 60 * 1000; // ms
+// Day/night cycle
+export const DAY_CYCLE_DURATION = 17.5 * 60 * 1000;
 
 // Interaction
-export const INTERACT_RANGE = 44;
+export const INTERACT_RANGE = 46;
 
 // Dialogue
 export const DIALOGUE_CHARS_PER_SEC = 35;
-export const DIALOGUE_BOX_WIDTH = 520;
-export const DIALOGUE_BOX_HEIGHT = 160;
+export const DIALOGUE_BOX_WIDTH     = 520;
+export const DIALOGUE_BOX_HEIGHT    = 160;
 
-// ── HD-2D 16-bit Color Palette — warm garden palette matching refmap ───────
+// ── HD-2D Color Palette (warm garden + refmap tones) ──────────────────────
 export const COLORS = {
-  // Grass — rich dark greens like the refmap's lush lawn
-  grass1: 0x3d7a35,
-  grass2: 0x356b2c,
-  grass3: 0x4a8f40,
-  grass4: 0x2e5e28,
+  grass1: 0x3d7a30, grass2: 0x345e26, grass3: 0x4d9640, grass4: 0x2a5020,
 
-  // Flowers — warm vibrant tones from refmap
-  flowerPink:     0xf0709a,
-  flowerRed:      0xe03358,
-  flowerYellow:   0xf5c842,
-  flowerWhite:    0xf5f0e8,
-  flowerPurple:   0xa06ad0,
-  flowerBlue:     0x5898d8,
-  flowerOrange:   0xf0843c,
-  flowerLavender: 0xc098d4,
+  flowerPink:     0xf060a0, flowerRed:      0xe02850,
+  flowerYellow:   0xf8c830, flowerWhite:    0xf8f0e8,
+  flowerPurple:   0xa060d8, flowerBlue:     0x5090e0,
+  flowerOrange:   0xf07830, flowerLavender: 0xb890d8,
 
-  // Cherry blossom — refmap's dominant pink tone
-  cherryLight: 0xffbcd4,
-  cherryMed:   0xf090b8,
-  cherryDark:  0xd85890,
-  cherryBark:  0x4a2e1a,
+  cherryLight: 0xffbcd4, cherryMed: 0xf080b8, cherryDark: 0xd04888,
+  cherryBark:  0x3c2010,
 
-  // Water — deep teal pond as in refmap
-  waterDeep:  0x1a3d5c,
-  waterMid:   0x245880,
-  waterLight: 0x5ab0d0,
-  waterFoam:  0xb0dce8,
+  waterDeep: 0x0c2038, waterMid: 0x184870, waterLight: 0x50a0c8,
+  waterFoam: 0xa8d8e8,
 
-  // Stone — warm cream/tan cobblestone as in refmap paths
-  stone1: 0xb8a880,
-  stone2: 0xc8b890,
-  stone3: 0xa09870,
-  stoneDark: 0x706050,
+  stone1: 0xb8a880, stone2: 0xc8b890, stone3: 0xa09870, stoneDark: 0x685848,
 
-  // Wood — warm brown as in refmap bench/arch/fence
-  woodLight: 0xb88c5a,
-  woodMed:   0x9a7040,
-  woodDark:  0x6a4a28,
+  woodLight: 0xc09060, woodMed: 0x9a7040, woodDark: 0x6a4828,
 
-  // Sky / atmosphere
-  skyMorning:   0x87ceeb,
-  skyAfternoon: 0x6bb3d9,
-  skyGolden:    0xf5c06a,
-  skySunset:    0xe8789a,
-  skyNight:     0x0a0a2e,
+  skyMorning: 0x87ceeb, skyAfternoon: 0x6bb3d9, skyGolden: 0xf5c06a,
+  skySunset: 0xe8789a, skyNight: 0x080820,
 
-  // Lighting
-  lanternGlow:  0xffcc44,
-  fireflyGlow:  0xccff66,
-  sunlightGold: 0xfff2cc,
-  moonlight:    0xb8c8e8,
+  lanternGlow: 0xffcc44, fireflyGlow: 0xbbff55,
+  sunlightGold: 0xfff2cc, moonlight: 0xb8c8f0,
 
-  // UI
-  uiBg:      0x1a0a2e,
-  uiBgAlpha: 0.85,
-  uiText:    0xf0e8d8,
-  uiAccent:  0xf2a0b5,
-  uiBorder:  0x483868,
+  uiBg: 0x12082a, uiBgAlpha: 0.88, uiText: 0xf0e8d8,
+  uiAccent: 0xf0a0c0, uiBorder: 0x503878,
+
+  // Island boundary ocean
+  oceanDeep: 0x061828, oceanMid: 0x0a3050, oceanLight: 0x1a6090,
+  cliffTop:  0x604830, cliffFace: 0x402e18, cliffEdge: 0x7a6040,
 } as const;
 
 // Time of day phases
@@ -116,85 +87,75 @@ export const TIME_PHASES = {
   morning:    { start: 0.00, end: 0.25, tint: 0xe8e8ff, alpha: 0.05 },
   afternoon:  { start: 0.25, end: 0.45, tint: 0xfffff0, alpha: 0.00 },
   goldenHour: { start: 0.45, end: 0.60, tint: 0xffd080, alpha: 0.12 },
-  sunset:     { start: 0.60, end: 0.75, tint: 0xff8888, alpha: 0.18 },
+  sunset:     { start: 0.60, end: 0.75, tint: 0xff9080, alpha: 0.18 },
   night:      { start: 0.75, end: 1.00, tint: 0x2233aa, alpha: 0.45 },
 } as const;
 
-// ── Area definitions — scaled to new 3200×4000 world ────────────────────────
-// Layout: 2 columns × 5 rows of 1600×800px zones
+// ── Area definitions — 3×3 grid on 2800×2800 island ──────────────────────
+// Island footprint: x=140 to 2660, y=140 to 2660 (2520×2520)
+// Each zone: 840×840px
 export const AREAS = {
   cottage: {
     name: 'Cottage Garden',
-    x: 0,    y: 3200,
-    width: 1600, height: 800,
+    x: 980, y: 1960, width: 840, height: 840,
     music: 'gentle',
   },
   secretGarden: {
     name: 'Secret Garden',
-    x: 1600, y: 3200,
-    width: 1600, height: 800,
+    x: 140, y: 160, width: 840, height: 840,
     music: 'peaceful',
   },
   roseGarden: {
     name: 'Rose Garden',
-    x: 0,    y: 2400,
-    width: 1600, height: 800,
+    x: 1820, y: 980, width: 840, height: 840,
     music: 'dreamy',
   },
   crystalLake: {
     name: 'Crystal Lake',
-    x: 1600, y: 2400,
-    width: 1600, height: 800,
+    x: 1820, y: 1960, width: 840, height: 840,
     music: 'serene',
   },
   greenhouse: {
     name: 'Greenhouse',
-    x: 0,    y: 1600,
-    width: 1600, height: 800,
+    x: 140, y: 980, width: 840, height: 840,
     music: 'mystical',
   },
   centralPlaza: {
     name: 'Central Plaza',
-    x: 1600, y: 1600,
-    width: 1600, height: 800,
+    x: 980, y: 980, width: 840, height: 840,
     music: 'warm',
   },
   maze: {
     name: 'Hedge Maze',
-    x: 0,    y: 800,
-    width: 1600, height: 800,
+    x: 140, y: 1960, width: 840, height: 840,
     music: 'mystical',
   },
   cherryGarden: {
     name: 'Cherry Garden',
-    x: 1600, y: 800,
-    width: 1600, height: 800,
+    x: 1820, y: 160, width: 840, height: 840,
     music: 'peaceful',
   },
   forgottenChurch: {
     name: 'Forgotten Shrine',
-    x: 400,  y: 200,
-    width: 2400, height: 600,
+    x: 140, y: 160, width: 2520, height: 820,
     music: 'serene',
   },
   observatory: {
     name: 'Observatory',
-    x: 800,  y: 0,
-    width: 1600, height: 200,
+    x: 980, y: 160, width: 840, height: 840,
     music: 'celebration',
   },
 } as const;
 
 export type AreaKey = keyof typeof AREAS;
 
-// Flower types
 export const FLOWER_TYPES = [
   'rose', 'tulip', 'daisy', 'sunflower',
   'lily', 'cherry_blossom', 'lavender', 'wildflower',
 ] as const;
 
 export const FLOWER_COLORS = [
-  COLORS.flowerPink, COLORS.flowerRed, COLORS.flowerYellow,
+  COLORS.flowerPink, COLORS.flowerRed,    COLORS.flowerYellow,
   COLORS.flowerWhite, COLORS.flowerPurple, COLORS.flowerBlue,
   COLORS.flowerOrange, COLORS.flowerLavender,
 ] as const;

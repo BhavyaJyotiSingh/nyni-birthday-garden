@@ -18,6 +18,7 @@ interface FlowerSprite {
 export class FlowerSystem {
   private scene: GameScene;
   private bloomedCells: Set<string> = new Set();
+  private bloomedCellsList: string[] = []; // Rolling queue for recent cells
   private flowers: FlowerSprite[] = [];
   private totalFlowers = 0;
 
@@ -31,20 +32,34 @@ export class FlowerSystem {
     const cy = Math.floor(wy / FLOWER_CELL_SIZE);
     const key = cellKey(cx, cy);
 
-    if (this.bloomedCells.has(key)) return;
-    if (this.totalFlowers >= MAX_ACTIVE_FLOWERS) return;
-
+    // Never ending: only skip if it was bloomed very recently in the last 120 steps
+    if (this.bloomedCellsList.includes(key)) return;
+    
+    this.bloomedCellsList.push(key);
     this.bloomedCells.add(key);
+    if (this.bloomedCellsList.length > 120) {
+      const removed = this.bloomedCellsList.shift();
+      if (removed) this.bloomedCells.delete(removed);
+    }
 
     const count = randInt(FLOWERS_PER_CLUSTER_MIN, FLOWERS_PER_CLUSTER_MAX);
     const baseX = cx * FLOWER_CELL_SIZE + FLOWER_CELL_SIZE / 2;
     const baseY = cy * FLOWER_CELL_SIZE + FLOWER_CELL_SIZE / 2;
 
     for (let i = 0; i < count; i++) {
+      // Recycle the oldest flower to keep performance perfect while enabling never-ending blooms
+      if (this.flowers.length >= 1000) {
+        const oldFlower = this.flowers.shift();
+        if (oldFlower) {
+          oldFlower.sprite.destroy();
+          this.totalFlowers--;
+        }
+      }
+
       const fx = baseX + randFloat(-FLOWER_CELL_SIZE * 0.4, FLOWER_CELL_SIZE * 0.4);
       const fy = baseY + randFloat(-FLOWER_CELL_SIZE * 0.4, FLOWER_CELL_SIZE * 0.4);
       const flowerKey = randPick(FLOWER_ASSET_KEYS);
-      const scale = randFloat(1.0, 2.0);
+      const scale = randFloat(0.35, 0.65); // Smaller and cuter trail flowers
       const rotation = randFloat(-0.3, 0.3);
       const delay = i * randInt(50, 120);
 
@@ -57,7 +72,7 @@ export class FlowerSystem {
     sprite.setScale(0);
     sprite.setAlpha(0);
     sprite.setRotation(rotation);
-    sprite.setDepth(y - 1); // Below player
+    sprite.setDepth(y - 2); // Below player and companion
     sprite.setOrigin(0.5, 1.0);
 
     const flower: FlowerSprite = { sprite, bloomed: false, age: 0 };
@@ -72,7 +87,6 @@ export class FlowerSystem {
         scaleY: scale,
         alpha: 1,
         duration: FLOWER_BLOOM_DURATION,
-        ease: 'Back.easeOut',
         onComplete: () => {
           flower.bloomed = true;
           this.addSparkle(x, y);

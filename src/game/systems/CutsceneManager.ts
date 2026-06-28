@@ -66,8 +66,8 @@ export class CutsceneManager {
     this._isPlaying = true;
     this.scene.playerControlEnabled = false;
 
-    const targetX = 2400;
-    const targetY = 480;
+    const targetX = 1400;
+    const targetY = 500;
 
     // Teleport Bhavya's ragdoll beneath the Observatory tree and stand him up
     this.scene.companionSystem.gameObject.setPosition(targetX, targetY);
@@ -98,15 +98,15 @@ export class CutsceneManager {
     this._isPlaying = true;
     this.scene.playerControlEnabled = false;
 
-    const targetX = 2400;
-    const targetY = 480;
+    const targetX = 1400;
+    const targetY = 500;
 
     // Walk player close to standing Bhavya
     await this.scene.playerSystem.walkTo(targetX - 40, targetY, 2000);
 
     // Walk both slowly to the center beneath the giant cherry tree
-    const centerX = 2400;
-    const centerY = 440;
+    const centerX = 1400;
+    const centerY = 460;
     const walkDuration = 2500;
 
     this.scene.tweens.add({
@@ -130,8 +130,8 @@ export class CutsceneManager {
     this._isPlaying = true;
     this.scene.playerControlEnabled = false;
 
-    const cx = 2400;
-    const cy = 440;
+    const cx = 1400;
+    const cy = 460;
 
     // Camera zooms out slightly for grand finale
     this.scene.cameraSystem.zoomTo(1.15, 1000);
