@@ -60,57 +60,85 @@ export class PlaceholderGenerator {
     this.gfx.clear();
 
     const isNpc = key === 'npc_idle';
-    const bodyColor = isNpc ? 0x5588cc : 0xee7788;
-    const hairColor = isNpc ? 0x3a2a1a : 0x2a1a0a;
-    const skinColor = 0xf5d0b0;
+    
+    // Choose colors
+    const skinColor = 0xfddab7;
+    const bodyColor = isNpc ? 0x415b76 : 0xee7788;
+    const hairColor = isNpc ? 0x5a3e2a : 0x4a2e1b;
+    const detailColor = isNpc ? 0x2b3d50 : 0xd85d79;
+
     const isSide = key === 'player_left' || key === 'player_right';
     const isUp = key === 'player_up';
 
-    this.gfx.fillStyle(0x000000, 0.2);
-    this.gfx.fillEllipse(w / 2, h - 3, 22, 7);
+    // Shadow
+    this.gfx.fillStyle(0x000000, 0.18);
+    this.gfx.fillEllipse(w / 2, h - 3, 20, 6);
 
-    this.gfx.fillStyle(0x5a3824, 1);
-    this.gfx.fillRect(10, 40, 5, 5);
-    this.gfx.fillRect(18, 40, 5, 5);
+    // Boots
+    this.gfx.fillStyle(0x3e2723, 1);
+    this.gfx.fillRect(10, 42, 5, 5);
+    this.gfx.fillRect(17, 42, 5, 5);
+
+    // Legs
     this.gfx.fillStyle(skinColor, 1);
-    this.gfx.fillRect(11, 34, 4, 7);
-    this.gfx.fillRect(18, 34, 4, 7);
+    this.gfx.fillRect(11, 38, 3, 5);
+    this.gfx.fillRect(18, 38, 3, 5);
 
+    // Dress / Tunic
     this.gfx.fillStyle(bodyColor, 1);
-    this.gfx.fillRect(9, 19, 15, 20);
-    this.gfx.fillStyle(isNpc ? 0x3f6fa8 : 0xd85d79, 1);
-    this.gfx.fillRect(8, 31, 17, 7);
-    this.gfx.fillStyle(isNpc ? 0x78a9e0 : 0xffa0b0, 1);
-    this.gfx.fillRect(11, 20, 5, 10);
+    this.gfx.fillRect(9, 18, 14, 20);
+    this.gfx.fillStyle(detailColor, 1);
+    this.gfx.fillRect(9, 34, 14, 4);
+    this.gfx.fillStyle(0xffffff, 1);
+    this.gfx.fillRect(13, 18, 6, 4);
 
+    // Arms
     this.gfx.fillStyle(skinColor, 1);
-    this.gfx.fillRect(6, 22, 4, 12);
-    this.gfx.fillRect(23, 22, 4, 12);
+    if (isSide) {
+      const leftArm = key === 'player_left';
+      this.gfx.fillRect(leftArm ? 12 : 16, 22, 4, 12);
+    } else if (isUp) {
+      this.gfx.fillRect(6, 20, 4, 10);
+      this.gfx.fillRect(22, 20, 4, 10);
+    } else {
+      this.gfx.fillRect(6, 22, 4, 12);
+      this.gfx.fillRect(22, 22, 4, 12);
+    }
 
+    // Head / Face
     this.gfx.fillStyle(skinColor, 1);
-    this.gfx.fillRect(10, 8, 13, 13);
+    this.gfx.fillRect(9, 8, 14, 12);
 
+    // Hair
     this.gfx.fillStyle(hairColor, 1);
-    this.gfx.fillRect(8, 5, 17, 7);
-    this.gfx.fillRect(7, 10, 5, 15);
-    this.gfx.fillRect(21, 10, 5, 15);
-    this.gfx.fillStyle(0x4b2b12, 1);
-    this.gfx.fillRect(10, 5, 12, 3);
-
-    this.gfx.fillStyle(0x2a1a0a, 1);
-    if (!isUp && !isSide) {
-      this.gfx.fillCircle(13, 14, 1.5);
-      this.gfx.fillCircle(19, 14, 1.5);
-      this.gfx.fillStyle(0xe06b86, 1);
-      this.gfx.fillRect(15, 17, 3, 1);
+    this.gfx.fillRect(8, 4, 16, 6);
+    if (isUp) {
+      this.gfx.fillRect(7, 8, 18, 12);
     } else if (isSide) {
-      this.gfx.fillCircle(key === 'player_left' ? 12 : 20, 14, 1.5);
+      const leftDir = key === 'player_left';
+      this.gfx.fillRect(leftDir ? 14 : 8, 6, 10, 14);
+      this.gfx.fillStyle(0x1a0a05, 1);
+      this.gfx.fillRect(leftDir ? 10 : 21, 12, 1, 2);
+    } else {
+      this.gfx.fillRect(8, 8, 16, 3);
+      this.gfx.fillRect(8, 10, 3, 6);
+      this.gfx.fillRect(21, 10, 3, 6);
+      
+      // Eyes
+      this.gfx.fillStyle(0x1a0a05, 1);
+      this.gfx.fillRect(11, 12, 2, 2);
+      this.gfx.fillRect(19, 12, 2, 2);
+
+      // Blush
+      this.gfx.fillStyle(0xff99aa, 0.6);
+      this.gfx.fillRect(10, 14, 2, 1);
+      this.gfx.fillRect(20, 14, 2, 1);
     }
 
     this.gfx.generateTexture(key, w, h);
   }
 
-  // ── Flowers ─────────────────────────────────────────────
+  // ── Cats ─────────────────────────────────────────────────
   private drawCat(key: string): void {
     const w = 32, h = 24;
     const fur = key === 'cat_orange' ? 0xd98934 : 0x6f7a86;
@@ -147,59 +175,72 @@ export class PlaceholderGenerator {
   }
 
   private drawRagdoll(key: string): void {
-    const w = 24, h = 32;
+    const w = 32, h = 48;
     this.gfx.clear();
 
     const isStanding = key === 'ragdoll_standing';
     const isOpen = key === 'ragdoll_open_eyes';
 
-    this.gfx.fillStyle(0x000000, 0.15);
-    this.gfx.fillEllipse(12, 29, 18, 4);
+    const skinColor = 0xfddab7;
+    const bodyColor = 0x387242;
+    const pantsColor = 0x2b3e50;
+    const hairColor = 0x1c1c1c;
 
-    this.gfx.fillStyle(0xf4d1b4, 1);
-    this.gfx.fillRect(8, 5, 9, 9);
+    // Shadow
+    this.gfx.fillStyle(0x000000, 0.18);
+    this.gfx.fillEllipse(w / 2, h - 3, 20, 6);
 
-    this.gfx.fillStyle(0x6b3c22, 1);
-    this.gfx.fillRect(7, 3, 11, 4);
+    // Boots
+    this.gfx.fillStyle(0x1a0a05, 1);
+    this.gfx.fillRect(10, 42, 5, 5);
+    this.gfx.fillRect(17, 42, 5, 5);
 
+    // Legs / Pants
+    this.gfx.fillStyle(pantsColor, 1);
+    this.gfx.fillRect(10, 36, 4, 7);
+    this.gfx.fillRect(18, 36, 4, 7);
+
+    // Shirt / Body
+    this.gfx.fillStyle(bodyColor, 1);
+    this.gfx.fillRect(9, 18, 14, 18);
+    this.gfx.fillStyle(0x2d5c35, 1);
+    this.gfx.fillRect(9, 32, 14, 4);
+    this.gfx.fillStyle(0xfddab7, 1);
+    this.gfx.fillRect(14, 18, 4, 3);
+
+    // Arms
+    this.gfx.fillStyle(skinColor, 1);
+    this.gfx.fillRect(6, 20, 3, 12);
+    this.gfx.fillRect(23, 20, 3, 12);
+
+    // Head
+    this.gfx.fillStyle(skinColor, 1);
+    this.gfx.fillRect(9, 8, 14, 12);
+
+    // Hair JRPG swoop
+    this.gfx.fillStyle(hairColor, 1);
+    this.gfx.fillRect(8, 4, 16, 5);
+    this.gfx.fillRect(7, 6, 3, 6);
+    this.gfx.fillRect(22, 6, 3, 6);
+    this.gfx.fillRect(10, 8, 12, 2);
+
+    // Eyes
     if (isStanding || isOpen) {
-      this.gfx.fillStyle(0xffffff, 1);
-      this.gfx.fillRect(9, 7, 2, 2);
-      this.gfx.fillRect(13, 7, 2, 2);
-      this.gfx.fillStyle(0x000000, 1);
-      this.gfx.fillRect(10, 8, 1, 1);
-      this.gfx.fillRect(14, 8, 1, 1);
+      this.gfx.fillStyle(0x111111, 1);
+      this.gfx.fillRect(11, 12, 2, 2);
+      this.gfx.fillRect(19, 12, 2, 2);
     } else {
-      this.gfx.lineStyle(1, 0x17121c, 1);
-      this.gfx.lineBetween(9, 7, 11, 9);
-      this.gfx.lineBetween(11, 7, 9, 9);
-      this.gfx.lineBetween(13, 7, 15, 9);
-      this.gfx.lineBetween(15, 7, 13, 9);
+      // closed eyes peacefully
+      this.gfx.lineStyle(1.5, 0x111111, 1);
+      this.gfx.lineBetween(11, 13, 13, 13);
+      this.gfx.lineBetween(19, 13, 21, 13);
     }
 
     if (isStanding) {
+      // Smile
       this.gfx.fillStyle(0xe06b86, 1);
-      this.gfx.fillRect(10, 11, 4, 1);
-    } else {
-      this.gfx.fillStyle(0x17121c, 1);
-      this.gfx.fillRect(10, 11, 4, 1);
+      this.gfx.fillRect(14, 15, 4, 1);
     }
-
-    this.gfx.fillStyle(0x6fa8dc, 1);
-    this.gfx.fillRect(7, 14, 11, 10);
-
-    this.gfx.fillStyle(0xf4d1b4, 1);
-    if (isStanding) {
-      this.gfx.fillRect(5, 14, 2, 8);
-      this.gfx.fillRect(17, 14, 2, 8);
-    } else {
-      this.gfx.fillRect(4, 15, 4, 10);
-      this.gfx.fillRect(18, 15, 4, 10);
-    }
-
-    this.gfx.fillStyle(0x3d4f71, 1);
-    this.gfx.fillRect(8, 24, 4, 6);
-    this.gfx.fillRect(12, 24, 4, 6);
 
     this.gfx.generateTexture(key, w, h);
   }
@@ -400,6 +441,62 @@ export class PlaceholderGenerator {
       this.gfx.lineStyle(2, 0xffffff, 0.4);
       this.gfx.strokeCircle(28, 28, 28);
       this.gfx.generateTexture(key, 56, 56);
+    } else if (key === 'ui_heart_filled' || key === 'ui_heart_empty') {
+      const isFilled = key === 'ui_heart_filled';
+      const w = 16, h = 16;
+      
+      // Outline points
+      const points = [
+        {x: 3, y: 1}, {x: 4, y: 1}, {x: 11, y: 1}, {x: 12, y: 1},
+        {x: 2, y: 2}, {x: 5, y: 2}, {x: 10, y: 2}, {x: 13, y: 2},
+        {x: 1, y: 3}, {x: 6, y: 3}, {x: 9, y: 3}, {x: 14, y: 3},
+        {x: 1, y: 4}, {x: 14, y: 4},
+        {x: 2, y: 5}, {x: 13, y: 5},
+        {x: 3, y: 6}, {x: 12, y: 6},
+        {x: 4, y: 7}, {x: 11, y: 7},
+        {x: 5, y: 8}, {x: 10, y: 8},
+        {x: 6, y: 9}, {x: 9, y: 9},
+        {x: 7, y: 10}, {x: 8, y: 10}
+      ];
+      this.gfx.fillStyle(0x3a000d, 1);
+      for (const p of points) {
+        this.gfx.fillRect(p.x, p.y + 1, 1, 1);
+      }
+
+      // Fill inside
+      if (isFilled) {
+        this.gfx.fillStyle(0xff3366, 1);
+        this.gfx.fillRect(3, 3, 2, 1);
+        this.gfx.fillRect(11, 3, 2, 1);
+        this.gfx.fillRect(2, 4, 4, 1);
+        this.gfx.fillRect(10, 4, 4, 1);
+        this.gfx.fillRect(2, 5, 12, 1);
+        this.gfx.fillRect(2, 6, 12, 1);
+        this.gfx.fillRect(3, 7, 10, 1);
+        this.gfx.fillRect(4, 8, 8, 1);
+        this.gfx.fillRect(5, 9, 6, 1);
+        this.gfx.fillRect(6, 10, 4, 1);
+        this.gfx.fillRect(7, 11, 2, 1);
+
+        // Highlight shine
+        this.gfx.fillStyle(0xffaabf, 1);
+        this.gfx.fillRect(3, 3, 1, 1);
+        this.gfx.fillRect(2, 4, 1, 1);
+      } else {
+        this.gfx.fillStyle(0x1a0628, 0.6);
+        this.gfx.fillRect(3, 3, 2, 1);
+        this.gfx.fillRect(11, 3, 2, 1);
+        this.gfx.fillRect(2, 4, 4, 1);
+        this.gfx.fillRect(10, 4, 4, 1);
+        this.gfx.fillRect(2, 5, 12, 1);
+        this.gfx.fillRect(2, 6, 12, 1);
+        this.gfx.fillRect(3, 7, 10, 1);
+        this.gfx.fillRect(4, 8, 8, 1);
+        this.gfx.fillRect(5, 9, 6, 1);
+        this.gfx.fillRect(6, 10, 4, 1);
+        this.gfx.fillRect(7, 11, 2, 1);
+      }
+      this.gfx.generateTexture(key, w, h);
     } else {
       this.gfx.fillStyle(0xffffff, 0.5);
       this.gfx.fillRect(0, 0, 32, 32);

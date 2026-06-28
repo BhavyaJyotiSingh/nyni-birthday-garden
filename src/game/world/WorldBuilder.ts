@@ -6,7 +6,7 @@ import Phaser from 'phaser';
 import { GameScene } from '../scenes/GameScene';
 import { WORLD_OBJECTS } from '../data/worldConfig';
 import type { AreaConfig } from '../data/worldConfig';
-import { WORLD_WIDTH, WORLD_HEIGHT, COLORS } from '../constants';
+import { WORLD_WIDTH, WORLD_HEIGHT } from '../constants';
 import type { AreaKey } from '../constants';
 
 export class WorldBuilder {
@@ -32,84 +32,97 @@ export class WorldBuilder {
     this.placeAreaObjects();
   }
 
-  /** Paint the ground using colored rectangles for each area */
+  /** Paint the ground using textured grass and JRPG winding paths */
   private paintGround(): void {
-    // World background (dark grass)
-    const worldBg = this.scene.add.rectangle(
-      WORLD_WIDTH / 2, WORLD_HEIGHT / 2,
-      WORLD_WIDTH, WORLD_HEIGHT,
-      0x2a5a20
-    );
-    worldBg.setDepth(-1000);
+    // 1. Full screen textured grass background
+    const bg = this.scene.add.tileSprite(0, 0, WORLD_WIDTH, WORLD_HEIGHT, 'grass_tile');
+    bg.setOrigin(0, 0);
+    bg.setDepth(-1000);
 
-    // Paint each area
+    // 2. Draw organic winding JRPG paths
+    const pathGfx = this.scene.add.graphics();
+    pathGfx.setDepth(-990);
+
+    // Draw dark border / dirt outline first
+    pathGfx.lineStyle(60, 0x5a3e2a, 0.85); // outline width 60, dark brown
+    this.drawPathCurves(pathGfx);
+
+    // Draw light path fill
+    pathGfx.lineStyle(48, 0xd2b48c, 0.95); // path width 48, sand/dirt color
+    this.drawPathCurves(pathGfx);
+
+    // 3. Paint water bodies and shorelines
     for (const config of WORLD_OBJECTS) {
-      const { x, y, w, h } = config.bounds;
-
-      // Ground
-      const ground = this.scene.add.rectangle(
-        x + w / 2, y + h / 2,
-        w, h,
-        config.groundColor
-      );
-      ground.setDepth(-999);
-
-      // Subtle variation patches
-      for (let i = 0; i < 8; i++) {
-        const patchX = x + Math.random() * w;
-        const patchY = y + Math.random() * h;
-        const patchW = 80 + Math.random() * 160;
-        const patchH = 60 + Math.random() * 120;
-        const patch = this.scene.add.rectangle(
-          patchX, patchY, patchW, patchH,
-          this.lightenColor(config.groundColor, 0.08),
-          0.3
-        );
-        patch.setDepth(-998);
-      }
-
-      // Water areas
       if (config.hasWater && config.waterBounds) {
         const wb = config.waterBounds;
+        
+        // Deep teal water
         const water = this.scene.add.rectangle(
           wb.x + wb.w / 2, wb.y + wb.h / 2,
           wb.w, wb.h,
-          COLORS.waterMid, 0.85
+          0x0c2533, 0.92
         );
-        water.setDepth(-997);
+        water.setDepth(-980);
 
         // Water shimmer overlay
         const shimmer = this.scene.add.rectangle(
           wb.x + wb.w / 2, wb.y + wb.h / 2,
           wb.w, wb.h,
-          COLORS.waterLight, 0.15
+          0x153c4d, 0.2
         );
-        shimmer.setDepth(-996);
+        shimmer.setDepth(-979);
 
-        // Animate shimmer
+        // Animate water shimmer
         this.scene.tweens.add({
           targets: shimmer,
-          alpha: { from: 0.05, to: 0.2 },
-          duration: 2000,
+          alpha: { from: 0.1, to: 0.35 },
+          duration: 2500,
           yoyo: true,
           repeat: -1,
           ease: 'Sine.easeInOut',
         });
 
-        // Water edge/shore
-        const shore = this.scene.add.rectangle(
-          wb.x + wb.w / 2, wb.y,
-          wb.w + 20, 8,
-          COLORS.waterFoam, 0.4
-        );
-        shore.setDepth(-995);
+        // Shoreline border
+        const shore = this.scene.add.graphics();
+        shore.setDepth(-978);
+        shore.lineStyle(3, 0x1f5c6b, 0.7);
+        shore.strokeRect(wb.x, wb.y, wb.w, wb.h);
       }
+    }
+  }
 
-      // Area border glow (subtle transition)
-      const borderGfx = this.scene.add.graphics();
-      borderGfx.setDepth(-990);
-      borderGfx.lineStyle(2, 0xffffff, 0.03);
-      borderGfx.strokeRect(x, y, w, h);
+  /** Helper to draw winding paths curves across the grid */
+  private drawPathCurves(gfx: Phaser.GameObjects.Graphics): void {
+    // ── Left Column Path (Cottage y: 6000 down to y: 1000)
+    gfx.beginPath();
+    gfx.moveTo(1700, 6000);
+    for (let y = 6000; y >= 1000; y -= 20) {
+      const x = 1700 + Math.sin(y * 0.012) * 28;
+      gfx.lineTo(x, y);
+    }
+    gfx.strokePath();
+
+    // ── Right Column Path (Secret Garden y: 6000 down to y: 1000)
+    gfx.beginPath();
+    gfx.moveTo(3100, 6000);
+    for (let y = 6000; y >= 1000; y -= 20) {
+      const x = 3100 + Math.cos(y * 0.01) * 32;
+      gfx.lineTo(x, y);
+    }
+    gfx.strokePath();
+
+    // ── Horizontal Connectors between Columns
+    const horizontalYPos = [5900, 4900, 3900, 2800, 1600];
+    for (const hy of horizontalYPos) {
+      gfx.beginPath();
+      const lx = 1700 + Math.sin(hy * 0.012) * 28;
+      const rx = 3100 + Math.cos(hy * 0.01) * 32;
+      gfx.moveTo(lx, hy);
+      for (let x = lx; x <= rx; x += 20) {
+        const y = hy + Math.sin(x * 0.008) * 12;
+        gfx.lineTo(x, y);
+      }
+      gfx.strokePath();
     }
   }
 
@@ -326,12 +339,5 @@ export class WorldBuilder {
     if (!config.waterBounds) return false;
     const wb = config.waterBounds;
     return px >= wb.x && px <= wb.x + wb.w && py >= wb.y && py <= wb.y + wb.h;
-  }
-
-  private lightenColor(color: number, amount: number): number {
-    const r = Math.min(255, ((color >> 16) & 0xFF) + Math.round(255 * amount));
-    const g = Math.min(255, ((color >> 8) & 0xFF) + Math.round(255 * amount));
-    const b = Math.min(255, (color & 0xFF) + Math.round(255 * amount));
-    return (r << 16) | (g << 8) | b;
   }
 }

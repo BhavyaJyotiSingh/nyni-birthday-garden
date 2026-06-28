@@ -61,6 +61,9 @@ export class PlayerSystem {
 
   setPosition(x: number, y: number): void {
     this.sprite.setPosition(x, y);
+    if (this.sprite.body) {
+      (this.sprite.body as Phaser.Physics.Arcade.Body).reset(x, y);
+    }
     this._lastFlowerX = x;
     this._lastFlowerY = y;
   }
@@ -251,19 +254,5 @@ export class PlayerSystem {
         });
       });
     }
-  }
-
-  setPosition(x: number, y: number): void {
-    this.sprite.setPosition(x, y);
-    if (this.sprite.body) {
-      (this.sprite.body as Phaser.Physics.Arcade.Body).reset(x, y);
-    }
-  }
-
-  getHandPosition(): { x: number; y: number } {
-    return {
-      x: this.sprite.x + (this.facing === 'left' ? -12 : this.facing === 'right' ? 12 : 0),
-      y: this.sprite.y - 12
-    };
   }
 }

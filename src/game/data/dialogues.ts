@@ -159,8 +159,8 @@ export const DIALOGUES: Record<string, DialogueSequence> = {
     lines: [
       { text: 'I look into the mirror...' },
       { text: 'Wait. My reflection...' },
-      { text: 'It isn\'t me. It\'s Bhavya, lying motionless.' },
-      { text: 'But when I touch my face, the reflection does the same...' },
+      { text: 'It isn\'t me. It\'s Bhavya, standing right behind me, staring.' },
+      { text: 'But when I turn around... there is nobody there.' },
     ],
   },
 
@@ -168,8 +168,8 @@ export const DIALOGUES: Record<string, DialogueSequence> = {
   bhavya_lift: {
     id: 'bhavya_lift',
     lines: [
-      { text: 'Bhavya? He is completely limp.' },
-      { text: 'He won\'t speak... but I can drag him along.' },
+      { text: 'Bhavya looks at me, and gently holds my hand.' },
+      { text: '"Let\'s walk together," he whispers, though his lips do not move.' },
     ],
   },
 

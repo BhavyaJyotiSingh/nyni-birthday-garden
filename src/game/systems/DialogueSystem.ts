@@ -59,13 +59,17 @@ export class DialogueSystem {
 
     // Background
     this.bgGraphics = this.scene.add.graphics();
-    this.bgGraphics.fillStyle(0x0e0620, 0.92);
+    this.bgGraphics.fillStyle(0x0a0515, 0.95);
     this.bgGraphics.fillRoundedRect(-w / 2, -h, w, h, 16);
-    this.bgGraphics.lineStyle(1.5, 0x6a4a8a, 0.6);
+    
+    // Gold double border outline
+    this.bgGraphics.lineStyle(2, 0x8b6508, 0.8); // Outer border dark gold
     this.bgGraphics.strokeRoundedRect(-w / 2, -h, w, h, 16);
+    this.bgGraphics.lineStyle(1.5, 0xd4af37, 0.9); // Inner border bright gold
+    this.bgGraphics.strokeRoundedRect(-w / 2 + 3, -h + 3, w - 6, h - 6, 13);
 
     // Decorative line under title
-    this.bgGraphics.lineStyle(1, 0xf2a0b5, 0.4);
+    this.bgGraphics.lineStyle(1, 0xd4af37, 0.35);
     this.bgGraphics.lineBetween(-w / 2 + 20, -h + 36, w / 2 - 20, -h + 36);
 
     this.container.add(this.bgGraphics);
@@ -100,10 +104,10 @@ export class DialogueSystem {
     });
     this.container.add(this.bodyText);
 
-    // Continue indicator
-    this.continueText = this.scene.add.text(w / 2 - 30, -16, '▼', {
-      fontFamily: 'sans-serif',
-      fontSize: '14px',
+    // Continue indicator (pulsing pink heart)
+    this.continueText = this.scene.add.text(w / 2 - 30, -20, '❤', {
+      fontFamily: 'Quicksand, sans-serif',
+      fontSize: '16px',
       color: '#f2a0b5',
     });
     this.continueText.setOrigin(0.5, 0.5);

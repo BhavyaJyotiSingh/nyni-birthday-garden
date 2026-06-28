@@ -11,9 +11,15 @@ export class EffectsManager {
   private petalTimer = 0;
   private pollenTimer = 0;
   private leafTimer = 0;
+  private godRays: Phaser.GameObjects.Graphics | null = null;
 
   constructor(scene: GameScene) {
     this.scene = scene;
+    
+    // Volumetric JRPG God Rays overlay
+    this.godRays = scene.add.graphics();
+    this.godRays.setScrollFactor(0);
+    this.godRays.setDepth(98000);
   }
 
   update(delta: number): void {
@@ -21,6 +27,50 @@ export class EffectsManager {
     this.updatePetals(dt);
     this.updatePollen(dt);
     this.updateLeaves(dt);
+    this.drawGodRays(this.scene.time.now);
+  }
+
+  private drawGodRays(time: number): void {
+    if (!this.godRays) return;
+    this.godRays.clear();
+    
+    const progress = this.scene.environmentManager.getTimeProgress();
+    if (progress > 0.72) return; // Hide rays during night
+    
+    const cam = this.scene.cameras.main;
+    let tint = 0xffe8a0; // bright day ray
+    let maxAlpha = 0.08;
+    
+    if (progress < 0.2) {
+      tint = 0xfffcf0; // cool morning ray
+      maxAlpha = 0.06;
+    } else if (progress > 0.5 && progress <= 0.72) {
+      tint = 0xff7744; // golden sunset ray
+      maxAlpha = 0.12;
+    }
+    
+    const rayCount = 4;
+    for (let i = 0; i < rayCount; i++) {
+      const offset = Math.sin(time * 0.0006 + i * 2.5) * 60;
+      const width = 80 + Math.sin(time * 0.0004 + i * 1.2) * 20;
+      const startX = 100 + i * 320 + offset;
+      
+      const p1 = { x: startX, y: 0 };
+      const p2 = { x: startX + width, y: 0 };
+      const p3 = { x: startX - 200 + width * 2, y: cam.height };
+      const p4 = { x: startX - 200, y: cam.height };
+      
+      const alpha = Math.max(0, maxAlpha * (0.4 + Math.sin(time * 0.0008 + i * 1.8) * 0.3));
+      
+      this.godRays.fillStyle(tint, alpha);
+      this.godRays.beginPath();
+      this.godRays.moveTo(p1.x, p1.y);
+      this.godRays.lineTo(p2.x, p2.y);
+      this.godRays.lineTo(p3.x, p3.y);
+      this.godRays.lineTo(p4.x, p4.y);
+      this.godRays.closePath();
+      this.godRays.fillPath();
+    }
   }
 
   private updatePetals(dt: number): void {

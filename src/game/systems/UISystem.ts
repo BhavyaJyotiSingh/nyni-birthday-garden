@@ -9,6 +9,8 @@ export class UISystem {
   private scene: GameScene;
   private areaNameText: Phaser.GameObjects.Text;
   private memoryCounter: Phaser.GameObjects.Text;
+  private clockText!: Phaser.GameObjects.Text;
+  private relationshipGroup!: Phaser.GameObjects.Group;
   private _isMobile = false;
   private _interactPressed = false;
 
@@ -28,10 +30,9 @@ export class UISystem {
 
     // Area name display
     this.areaNameText = scene.add.text(scene.cameras.main.width / 2, 50, '', {
-      fontFamily: 'Cormorant Garamond, serif',
-      fontSize: '28px',
-      fontStyle: 'italic',
-      color: '#f0e8d8',
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      fontSize: '24px',
+      color: '#f8e9bd',
       align: 'center',
     });
     this.areaNameText.setOrigin(0.5, 0.5);
@@ -39,17 +40,39 @@ export class UISystem {
     this.areaNameText.setDepth(100001);
     this.areaNameText.setAlpha(0);
 
-    // Memory counter
-    this.memoryCounter = scene.add.text(scene.cameras.main.width - 20, 20, '', {
-      fontFamily: 'Quicksand, sans-serif',
-      fontSize: '16px',
-      color: '#f2a0b5',
+    // Heart Relationship Meter (Top Left)
+    this.relationshipGroup = scene.add.group();
+    for (let i = 0; i < 5; i++) {
+      const heart = scene.add.sprite(30 + i * 26, 30, 'ui_heart_empty');
+      heart.setScale(1.5);
+      heart.setScrollFactor(0);
+      heart.setDepth(100001);
+      this.relationshipGroup.add(heart);
+    }
+
+    // Time Clock (Top Right)
+    this.clockText = scene.add.text(scene.cameras.main.width - 20, 20, '', {
+      fontFamily: '"Courier New", monospace',
+      fontSize: '14px',
+      fontStyle: 'bold',
+      color: '#f8e9bd',
+      align: 'right',
+    });
+    this.clockText.setOrigin(1, 0);
+    this.clockText.setScrollFactor(0);
+    this.clockText.setDepth(100001);
+
+    // Memory counter (below Clock)
+    this.memoryCounter = scene.add.text(scene.cameras.main.width - 20, 48, '', {
+      fontFamily: '"Courier New", monospace',
+      fontSize: '14px',
+      color: '#f7b7c9',
       align: 'right',
     });
     this.memoryCounter.setOrigin(1, 0);
     this.memoryCounter.setScrollFactor(0);
     this.memoryCounter.setDepth(100001);
-    this.memoryCounter.setAlpha(0.7);
+    this.memoryCounter.setAlpha(0.85);
 
     // Mobile controls
     if (this._isMobile) {
@@ -159,13 +182,31 @@ export class UISystem {
   }
 
   update(): void {
-    // Update memory counter
     const discovered = this.scene.interactionSystem.getDiscoveredMemories().length;
-    const total = 8; // total memories
-    if (discovered > 0) {
-      this.memoryCounter.setText(`✿ ${discovered}/${total}`);
-      this.memoryCounter.setAlpha(0.7);
-    }
+    const total = 8;
+
+    const filledHearts = Math.min(5, 1 + Math.floor(discovered / 1.6));
+    const hearts = this.relationshipGroup.getChildren() as Phaser.GameObjects.Sprite[];
+    hearts.forEach((heart, index) => {
+      heart.setTexture(index < filledHearts ? 'ui_heart_filled' : 'ui_heart_empty');
+    });
+
+    const progress = this.scene.environmentManager.getTimeProgress();
+    const startHour = 8.5;
+    const endHour = 22.5;
+    const currentHour = startHour + progress * (endHour - startHour);
+    const hr = Math.floor(currentHour % 12);
+    const displayHr = hr === 0 ? 12 : hr;
+    const mins = Math.floor((currentHour % 1) * 60).toString().padStart(2, '0');
+    const period = currentHour >= 12 ? 'PM' : 'AM';
+
+    let symbol = 'SUN';
+    if (progress > 0.5 && progress <= 0.65) symbol = 'GOLD';
+    else if (progress > 0.65 && progress <= 0.72) symbol = 'DUSK';
+    else if (progress > 0.72) symbol = 'MOON';
+
+    this.clockText.setText(`Jun 28  ${displayHr}:${mins} ${period}  ${symbol}`);
+    this.memoryCounter.setText(`MEMORIES ${discovered}/${total}`);
   }
 
   isMobileDevice(): boolean {

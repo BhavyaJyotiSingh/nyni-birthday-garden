@@ -116,6 +116,8 @@ export const UI_ASSETS: AssetEntry[] = [
   { key: 'ui_joystick_base',  type: 'placeholder' },
   { key: 'ui_joystick_knob',  type: 'placeholder' },
   { key: 'ui_button_interact', type: 'placeholder' },
+  { key: 'ui_heart_filled',   type: 'placeholder' },
+  { key: 'ui_heart_empty',    type: 'placeholder' },
 ];
 
 // ── Environment ─────────────────────────────────────────────

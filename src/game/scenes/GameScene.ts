@@ -19,7 +19,7 @@ import { CutsceneManager } from '../systems/CutsceneManager';
 import { AudioSystem } from '../systems/AudioSystem';
 import { CompanionSystem } from '../systems/CompanionSystem';
 import { NpcSystem } from '../systems/NpcSystem';
-import { WorldBuilder } from '../world/WorldBuilder';
+import { WorldBuilder } from '../world/WorldBuilderHD2D';
 import { DIALOGUES } from '../data/dialogues';
 import { eventBus } from '../EventBus';
 

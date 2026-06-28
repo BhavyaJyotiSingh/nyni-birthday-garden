@@ -14,6 +14,7 @@ export class CompanionSystem {
   private wasOffScreen = false;
   private endingMode = false;
   private interactableId = 'bhavya_ragdoll';
+  private pathHistory: { x: number; y: number }[] = [];
 
   get gameObject(): Phaser.Physics.Arcade.Sprite { return this.ragdoll; }
   get tethered(): boolean { return this.isTethered; }
@@ -101,8 +102,7 @@ export class CompanionSystem {
     }
   }
 
-  update(delta: number): void {
-    const dt = delta / 1000;
+  update(_delta: number): void {
     const body = this.ragdoll.body as Phaser.Physics.Arcade.Body;
 
     // Update coordinates for the interactable reference
@@ -120,75 +120,57 @@ export class CompanionSystem {
     }
 
     if (this.isTethered) {
-      this.updateDragging(dt);
-      this.ragdoll.setDepth(this.ragdoll.y + 2);
-      this.drawTether();
-
-      // Eyes behavior: open while moving (back turned), closed when standing still
+      // ── HAND-HOLDING WALK (Side-by-side)
+      const dir = this.scene.playerSystem.direction;
+      const ox = dir === 'left' ? 24 : dir === 'right' ? -24 : (Math.random() < 0.5 ? -18 : 18);
+      const oy = dir === 'up' ? 18 : dir === 'down' ? -18 : 0;
+      
+      const tx = this.scene.playerSystem.x + ox;
+      const ty = this.scene.playerSystem.y + oy;
+      
+      this.ragdoll.x = Phaser.Math.Linear(this.ragdoll.x, tx, 0.15);
+      this.ragdoll.y = Phaser.Math.Linear(this.ragdoll.y, ty, 0.15);
+      
+      this.ragdoll.setTexture('ragdoll_open_eyes');
+      this.ragdoll.setRotation(0);
+      this.ragdoll.setDepth(this.ragdoll.y + 1);
+      
+      this.tether.clear();
+      
+      // Spawn small sparkles between hands during movement
+      if (this.scene.playerSystem.isWalking && Math.random() < 0.08) {
+        const px = (this.ragdoll.x + this.scene.playerSystem.x) / 2;
+        const py = (this.ragdoll.y + this.scene.playerSystem.y) / 2 - 12;
+        this.scene.effectsManager.createFireflyBurst?.(px, py);
+      }
+    } else {
+      // ── JRPG TRAIL FOLLOW (Trailing behind player)
+      this.tether.clear();
+      this.ragdoll.setDepth(this.ragdoll.y);
+      
       if (this.scene.playerSystem.isWalking) {
+        this.pathHistory.push({ x: this.scene.playerSystem.x, y: this.scene.playerSystem.y });
+        if (this.pathHistory.length > 18) {
+          const target = this.pathHistory.shift()!;
+          this.ragdoll.x = Phaser.Math.Linear(this.ragdoll.x, target.x, 0.12);
+          this.ragdoll.y = Phaser.Math.Linear(this.ragdoll.y, target.y, 0.12);
+        }
         this.ragdoll.setTexture('ragdoll_open_eyes');
+        this.ragdoll.setRotation(0);
       } else {
         this.ragdoll.setTexture('ragdoll_cross_eyes');
         this.pointTowardInterestingObjects();
       }
-    } else {
-      this.tether.clear();
-      this.ragdoll.setDepth(this.ragdoll.y);
+
       body.velocity.x *= 0.85;
       body.velocity.y *= 0.85;
 
-      // Spooky standing up behavior when off-screen
+      // Spooky standing check (when offscreen, stands and stares)
       this.checkOffscreenStanding();
     }
   }
 
-  private updateDragging(dt: number): void {
-    const hand = this.scene.playerSystem.getHandPosition();
-    const dollHand = this.getDollHandPosition();
-    const dx = hand.x - dollHand.x;
-    const dy = hand.y - dollHand.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const body = this.ragdoll.body as Phaser.Physics.Arcade.Body;
-
-    if (distance > 2) {
-      // Pull velocity
-      const pullForce = Math.min(1000, distance * 22);
-      body.velocity.x += (dx / distance) * pullForce * dt;
-      body.velocity.y += (dy / distance) * pullForce * dt;
-    }
-
-    // Limit distance so he doesn't stretch infinitely
-    if (distance > 50) {
-      const correction = distance - 50;
-      this.ragdoll.x += (dx / distance) * correction * 0.9;
-      this.ragdoll.y += (dy / distance) * correction * 0.9;
-    }
-
-    // Rotate the sprite based on drag tilt
-    const speedTilt = Phaser.Math.Clamp(body.velocity.x / 250, -1, 1) * 0.4;
-    const pullTilt = Phaser.Math.Clamp((hand.x - this.ragdoll.x) / 100, -1, 1) * 0.2;
-    this.ragdoll.setRotation(Phaser.Math.Linear(this.ragdoll.rotation, speedTilt + pullTilt, 0.1));
-  }
-
-  private getDollHandPosition(): { x: number; y: number } {
-    const side = this.ragdoll.x < this.scene.playerSystem.x ? 1 : -1;
-    return {
-      x: this.ragdoll.x + side * 16,
-      y: this.ragdoll.y - 12,
-    };
-  }
-
-  private drawTether(): void {
-    const hand = this.scene.playerSystem.getHandPosition();
-    const dollHand = this.getDollHandPosition();
-    this.tether.clear();
-    this.tether.lineStyle(2, 0x6a4a2a, 0.65);
-    this.tether.lineBetween(hand.x, hand.y, dollHand.x, dollHand.y);
-  }
-
-  /** Rotates Bhavya slightly toward interesting objects when standing still */
   private pointTowardInterestingObjects(): void {
-    // Find nearest undiscovered memory orb or lantern
     const px = this.ragdoll.x;
     const py = this.ragdoll.y;
 
@@ -207,9 +189,11 @@ export class CompanionSystem {
     }
 
     if (target) {
+      // Rotate head slightly toward point of interest
       const angle = Phaser.Math.Angle.Between(px, py, target.x, target.y);
-      // Tilt rotation slightly in target direction (limp head turn)
-      this.ragdoll.setRotation(Phaser.Math.Linear(this.ragdoll.rotation, angle + Math.PI / 2, 0.08));
+      this.ragdoll.setRotation(Phaser.Math.Linear(this.ragdoll.rotation, (angle + Math.PI / 2) * 0.15, 0.08));
+    } else {
+      this.ragdoll.setRotation(Phaser.Math.Linear(this.ragdoll.rotation, 0, 0.08));
     }
   }
 
