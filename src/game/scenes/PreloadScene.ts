@@ -12,6 +12,7 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   preload(): void {
+    console.log('PreloadScene: preload started');
     const { width, height } = this.cameras.main;
 
     // Background decoration
@@ -84,6 +85,7 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create(): void {
+    console.log('PreloadScene: preload complete, starting GameScene');
     // When preloading completes, start the GameScene
     this.scene.start('GameScene');
   }

@@ -49,6 +49,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   create(): void {
+    console.log('GameScene: create started');
     // Set world bounds
     this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
@@ -100,6 +101,7 @@ export class GameScene extends Phaser.Scene {
       loop: true,
     });
 
+    console.log('GameScene: create complete, emitting game-ready');
     eventBus.emit('game-ready');
   }
 

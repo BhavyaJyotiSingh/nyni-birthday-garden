@@ -10,6 +10,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   create(): void {
+    console.log('BootScene: starting PreloadScene');
     // Transition to the PreloadScene immediately
     this.scene.start('PreloadScene');
   }
