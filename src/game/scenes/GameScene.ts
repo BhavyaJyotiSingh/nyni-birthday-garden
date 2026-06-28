@@ -81,6 +81,7 @@ export class GameScene extends Phaser.Scene {
     const saveData = this.saveSystem.load();
     if (saveData) {
       this.playerSystem.setPosition(saveData.playerX, saveData.playerY);
+      this.companionSystem.resetToPlayer(saveData.playerX, saveData.playerY);
       this.environmentManager.setTime(saveData.timeProgress);
       saveData.discoveredMemories.forEach((id: string) => {
         this.interactionSystem.markMemoryDiscovered(id);
