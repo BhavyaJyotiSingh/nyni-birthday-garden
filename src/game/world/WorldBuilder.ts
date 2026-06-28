@@ -27,6 +27,7 @@ export class WorldBuilder {
 
   build(): void {
     this.paintGround();
+    this.addDenseRpgDecoration();
     this.placeAreaObjects();
   }
 
@@ -152,6 +153,63 @@ export class WorldBuilder {
         objectId++;
       }
     }
+  }
+
+  private addDenseRpgDecoration(): void {
+    const decorationKeys = ['tall_grass', 'flower_daisy', 'flower_lavender', 'flower_wild', 'flower_rose'];
+
+    for (const config of WORLD_OBJECTS) {
+      const { x, y, w, h } = config.bounds;
+      const density = config.key === 'crystalLake' ? 55 : config.key === 'sunflowerField' ? 90 : 75;
+
+      // Soft tile speckles make the rectangle ground read more like 16-bit terrain.
+      for (let i = 0; i < density; i++) {
+        const px = x + 40 + Math.random() * (w - 80);
+        const py = y + 40 + Math.random() * (h - 80);
+        if (this.isInWater(px, py, config)) continue;
+
+        const key = decorationKeys[Math.floor(Math.random() * decorationKeys.length)];
+        const sprite = this.scene.add.sprite(px, py, key);
+        sprite.setScale(0.65 + Math.random() * 0.75);
+        sprite.setRotation((Math.random() - 0.5) * 0.25);
+        sprite.setAlpha(0.78);
+        sprite.setOrigin(0.5, 1);
+        sprite.setDepth(py - 8);
+        this.worldObjects.push(sprite);
+      }
+
+      // Denser edge planting frames the areas without blocking paths.
+      const edgeCount = Math.max(12, Math.floor((w + h) / 160));
+      for (let i = 0; i < edgeCount; i++) {
+        const side = i % 4;
+        const px = side < 2 ? x + Math.random() * w : x + (side === 2 ? 35 : w - 35);
+        const py = side >= 2 ? y + Math.random() * h : y + (side === 0 ? 35 : h - 35);
+        const key = Math.random() < 0.55 ? 'bush' : (config.key.includes('cherry') || config.key === 'birthdayGarden' ? 'tree_cherry' : 'tree_oak');
+        const sprite = this.scene.add.sprite(px, py, key);
+        sprite.setScale(key === 'bush' ? 0.75 + Math.random() * 0.45 : 0.75 + Math.random() * 0.35);
+        sprite.setOrigin(0.5, 0.8);
+        sprite.setDepth(py);
+        this.worldObjects.push(sprite);
+      }
+
+      if (config.hasWater && config.waterBounds) {
+        const wb = config.waterBounds;
+        for (let i = 0; i < 34; i++) {
+          const sideY = Math.random() < 0.5 ? wb.y + 8 : wb.y + wb.h - 8;
+          const reed = this.scene.add.sprite(wb.x + Math.random() * wb.w, sideY + (Math.random() - 0.5) * 28, Math.random() < 0.5 ? 'reed' : 'cattail');
+          reed.setScale(0.75 + Math.random() * 0.55);
+          reed.setOrigin(0.5, 1);
+          reed.setDepth(reed.y);
+          this.worldObjects.push(reed);
+        }
+      }
+    }
+  }
+
+  private isInWater(px: number, py: number, config: AreaConfig): boolean {
+    if (!config.waterBounds) return false;
+    const wb = config.waterBounds;
+    return px >= wb.x && px <= wb.x + wb.w && py >= wb.y && py <= wb.y + wb.h;
   }
 
   private lightenColor(color: number, amount: number): number {

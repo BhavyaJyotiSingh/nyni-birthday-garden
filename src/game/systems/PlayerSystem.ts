@@ -23,6 +23,8 @@ export class PlayerSystem {
   get x(): number { return this.sprite.x; }
   get y(): number { return this.sprite.y; }
   get gameObject(): Phaser.GameObjects.Sprite { return this.sprite; }
+  get isWalking(): boolean { return this.isMoving; }
+  get direction(): string { return this.facing; }
 
   constructor(scene: GameScene) {
     this.scene = scene;
@@ -59,6 +61,20 @@ export class PlayerSystem {
     this.sprite.setPosition(x, y);
     this._lastFlowerX = x;
     this._lastFlowerY = y;
+  }
+
+  getHandPosition(): { x: number; y: number } {
+    const offsets: Record<string, { x: number; y: number }> = {
+      left: { x: -23, y: 8 },
+      right: { x: 23, y: 8 },
+      up: { x: -15, y: 7 },
+      down: { x: -20, y: 10 },
+    };
+    const offset = offsets[this.facing] ?? offsets.down;
+    return {
+      x: this.sprite.x + offset.x,
+      y: this.sprite.y + offset.y,
+    };
   }
 
   update(_delta: number): void {

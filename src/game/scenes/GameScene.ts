@@ -17,6 +17,7 @@ import { UISystem } from '../systems/UISystem';
 import { SaveSystem } from '../systems/SaveSystem';
 import { CutsceneManager } from '../systems/CutsceneManager';
 import { AudioSystem } from '../systems/AudioSystem';
+import { CompanionSystem } from '../systems/CompanionSystem';
 import { WorldBuilder } from '../world/WorldBuilder';
 import { DIALOGUES } from '../data/dialogues';
 import { eventBus } from '../EventBus';
@@ -35,6 +36,7 @@ export class GameScene extends Phaser.Scene {
   public saveSystem!: SaveSystem;
   public cutsceneManager!: CutsceneManager;
   public audioSystem!: AudioSystem;
+  public companionSystem!: CompanionSystem;
   public worldBuilder!: WorldBuilder;
 
   // State
@@ -66,6 +68,7 @@ export class GameScene extends Phaser.Scene {
     this.uiSystem = new UISystem(this);
     this.cutsceneManager = new CutsceneManager(this);
     this.audioSystem = new AudioSystem(this);
+    this.companionSystem = new CompanionSystem(this);
 
     // Build the world (needs playerSystem and interactionSystem initialized)
     this.worldBuilder = new WorldBuilder(this);
@@ -148,6 +151,7 @@ export class GameScene extends Phaser.Scene {
     this.effectsManager.update(delta);
     this.uiSystem.update();
     this.cutsceneManager.update(delta);
+    this.companionSystem.update(delta);
 
     // Check area transitions
     this.checkAreaTransition();

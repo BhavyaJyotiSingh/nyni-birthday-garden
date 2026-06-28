@@ -24,6 +24,9 @@ export const PLAYER_ASSETS: AssetEntry[] = [
 // ── NPC ─────────────────────────────────────────────────────
 export const NPC_ASSETS: AssetEntry[] = [
   { key: 'npc_idle', type: 'placeholder' },
+  { key: 'cat_orange', type: 'placeholder' },
+  { key: 'cat_gray', type: 'placeholder' },
+  { key: 'ragdoll_cross_eyes', type: 'placeholder' },
 ];
 
 // ── Flowers ─────────────────────────────────────────────────

@@ -155,6 +155,35 @@ export class AudioSystem {
     osc.stop(now + 0.3);
   }
 
+  /** Play a small procedural cat meow. */
+  playMeow(): void {
+    if (!this.ctx || !this.masterGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(520 + Math.random() * 80, now);
+    osc.frequency.linearRampToValueAtTime(760 + Math.random() * 120, now + 0.08);
+    osc.frequency.linearRampToValueAtTime(380 + Math.random() * 70, now + 0.32);
+
+    filter.type = 'bandpass';
+    filter.frequency.value = 950;
+    filter.Q.value = 4;
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.045, now + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(now);
+    osc.stop(now + 0.38);
+  }
+
   destroy(): void {
     if (this.ambientInterval) clearInterval(this.ambientInterval);
     if (this.ctx) this.ctx.close();

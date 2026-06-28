@@ -33,6 +33,10 @@ export class PlaceholderGenerator {
 
     if (key.startsWith('player_') || key === 'npc_idle') {
       this.drawCharacter(key);
+    } else if (key.startsWith('cat_')) {
+      this.drawCat(key);
+    } else if (key === 'ragdoll_cross_eyes') {
+      this.drawRagdoll();
     } else if (key.startsWith('flower_')) {
       this.drawFlower(key);
     } else if (key.startsWith('tree_')) {
@@ -55,50 +59,120 @@ export class PlaceholderGenerator {
     const w = 32, h = 48;
     this.gfx.clear();
 
-    // Body
     const isNpc = key === 'npc_idle';
     const bodyColor = isNpc ? 0x5588cc : 0xee7788;
     const hairColor = isNpc ? 0x3a2a1a : 0x2a1a0a;
     const skinColor = 0xf5d0b0;
+    const isSide = key === 'player_left' || key === 'player_right';
+    const isUp = key === 'player_up';
 
-    // Shadow
     this.gfx.fillStyle(0x000000, 0.2);
-    this.gfx.fillEllipse(w / 2, h - 4, 20, 8);
+    this.gfx.fillEllipse(w / 2, h - 3, 22, 7);
 
-    // Body/dress
-    this.gfx.fillStyle(bodyColor, 1);
-    this.gfx.fillRoundedRect(8, 18, 16, 24, 3);
-
-    // Head
+    this.gfx.fillStyle(0x5a3824, 1);
+    this.gfx.fillRect(10, 40, 5, 5);
+    this.gfx.fillRect(18, 40, 5, 5);
     this.gfx.fillStyle(skinColor, 1);
-    this.gfx.fillCircle(w / 2, 14, 9);
+    this.gfx.fillRect(11, 34, 4, 7);
+    this.gfx.fillRect(18, 34, 4, 7);
 
-    // Hair
+    this.gfx.fillStyle(bodyColor, 1);
+    this.gfx.fillRect(9, 19, 15, 20);
+    this.gfx.fillStyle(isNpc ? 0x3f6fa8 : 0xd85d79, 1);
+    this.gfx.fillRect(8, 31, 17, 7);
+    this.gfx.fillStyle(isNpc ? 0x78a9e0 : 0xffa0b0, 1);
+    this.gfx.fillRect(11, 20, 5, 10);
+
+    this.gfx.fillStyle(skinColor, 1);
+    this.gfx.fillRect(6, 22, 4, 12);
+    this.gfx.fillRect(23, 22, 4, 12);
+
+    this.gfx.fillStyle(skinColor, 1);
+    this.gfx.fillRect(10, 8, 13, 13);
+
     this.gfx.fillStyle(hairColor, 1);
-    this.gfx.fillCircle(w / 2, 10, 9);
-    this.gfx.fillRect(7, 10, 18, 6);
+    this.gfx.fillRect(8, 5, 17, 7);
+    this.gfx.fillRect(7, 10, 5, 15);
+    this.gfx.fillRect(21, 10, 5, 15);
+    this.gfx.fillStyle(0x4b2b12, 1);
+    this.gfx.fillRect(10, 5, 12, 3);
 
-    // Eyes
     this.gfx.fillStyle(0x2a1a0a, 1);
-    if (key === 'player_down' || key === 'player_idle' || key === 'npc_idle') {
+    if (!isUp && !isSide) {
       this.gfx.fillCircle(13, 14, 1.5);
       this.gfx.fillCircle(19, 14, 1.5);
+      this.gfx.fillStyle(0xe06b86, 1);
+      this.gfx.fillRect(15, 17, 3, 1);
+    } else if (isSide) {
+      this.gfx.fillCircle(key === 'player_left' ? 12 : 20, 14, 1.5);
     }
-
-    // Small legs indicator
-    this.gfx.fillStyle(skinColor, 1);
-    this.gfx.fillRect(12, 40, 3, 4);
-    this.gfx.fillRect(18, 40, 3, 4);
-
-    // Shoes
-    this.gfx.fillStyle(0x6a4a2a, 1);
-    this.gfx.fillRect(11, 43, 5, 3);
-    this.gfx.fillRect(17, 43, 5, 3);
 
     this.gfx.generateTexture(key, w, h);
   }
 
   // ── Flowers ─────────────────────────────────────────────
+  private drawCat(key: string): void {
+    const w = 32, h = 24;
+    const fur = key === 'cat_orange' ? 0xd98934 : 0x6f7a86;
+    const dark = key === 'cat_orange' ? 0x9e5920 : 0x46515b;
+    this.gfx.clear();
+
+    this.gfx.fillStyle(0x000000, 0.18);
+    this.gfx.fillEllipse(16, 21, 24, 5);
+    this.gfx.fillStyle(fur, 1);
+    this.gfx.fillRect(8, 10, 16, 8);
+    this.gfx.fillRect(18, 6, 8, 8);
+    this.gfx.fillTriangle(19, 7, 21, 2, 23, 7);
+    this.gfx.fillTriangle(23, 7, 26, 3, 26, 10);
+    this.gfx.fillRect(8, 17, 3, 4);
+    this.gfx.fillRect(19, 17, 3, 4);
+
+    this.gfx.lineStyle(3, fur, 1);
+    this.gfx.beginPath();
+    this.gfx.moveTo(8, 12);
+    this.gfx.lineTo(3, 9);
+    this.gfx.lineTo(5, 5);
+    this.gfx.strokePath();
+
+    this.gfx.lineStyle(1, dark, 1);
+    this.gfx.lineBetween(11, 11, 16, 11);
+    this.gfx.lineBetween(12, 14, 18, 14);
+    this.gfx.fillStyle(0x101018, 1);
+    this.gfx.fillRect(21, 10, 1, 1);
+    this.gfx.fillRect(25, 10, 1, 1);
+    this.gfx.fillStyle(0xf3c0c6, 1);
+    this.gfx.fillRect(23, 12, 2, 1);
+
+    this.gfx.generateTexture(key, w, h);
+  }
+
+  private drawRagdoll(): void {
+    const w = 24, h = 32;
+    this.gfx.clear();
+
+    this.gfx.fillStyle(0x000000, 0.15);
+    this.gfx.fillEllipse(12, 29, 18, 4);
+    this.gfx.fillStyle(0xf4d1b4, 1);
+    this.gfx.fillRect(8, 5, 9, 9);
+    this.gfx.fillStyle(0x6b3c22, 1);
+    this.gfx.fillRect(7, 3, 11, 4);
+    this.gfx.lineStyle(1, 0x17121c, 1);
+    this.gfx.lineBetween(10, 8, 13, 11);
+    this.gfx.lineBetween(13, 8, 10, 11);
+    this.gfx.lineBetween(15, 8, 18, 11);
+    this.gfx.lineBetween(18, 8, 15, 11);
+    this.gfx.fillStyle(0x6fa8dc, 1);
+    this.gfx.fillRect(7, 14, 11, 10);
+    this.gfx.fillStyle(0xf4d1b4, 1);
+    this.gfx.fillRect(4, 15, 4, 10);
+    this.gfx.fillRect(18, 15, 4, 10);
+    this.gfx.fillStyle(0x3d4f71, 1);
+    this.gfx.fillRect(8, 24, 4, 6);
+    this.gfx.fillRect(14, 24, 4, 6);
+
+    this.gfx.generateTexture('ragdoll_cross_eyes', w, h);
+  }
+
   private drawFlower(key: string): void {
     const s = 16;
     this.gfx.clear();
@@ -501,6 +575,75 @@ export class PlaceholderGenerator {
           this.gfx.fillRect(x, 0, 1, 20);
         }
         this.gfx.generateTexture(key, 48, 20);
+        break;
+      }
+      case 'bush': {
+        this.gfx.fillStyle(0x000000, 0.16);
+        this.gfx.fillEllipse(20, 27, 34, 8);
+        this.gfx.fillStyle(0x2f6d35, 1);
+        this.gfx.fillCircle(10, 18, 8);
+        this.gfx.fillCircle(20, 14, 11);
+        this.gfx.fillCircle(31, 19, 8);
+        this.gfx.fillStyle(0x4ea34d, 1);
+        this.gfx.fillCircle(16, 13, 6);
+        this.gfx.fillCircle(27, 17, 5);
+        this.gfx.fillStyle(COLORS.flowerPink, 0.9);
+        this.gfx.fillRect(13, 15, 2, 2);
+        this.gfx.fillRect(25, 20, 2, 2);
+        this.gfx.generateTexture(key, 40, 32);
+        break;
+      }
+      case 'tall_grass': {
+        this.gfx.lineStyle(2, 0x2f7a39, 1);
+        for (let x = 4; x <= 28; x += 4) {
+          this.gfx.lineBetween(x, 28, x + ((x % 8) - 2), 9 + (x % 3) * 3);
+        }
+        this.gfx.lineStyle(1, 0x78bf62, 1);
+        for (let x = 6; x <= 26; x += 5) {
+          this.gfx.lineBetween(x, 28, x + 3, 13);
+        }
+        this.gfx.generateTexture(key, 32, 32);
+        break;
+      }
+      case 'reed':
+      case 'cattail': {
+        this.gfx.lineStyle(2, 0x3b7c43, 1);
+        this.gfx.lineBetween(5, 32, 8, 8);
+        this.gfx.lineBetween(13, 32, 12, 5);
+        this.gfx.lineBetween(21, 32, 18, 10);
+        this.gfx.lineStyle(1, 0x76aa55, 1);
+        this.gfx.lineBetween(12, 24, 22, 14);
+        this.gfx.fillStyle(0x7a4d25, 1);
+        this.gfx.fillRect(11, 4, 3, 8);
+        this.gfx.generateTexture(key, 28, 34);
+        break;
+      }
+      case 'lily_pad': {
+        this.gfx.fillStyle(0x2f8a55, 1);
+        this.gfx.fillEllipse(16, 16, 26, 16);
+        this.gfx.fillStyle(0x3d8eb9, 1);
+        this.gfx.fillTriangle(16, 16, 28, 12, 28, 20);
+        this.gfx.fillStyle(COLORS.flowerWhite, 1);
+        this.gfx.fillCircle(12, 12, 3);
+        this.gfx.fillCircle(16, 12, 3);
+        this.gfx.fillCircle(14, 9, 3);
+        this.gfx.fillStyle(COLORS.flowerYellow, 1);
+        this.gfx.fillCircle(14, 12, 1);
+        this.gfx.generateTexture(key, 32, 32);
+        break;
+      }
+      case 'rock_small':
+      case 'rock_large': {
+        const large = key === 'rock_large';
+        const rw = large ? 40 : 24;
+        const rh = large ? 30 : 20;
+        this.gfx.fillStyle(0x000000, 0.15);
+        this.gfx.fillEllipse(rw / 2, rh - 4, rw * 0.8, 6);
+        this.gfx.fillStyle(COLORS.stone3, 1);
+        this.gfx.fillEllipse(rw / 2, rh / 2, rw * 0.75, rh * 0.55);
+        this.gfx.fillStyle(COLORS.stone1, 1);
+        this.gfx.fillEllipse(rw * 0.42, rh * 0.38, rw * 0.35, rh * 0.22);
+        this.gfx.generateTexture(key, rw, rh);
         break;
       }
       default: {
